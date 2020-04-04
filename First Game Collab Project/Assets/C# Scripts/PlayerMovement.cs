@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     public float checkRadius;
     public int maxJumpCount;
     public float fallMultiplier = 2.5f;
+    public float smallJumpMultiplier = 2f;
 
 
     private Rigidbody2D rigidbody;
@@ -87,9 +88,14 @@ public class PlayerMovement : MonoBehaviour
             jumpCount--;
         }
 
+        /*This will create a bigger gravity spike when falling from the peak of a jump meaning you fall faster than you normally would
+        It also allows for a quick button press to small jump and a big jump when button is held for longer.*/
         if (rigidbody.velocity.y < 0)
         {
             rigidbody.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+        }else if(rigidbody.velocity.y > 0 && !Input.GetButton("Jump"))
+        {
+            rigidbody.velocity += Vector2.up * Physics2D.gravity.y * (smallJumpMultiplier - 1) * Time.deltaTime;
         }
 
     isJumping = false;
