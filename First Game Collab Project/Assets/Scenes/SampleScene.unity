@@ -354,7 +354,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.088157736}
+  m_Offset: {x: 0, y: -0.030969113}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -365,7 +365,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 6.2933335, y: 0.48384959}
+  m_Size: {x: 6.2933335, y: 0.59822685}
   m_EdgeRadius: 0
 --- !u!1 &363048788
 GameObject:
@@ -498,7 +498,7 @@ Rigidbody2D:
   m_Material: {fileID: 6200000, guid: fa817a6379947844b8056e11bd900a04, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &363048793
 MonoBehaviour:
@@ -512,8 +512,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a15fccd2cb0a24c8dfa48659de9079, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 12
-  jumpForce: 8.4
+  movementSpeed: 8
+  jumpForce: 10
   ceilingCheck: {fileID: 918166630}
   groundCheck: {fileID: 173846742}
   groundObjects:
@@ -522,6 +522,7 @@ MonoBehaviour:
   checkRadius: 0
   maxJumpCount: 2
   fallMultiplier: 2.5
+  smallJumpMultiplier: 2
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
