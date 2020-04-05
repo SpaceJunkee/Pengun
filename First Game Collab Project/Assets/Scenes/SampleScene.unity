@@ -515,7 +515,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 8
-  jumpForce: 10
+  jumpForce: 9
   ceilingCheck: {fileID: 918166630}
   groundCheck: {fileID: 173846742}
   groundObjects:
@@ -579,7 +579,7 @@ MonoBehaviour:
   m_Follow: {fileID: 363048790}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 5
+    OrthographicSize: 6
     NearClipPlane: 0.1
     FarClipPlane: 5600
     Dutch: 0
@@ -600,7 +600,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 389279984}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.7400005, y: -2.7600002, z: -10}
+  m_LocalPosition: {x: -0.7400005, y: -2.8600004, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1669396810}
@@ -803,7 +803,7 @@ Camera:
   far clip plane: 5600
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -827,7 +827,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.7400005, y: -2.7600002, z: -10}
+  m_LocalPosition: {x: -0.7400005, y: -2.8600004, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
