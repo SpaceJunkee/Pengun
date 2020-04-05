@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     public int maxJumpCount;
     public float fallMultiplier = 2.5f;
     public float smallJumpMultiplier = 2f;
+    
 
 
     private Rigidbody2D rigidbody;
@@ -28,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isJumping = false;
     private bool isGrounded;
     private int jumpCount;
+
 
     //Awake method is called before the start method when the objects are being initialized.
     private void Awake()
@@ -46,6 +48,8 @@ public class PlayerMovement : MonoBehaviour
         ProcessInputs();
         
         FlipCharDirection();
+
+
     }
 
     //Better than update for physics handling like movement or gravity, can be called multiple times per update frame.
@@ -73,7 +77,12 @@ public class PlayerMovement : MonoBehaviour
         {
             rigidbody.velocity = Vector2.up * jumpForce;
             isJumping = true;
+
+            Jump();
         }
+
+
+        
     }
 
     //Moves Character 
@@ -82,6 +91,13 @@ public class PlayerMovement : MonoBehaviour
         //Moves player in the y axis * the movement speed
         rigidbody.velocity = new Vector2(movementDirection * movementSpeed, rigidbody.velocity.y);
 
+        //Jumping
+        Jump();
+
+    }
+
+    private void Jump()
+    {
         //Lets the player jump
         if (isJumping)
         {
@@ -93,25 +109,28 @@ public class PlayerMovement : MonoBehaviour
         if (rigidbody.velocity.y < 0)
         {
             rigidbody.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
-        }else if(rigidbody.velocity.y > 0 && !Input.GetButton("Jump"))
+        }
+        else if (rigidbody.velocity.y > 0 && !Input.GetButton("Jump"))
         {
             rigidbody.velocity += Vector2.up * Physics2D.gravity.y * (smallJumpMultiplier - 1) * Time.deltaTime;
         }
 
-    isJumping = false;
+        isJumping = false;
     }
-    
+
+   
     //Flips character rotation depending on which way the character is facing
-    private void FlipCharDirection()
+    public void FlipCharDirection()
     {
         if (movementDirection > 0 && !playerFaceRight)
         {
-            TurnCharacterDirection();
+            TurnCharacterDirection();    
         }
         else if (movementDirection < 0 && playerFaceRight)
         {
-            TurnCharacterDirection();
+            TurnCharacterDirection();        
         }
+        
     }
 
     //Turns character
@@ -119,5 +138,10 @@ public class PlayerMovement : MonoBehaviour
     {
         playerFaceRight = !playerFaceRight; //Opposite direction
         transform.Rotate(0f, 180f, 0f);
+    }
+
+    public bool getPlayerFaceRight()
+    {
+        return playerFaceRight;
     }
 }
