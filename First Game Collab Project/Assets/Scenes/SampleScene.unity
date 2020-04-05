@@ -367,36 +367,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 6.2933335, y: 0.59822685}
   m_EdgeRadius: 0
---- !u!1 &343090586
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 343090587}
-  m_Layer: 0
-  m_Name: Shooting Position
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &343090587
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 343090586}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.44, y: 0.35, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 363048790}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &363048788
 GameObject:
   m_ObjectHideFlags: 0
@@ -410,7 +380,6 @@ GameObject:
   - component: {fileID: 363048792}
   - component: {fileID: 363048791}
   - component: {fileID: 363048793}
-  - component: {fileID: 363048794}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -481,7 +450,6 @@ Transform:
   m_Children:
   - {fileID: 918166630}
   - {fileID: 173846742}
-  - {fileID: 343090587}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -502,7 +470,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.48, y: 3.025}
+    oldSize: {x: 5.4, y: 2.716}
     newSize: {x: 5.4, y: 2.716}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -555,9 +523,7 @@ MonoBehaviour:
   maxJumpCount: 2
   fallMultiplier: 2.5
   smallJumpMultiplier: 2
-
---- !u!114 &363048794
-
+--- !u!1 &389279984
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -575,7 +541,6 @@ GameObject:
   m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!114 &389279985
-
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -625,7 +590,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-
 --- !u!1 &505439848
 GameObject:
   m_ObjectHideFlags: 0
