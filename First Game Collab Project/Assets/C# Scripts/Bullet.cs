@@ -7,6 +7,7 @@ public class Bullet : MonoBehaviour
 
     public float speed = 20f;
     public Rigidbody2D rigidBody;
+    public int bulletDamage = 40;
 
     // Start is called before the first frame update
     void Start()
@@ -14,8 +15,14 @@ public class Bullet : MonoBehaviour
         moveBullet();
     }
 
-    private void OnTriggerEnter2D()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
+       EnemyScript1 enemy = collision.GetComponent<EnemyScript1>();
+
+        if(enemy != null)
+        {
+            enemy.TakeDamage(bulletDamage);
+        }
         Destroy(gameObject);
     }
 
