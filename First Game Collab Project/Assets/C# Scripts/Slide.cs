@@ -21,7 +21,7 @@ public class Slide : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Fire2"))
+        if (Input.GetButtonDown("Fire2") && pm.getIsGrounded() == true)
         {
             performSlide();
         }
