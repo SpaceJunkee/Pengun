@@ -14,6 +14,7 @@ public class Slide : MonoBehaviour
     public BoxCollider2D slideCollider;
     public SpriteRenderer normalSprite;
     public SpriteRenderer slidingSprite;
+    public TimeManager timeManager;
 
     public float slideSpeed = 5f;
     public float slideLength = 0.8f;
@@ -41,10 +42,12 @@ public class Slide : MonoBehaviour
         if (pm.getPlayerFaceRight() == true)
         {
             rigidBody.AddForce(Vector2.right * slideSpeed);
+            timeManager.SlideTime();
         }
         else
         {
             rigidBody.AddForce(Vector2.left * slideSpeed);
+            timeManager.SlideTime();
         }
 
         StartCoroutine("stopSliding");
