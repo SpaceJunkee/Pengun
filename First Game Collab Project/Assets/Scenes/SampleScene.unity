@@ -162,6 +162,7 @@ GameObject:
   - component: {fileID: 211090140}
   - component: {fileID: 211090139}
   - component: {fileID: 211090141}
+  - component: {fileID: 211090142}
   m_Layer: 8
   m_Name: Ground
   m_TagString: Untagged
@@ -259,6 +260,25 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 5.3917212, y: 1.054521}
   m_EdgeRadius: 0
+--- !u!95 &211090142
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 211090138}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3d3162423c025884690768cab7ce703d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &362903073
 GameObject:
   m_ObjectHideFlags: 0
@@ -319,6 +339,7 @@ GameObject:
   - component: {fileID: 363048793}
   - component: {fileID: 363048794}
   - component: {fileID: 363048795}
+  - component: {fileID: 363048796}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -502,6 +523,25 @@ MonoBehaviour:
   slideSpeed: 8000
   slideLength: 0.7
   coolDownTime: 1.1
+--- !u!95 &363048796
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 363048788}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e0c94384905689648b1fa05738138a8b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &389279984
 GameObject:
   m_ObjectHideFlags: 0

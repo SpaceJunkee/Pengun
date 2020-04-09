@@ -20,7 +20,11 @@ public class PlayerMovement : MonoBehaviour
     public int maxJumpCount;
     public float fallMultiplier = 2.5f;
     public float smallJumpMultiplier = 2f;
-    
+
+    //Remember jump press so you can jump again before hitting the ground.
+    float pressedJumpRemember = 0;
+    float pressedJumpTime = 0.2f;
+
 
 
     private Rigidbody2D rigidbody;
@@ -73,12 +77,26 @@ public class PlayerMovement : MonoBehaviour
         movementDirection = Input.GetAxis("Horizontal");//Scale of -1 to 1 (-1 being left and 1 being right)
 
         //Jumping
-        if (Input.GetButtonDown("Jump") && jumpCount > 0) 
+
+        pressedJumpRemember -= Time.deltaTime;
+
+        if (Input.GetButtonDown("Jump")) 
         {
+            pressedJumpRemember = pressedJumpTime;
+            isJumping = true;
+
+        }
+
+        if ((pressedJumpRemember > 0) && jumpCount > 0)
+        {
+            pressedJumpRemember = 0;
             rigidbody.velocity = Vector2.up * jumpForce;
             isJumping = true;
 
-        }     
+        }
+
+
+
     }
 
     //Moves Character 
