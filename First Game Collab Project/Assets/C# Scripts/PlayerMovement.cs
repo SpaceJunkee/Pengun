@@ -9,9 +9,13 @@ public class PlayerMovement : MonoBehaviour
     /* Public variables are seen in the unity editor and can be changed. 
      * Handy if you would like to change values on the fly.
      */
-    
+
     //Variables
-    public float movementSpeed;
+    //Player speed
+    public float movementSpeed = 8f;
+    public float topSpeed = 12f;
+    public float acceleration = 0.5f;
+
     public float jumpForce;
     public Transform ceilingCheck;
     public Transform groundCheck;
@@ -74,7 +78,20 @@ public class PlayerMovement : MonoBehaviour
     private void ProcessInputs()
     {
         //Left and right movement
+        
         movementDirection = Input.GetAxis("Horizontal");//Scale of -1 to 1 (-1 being left and 1 being right)
+
+        if (movementDirection < 0 || movementDirection > 0)
+        {
+            if (movementSpeed < topSpeed)
+            {
+                movementSpeed += acceleration * Time.deltaTime;
+            }
+        }
+        else if(movementDirection == 0)
+        {
+            movementSpeed = 8f;
+        }
 
         //Jumping
 
