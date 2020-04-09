@@ -479,6 +479,7 @@ MonoBehaviour:
   shootingPosition: {fileID: 1196828653}
   bulletPrefab: {fileID: 3322634179809757461, guid: 3730523821e8e994b8976cf090f6a361,
     type: 3}
+  coolDownTime: 0.15
 --- !u!114 &363048795
 MonoBehaviour:
   m_ObjectHideFlags: 0
