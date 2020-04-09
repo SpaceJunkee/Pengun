@@ -47,12 +47,7 @@ public class PlayerMovement : MonoBehaviour
     //Wall sliding and jumping
     public float wallCheckDistance;
     public float wallSlidingSpeed;
-    public float wallHopeForce;
-    public float wallJumpForce;
-    private int facingDirection = 1 ;
-
-    public Vector2 wallHopDirection;
-    public Vector2 wallJumpDirection;
+    
     
 
 
@@ -67,9 +62,6 @@ public class PlayerMovement : MonoBehaviour
     {
         jumpCount = maxJumpCount;
 
-        //Sets vector to 1
-        wallHopDirection.Normalize();
-        wallJumpDirection.Normalize();
     }
 
     // Update is called once per frame(updates every frame so if 60fps update runs 60 times per second)
@@ -92,10 +84,7 @@ public class PlayerMovement : MonoBehaviour
         //Check if player is touching a wall
         isTouchingWall = Physics2D.Raycast(wallCheck.position, transform.right, wallCheckDistance, wallObjects);
 
-        if (isGrounded)
-        {
-            jumpCount = maxJumpCount;
-        }
+        checkIfCanJump();
 
         Move();
     }
@@ -163,14 +152,23 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    private void checkIfCanJump()
+    {
+        if (isGrounded)
+        {
+            jumpCount = maxJumpCount;
+        }
+
+    }
+
     private void Jump()
     {
-        //Lets the player jump
+        //Lets the player jump at a maximum of 2 times normally and infinitley while wall jumping
         if (isJumping && !isWallSliding)
         {
             jumpCount--;
         }
-        else if(isJumping && isWallSliding)
+        else if(isJumping && isWallSliding || isTouchingWall)
         {
             jumpCount = maxJumpCount;
         }
@@ -194,10 +192,13 @@ public class PlayerMovement : MonoBehaviour
         if(isTouchingWall && !isGrounded && rigidbody.velocity.y < 0)
         {
             isWallSliding = true;
+            jumpForce = 18;
         }
         else
         {
             isWallSliding = false;
+            jumpForce = 15;
+            
         }
     }
 
@@ -207,12 +208,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (movementDirection > 0 && !playerFaceRight && !isWallSliding)
         {
-            facingDirection *= -1;
             TurnCharacterDirection();    
         }
         else if (movementDirection < 0 && playerFaceRight && !isWallSliding)
         {
-            facingDirection *= -1;
             TurnCharacterDirection();        
         }
         
