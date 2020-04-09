@@ -456,7 +456,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 2
   m_Material: {fileID: 6200000, guid: fa817a6379947844b8056e11bd900a04, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -475,9 +475,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 8
-  topSpeed: 13
-  acceleration: 10
-  jumpForce: 9
+  topSpeed: 12
+  acceleration: 9
+  jumpForce: 15
   ceilingCheck: {fileID: 918166630}
   groundCheck: {fileID: 173846742}
   groundObjects:
