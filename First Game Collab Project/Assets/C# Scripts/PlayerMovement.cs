@@ -11,32 +11,50 @@ public class PlayerMovement : MonoBehaviour
      */
 
     //Variables
+    
+    private Rigidbody2D rigidbody;
+    private float movementDirection;
+
     //Player speed
     public float movementSpeed = 8f;
     public float topSpeed = 12f;
     public float acceleration = 0.5f;
-
+    
+    //Jumping
     public float jumpForce;
-    public Transform ceilingCheck;
-    public Transform groundCheck;
-    public LayerMask groundObjects;
-    public float checkRadius;
     public int maxJumpCount;
     public float fallMultiplier = 2.5f;
     public float smallJumpMultiplier = 2f;
+    private int jumpCount;
 
     //Remember jump press so you can jump again before hitting the ground.
     float pressedJumpRemember = 0;
     float pressedJumpTime = 0.2f;
 
-
-
-    private Rigidbody2D rigidbody;
+    //Checks
+    public Transform ceilingCheck;
+    public Transform groundCheck;
+    public Transform wallCheck;
+    public LayerMask groundObjects;
+    public LayerMask wallObjects;
+    public float checkRadius;
     private bool playerFaceRight = true;
-    private float movementDirection;
     private bool isJumping = false;
     private bool isGrounded;
-    private int jumpCount;
+    private bool isTouchingWall;
+    private bool isWallSliding;
+
+    //Wall sliding and jumping
+    public float wallCheckDistance;
+    public float wallSlidingSpeed;
+    public float wallHopeForce;
+    public float wallJumpForce;
+    private int facingDirection = 1 ;
+
+    public Vector2 wallHopDirection;
+    public Vector2 wallJumpDirection;
+    
+
 
 
     //Awake method is called before the start method when the objects are being initialized.
@@ -48,6 +66,10 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         jumpCount = maxJumpCount;
+
+        //Sets vector to 1
+        wallHopDirection.Normalize();
+        wallJumpDirection.Normalize();
     }
 
     // Update is called once per frame(updates every frame so if 60fps update runs 60 times per second)
@@ -57,6 +79,7 @@ public class PlayerMovement : MonoBehaviour
         
         FlipCharDirection();
 
+        CheckIfWallSliding();
 
     }
 
@@ -65,6 +88,9 @@ public class PlayerMovement : MonoBehaviour
     {
         //Check if player is standing on the ground
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, groundObjects);
+
+        //Check if player is touching a wall
+        isTouchingWall = Physics2D.Raycast(wallCheck.position, transform.right, wallCheckDistance, wallObjects);
 
         if (isGrounded)
         {
@@ -112,15 +138,25 @@ public class PlayerMovement : MonoBehaviour
 
         }
 
-
-
     }
 
     //Moves Character 
     private void Move()
     {
         //Moves player in the y axis * the movement speed
-        rigidbody.velocity = new Vector2(movementDirection * movementSpeed, rigidbody.velocity.y);
+        if (!isWallSliding)
+        {
+             rigidbody.velocity = new Vector2(movementDirection * movementSpeed, rigidbody.velocity.y);
+        }
+
+        //Set down velocity for wall sliding
+        if (isWallSliding)
+        {
+            if (rigidbody.velocity.y < -wallSlidingSpeed)
+            {
+                rigidbody.velocity = new Vector2(rigidbody.velocity.x, -wallSlidingSpeed);
+            }
+        }
 
         //Jumping
         Jump();
@@ -130,9 +166,13 @@ public class PlayerMovement : MonoBehaviour
     private void Jump()
     {
         //Lets the player jump
-        if (isJumping)
+        if (isJumping && !isWallSliding)
         {
             jumpCount--;
+        }
+        else if(isJumping && isWallSliding)
+        {
+            jumpCount = maxJumpCount;
         }
 
         /*This will create a bigger gravity spike when falling from the peak of a jump meaning you fall faster than you normally would
@@ -149,16 +189,30 @@ public class PlayerMovement : MonoBehaviour
         isJumping = false;
     }
 
+    private void CheckIfWallSliding()
+    {
+        if(isTouchingWall && !isGrounded && rigidbody.velocity.y < 0)
+        {
+            isWallSliding = true;
+        }
+        else
+        {
+            isWallSliding = false;
+        }
+    }
+
    
     //Flips character rotation depending on which way the character is facing
     public void FlipCharDirection()
     {
-        if (movementDirection > 0 && !playerFaceRight)
+        if (movementDirection > 0 && !playerFaceRight && !isWallSliding)
         {
+            facingDirection *= -1;
             TurnCharacterDirection();    
         }
-        else if (movementDirection < 0 && playerFaceRight)
+        else if (movementDirection < 0 && playerFaceRight && !isWallSliding)
         {
+            facingDirection *= -1;
             TurnCharacterDirection();        
         }
         
@@ -167,8 +221,8 @@ public class PlayerMovement : MonoBehaviour
     //Turns character
     private void TurnCharacterDirection()
     {
-        playerFaceRight = !playerFaceRight; //Opposite direction
-        transform.Rotate(0f, 180f, 0f);
+            playerFaceRight = !playerFaceRight; //Opposite direction
+            transform.Rotate(0f, 180f, 0f);
     }
 
     //Getters
