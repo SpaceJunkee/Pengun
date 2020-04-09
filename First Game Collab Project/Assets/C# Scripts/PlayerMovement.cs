@@ -78,11 +78,7 @@ public class PlayerMovement : MonoBehaviour
             rigidbody.velocity = Vector2.up * jumpForce;
             isJumping = true;
 
-            Jump();
-        }
-
-
-        
+        }     
     }
 
     //Moves Character 
