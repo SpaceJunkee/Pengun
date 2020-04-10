@@ -47,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
     //Wall sliding and jumping
     public float wallCheckDistance;
     public float wallSlidingSpeed;
+    public float maxWallSlideSpeed;
     
     
 
@@ -68,7 +69,10 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         ProcessInputs();
-        
+
+        fastWallSlide();
+
+
         FlipCharDirection();
 
         CheckIfWallSliding();
@@ -199,6 +203,19 @@ public class PlayerMovement : MonoBehaviour
             isWallSliding = false;
             jumpForce = 15;
             
+        }
+    }
+
+    //Lets the player slide down the wall faster when pushing slide button.
+    private void fastWallSlide()
+    {
+        if(isWallSliding && Input.GetButtonDown("Fire2"))
+        {
+            wallSlidingSpeed = maxWallSlideSpeed;
+        }
+        else if (isGrounded ||isJumping)
+        {
+            wallSlidingSpeed = 1.5f;
         }
     }
 

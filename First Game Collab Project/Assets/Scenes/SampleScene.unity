@@ -708,8 +708,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   checkRadius: 0
-  wallCheckDistance: 0.5
+  wallCheckDistance: 0.6
   wallSlidingSpeed: 1.5
+  maxWallSlideSpeed: 6
 --- !u!114 &363048794
 MonoBehaviour:
   m_ObjectHideFlags: 0
