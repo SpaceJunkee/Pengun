@@ -72,7 +72,6 @@ public class PlayerMovement : MonoBehaviour
 
         fastWallSlide();
 
-
         FlipCharDirection();
 
         CheckIfWallSliding();
@@ -234,6 +233,7 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
+
     //Turns character
     private void TurnCharacterDirection()
     {
@@ -252,3 +252,4 @@ public class PlayerMovement : MonoBehaviour
         return isGrounded;
     }
 }
+

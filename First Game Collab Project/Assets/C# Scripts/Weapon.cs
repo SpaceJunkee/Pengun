@@ -18,7 +18,7 @@ public class Weapon : MonoBehaviour
         //Button to fire a bullet (default square on ps controller)
         if (Time.time > nextFireTime)
         {
-            if (Input.GetButtonDown("Fire1"))
+            if (Input.GetButton("Fire1"))
             {
                 Shoot();
                 nextFireTime = Time.time + coolDownTime;
