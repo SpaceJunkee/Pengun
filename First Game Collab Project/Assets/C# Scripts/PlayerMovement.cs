@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     
     private Rigidbody2D rigidbody;
     private float movementDirection;
+    private RigidbodyConstraints2D originalConstraints;
 
     //Player speed
     public float movementSpeed = 8f;
@@ -43,13 +44,22 @@ public class PlayerMovement : MonoBehaviour
     private bool isGrounded;
     private bool isTouchingWall;
     private bool isWallSliding;
+    private bool isDashing;
+
 
     //Wall sliding and jumping
     public float wallCheckDistance;
     public float wallSlidingSpeed;
     public float maxWallSlideSpeed;
-    
-    
+
+    //Dashing
+    public float dashTime;
+    public float dashSpeed;
+    public float distanceBetweenImages;
+    public float dashCooldown;
+    private float dashTimeLeft;
+    private float lastImageXpos;
+    private float lastDash = -100f;//Check when last dash was
 
 
 
@@ -57,6 +67,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();//Will get a component on this object of type rigidbody.
+        originalConstraints = rigidbody.constraints;
     }
 
     private void Start()
@@ -75,6 +86,8 @@ public class PlayerMovement : MonoBehaviour
         FlipCharDirection();
 
         CheckIfWallSliding();
+
+        CheckDash();
 
     }
 
@@ -111,7 +124,16 @@ public class PlayerMovement : MonoBehaviour
             movementSpeed = 8f;
         }
 
-        //Jumping
+        //Dashing inputs
+        if (Input.GetButtonDown("Dash") && !isWallSliding)
+        {
+            if(Time.time >=  (lastDash + dashCooldown))
+            {
+                AttemptDash();
+            }
+        }
+
+        //Jumping inputs
 
         pressedJumpRemember -= Time.deltaTime;
 
@@ -155,13 +177,57 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    private void checkIfCanJump()
+    private void AttemptDash()
     {
-        if (isGrounded)
-        {
-            jumpCount = maxJumpCount;
-        }
+        isDashing = true;
+        dashTimeLeft = dashTime;
+        lastDash = Time.time;
 
+        AfterImagePool.Instance.GetFromPool();
+        lastImageXpos = transform.position.x;
+    }
+
+    private void CheckDash()
+    {
+        if (isDashing)
+        {
+            if (dashTimeLeft > 0 && playerFaceRight)
+            {
+                rigidbody.AddForce(Vector2.right * dashSpeed, 0.0f);
+                rigidbody.constraints = RigidbodyConstraints2D.FreezePositionY;
+                rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+
+                dashTimeLeft -= Time.deltaTime;
+
+                if (Mathf.Abs(transform.position.x - lastImageXpos) > distanceBetweenImages)
+                {
+                    AfterImagePool.Instance.GetFromPool();
+                    lastImageXpos = transform.position.x;
+                }
+            }else if(dashTimeLeft > 0 && !playerFaceRight)
+            {
+                rigidbody.AddForce(Vector2.left * dashSpeed, 0.0f);
+                rigidbody.constraints = RigidbodyConstraints2D.FreezePositionY;
+                rigidbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+
+                dashTimeLeft -= Time.deltaTime;
+
+                if (Mathf.Abs(transform.position.x - lastImageXpos) > distanceBetweenImages)
+                {
+                    AfterImagePool.Instance.GetFromPool();
+                    lastImageXpos = transform.position.x;
+                }
+            }
+
+            if (dashTimeLeft <= 0 || isTouchingWall)
+            {
+                isDashing = false;
+                rigidbody.constraints = originalConstraints;
+
+
+            }
+
+        }
     }
 
     private void Jump()
@@ -188,6 +254,15 @@ public class PlayerMovement : MonoBehaviour
         }
 
         isJumping = false;
+    }
+
+    private void checkIfCanJump()
+    {
+        if (isGrounded)
+        {
+            jumpCount = maxJumpCount;
+        }
+
     }
 
     private void CheckIfWallSliding()
