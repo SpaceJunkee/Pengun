@@ -274,12 +274,24 @@ public class PlayerMovement : MonoBehaviour
             isWallSliding = true;
             jumpForce = 18;
         }
+        else if(isTouchingWall && !isGrounded && rigidbody.velocity.y > 0)
+        {
+            isWallSliding = true;
+            jumpForce = 18;
+
+        }
         else
         {
             isWallSliding = false;
             jumpForce = 15;
-            
         }
+
+        if(isWallSliding && (movementDirection < 0 || movementDirection > 0) && Input.GetButtonDown("Jump"))
+        {
+            isWallSliding = false;
+            jumpForce = 15;
+        }
+       
     }
 
     //Lets the player slide down the wall faster when pushing slide button.
@@ -327,6 +339,11 @@ public class PlayerMovement : MonoBehaviour
     public bool getIsGrounded()
     {
         return isGrounded;
+    }
+
+    public bool getIsWallSliding()
+    {
+        return isWallSliding;
     }
 }
 
