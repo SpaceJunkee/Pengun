@@ -51,6 +51,7 @@ public class PlayerMovement : MonoBehaviour
     public float wallCheckDistance;
     public float wallSlidingSpeed;
     public float maxWallSlideSpeed;
+    public float hopSpeed;
 
     //Dashing
     public float dashTime;
@@ -87,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
 
         CheckIfWallSliding();
 
-        
+        WallHop();
 
     }
 
@@ -226,7 +227,6 @@ public class PlayerMovement : MonoBehaviour
                 isDashing = false;
                 rigidbody.constraints = originalConstraints;
 
-
             }
 
         }
@@ -291,6 +291,7 @@ public class PlayerMovement : MonoBehaviour
             isWallSliding = false;
             jumpForce = 15;
         }
+
        
     }
 
@@ -304,6 +305,20 @@ public class PlayerMovement : MonoBehaviour
         else if (isGrounded ||isJumping)
         {
             wallSlidingSpeed = 1.5f;
+        }
+    }
+
+    //Wall hop lets the player jump off the wall without jumping 
+    private void WallHop()
+    {
+        if(isWallSliding && Input.GetButtonDown("Dash") && playerFaceRight && movementDirection < 0)
+        {
+            rigidbody.AddForce(Vector2.left * hopSpeed, 0.0f);
+            
+        }else if(isWallSliding && Input.GetButtonDown("Dash") && !playerFaceRight && movementDirection > 0)
+        {
+            rigidbody.AddForce(Vector2.right * hopSpeed, 0.0f);
+          
         }
     }
 
