@@ -87,7 +87,7 @@ public class PlayerMovement : MonoBehaviour
 
         CheckIfWallSliding();
 
-        CheckDash();
+        
 
     }
 
@@ -101,6 +101,8 @@ public class PlayerMovement : MonoBehaviour
         isTouchingWall = Physics2D.Raycast(wallCheck.position, transform.right, wallCheckDistance, wallObjects);
 
         checkIfCanJump();
+
+        CheckDash();
 
         Move();
     }
