@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class MachineGunBullets : MonoBehaviour
 {
 
     public float speed = 20f;
+    public float lifeTimeOfBullet;
     public Rigidbody2D rigidBody;
     public int bulletDamage = 40;
 
@@ -13,6 +14,15 @@ public class Bullet : MonoBehaviour
     void Start()
     {
         moveBullet();
+       
+    }
+    void Update()
+    {
+        lifeTimeOfBullet -= Time.deltaTime;
+        if (lifeTimeOfBullet <= 0)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -23,12 +33,19 @@ public class Bullet : MonoBehaviour
         {
             enemy.TakeDamage(bulletDamage);
         }
-        Destroy(gameObject);
+        destroyBullet();
     }
 
     void moveBullet()
     {
         //Use right instead of forward as we dont want to use z axis in 2d game
+        rigidBody.transform.Rotate(0, 0, Random.Range(-2.5f, 2.5f));
         rigidBody.velocity = transform.right * speed;
+
+    }
+
+    void destroyBullet()
+    {
+        Destroy(gameObject);
     }
 }

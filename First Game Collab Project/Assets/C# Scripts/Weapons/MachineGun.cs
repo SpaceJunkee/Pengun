@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : MonoBehaviour
+public class MachineGun : MonoBehaviour
 {
 
     public Transform shootingPosition;
@@ -30,5 +30,6 @@ public class Weapon : MonoBehaviour
     void Shoot()
     {
         Instantiate(bulletPrefab, shootingPosition.position, shootingPosition.rotation);
+       
     }
 }
