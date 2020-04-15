@@ -1,13 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using UnityEngine;
 
-public class Weapon : MonoBehaviour
+public class MachineGun : MonoBehaviour
 {
-
     public Transform shootingPosition;
     public GameObject bulletPrefab;
-
+    private PlayerMovement pm;
+        
     public float coolDownTime;
 
     private float nextFireTime = 0;
@@ -29,6 +30,8 @@ public class Weapon : MonoBehaviour
 
     void Shoot()
     {
+        
         Instantiate(bulletPrefab, shootingPosition.position, shootingPosition.rotation);
+       
     }
 }

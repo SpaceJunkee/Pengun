@@ -51,6 +51,7 @@ public class PlayerMovement : MonoBehaviour
     public float wallCheckDistance;
     public float wallSlidingSpeed;
     public float maxWallSlideSpeed;
+    public float hopSpeed;
 
     //Dashing
     public float dashTime;
@@ -87,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
 
         CheckIfWallSliding();
 
-        CheckDash();
+        WallHop();
 
     }
 
@@ -101,6 +102,8 @@ public class PlayerMovement : MonoBehaviour
         isTouchingWall = Physics2D.Raycast(wallCheck.position, transform.right, wallCheckDistance, wallObjects);
 
         checkIfCanJump();
+
+        CheckDash();
 
         Move();
     }
@@ -224,7 +227,6 @@ public class PlayerMovement : MonoBehaviour
                 isDashing = false;
                 rigidbody.constraints = originalConstraints;
 
-
             }
 
         }
@@ -272,12 +274,25 @@ public class PlayerMovement : MonoBehaviour
             isWallSliding = true;
             jumpForce = 18;
         }
+        else if(isTouchingWall && !isGrounded && rigidbody.velocity.y > 0)
+        {
+            isWallSliding = true;
+            jumpForce = 18;
+
+        }
         else
         {
             isWallSliding = false;
             jumpForce = 15;
-            
         }
+
+        if(isWallSliding && (movementDirection < 0 || movementDirection > 0) && Input.GetButtonDown("Jump"))
+        {
+            isWallSliding = false;
+            jumpForce = 15;
+        }
+
+       
     }
 
     //Lets the player slide down the wall faster when pushing slide button.
@@ -290,6 +305,20 @@ public class PlayerMovement : MonoBehaviour
         else if (isGrounded ||isJumping)
         {
             wallSlidingSpeed = 1.5f;
+        }
+    }
+
+    //Wall hop lets the player jump off the wall without jumping 
+    private void WallHop()
+    {
+        if(isWallSliding && Input.GetButtonDown("Dash") && playerFaceRight && movementDirection < 0)
+        {
+            rigidbody.AddForce(Vector2.left * hopSpeed, 0.0f);
+            
+        }else if(isWallSliding && Input.GetButtonDown("Dash") && !playerFaceRight && movementDirection > 0)
+        {
+            rigidbody.AddForce(Vector2.right * hopSpeed, 0.0f);
+          
         }
     }
 
@@ -325,6 +354,11 @@ public class PlayerMovement : MonoBehaviour
     public bool getIsGrounded()
     {
         return isGrounded;
+    }
+
+    public bool getIsWallSliding()
+    {
+        return isWallSliding;
     }
 }
 

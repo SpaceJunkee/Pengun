@@ -27,7 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3322634179809757461}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0.6273905, y: 0.7498696, z: 0.20812085, w: -0.027614424}
   m_LocalPosition: {x: 0.14, y: -1.52, z: -6.2700047}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -120,7 +120,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0.0813058}
   serializedVersion: 2
-  m_Radius: 0.1717735
+  m_Radius: 0.0001
 --- !u!114 &4199955482527388809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,5 +134,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 40
+  lifeTimeOfBullet: 0.4
   rigidBody: {fileID: 7312425768170839199}
   bulletDamage: 30
