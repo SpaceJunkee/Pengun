@@ -229,6 +229,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 33
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &24760726
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 24760727}
+  m_Layer: 10
+  m_Name: ShootingPositionShotgun
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &24760727
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 24760726}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1, y: 0.009999871, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 363048790}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &29250304
 GameObject:
   m_ObjectHideFlags: 0
@@ -1060,6 +1090,8 @@ Transform:
   - {fileID: 827768749}
   - {fileID: 1196828653}
   - {fileID: 816607069}
+  - {fileID: 24760727}
+  - {fileID: 707572161}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1161,10 +1193,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shootingPositionMachineGun: {fileID: 1196828653}
   shootingPositionPistol: {fileID: 816607069}
-  MachineGunBulletPrefab: {fileID: 3322634179809757461, guid: 3730523821e8e994b8976cf090f6a361,
+  shootingPositionShotgun: {fileID: 24760727}
+  shootingPositionChainGun: {fileID: 707572161}
+  machineGunBulletPrefab: {fileID: 3322634179809757461, guid: 3730523821e8e994b8976cf090f6a361,
     type: 3}
-  PistolBulletPrefab: {fileID: 6190752870453819714, guid: c3c917deebb271d4a8112e655fb8a054,
+  pistolBulletPrefab: {fileID: 6190752870453819714, guid: c3c917deebb271d4a8112e655fb8a054,
     type: 3}
+  chainGunBulletPrefab: {fileID: 98742446656863649, guid: 092b4cbb8ef1dd74fa4f2b1331293657,
+    type: 3}
+  shotgunBulletPrefab:
+  - {fileID: 3704641503931112342, guid: e5dfe31a6bd0a7c4f84bd48d70ed9c3c, type: 3}
+  - {fileID: 3704641503931112342, guid: e5dfe31a6bd0a7c4f84bd48d70ed9c3c, type: 3}
+  - {fileID: 3704641503931112342, guid: e5dfe31a6bd0a7c4f84bd48d70ed9c3c, type: 3}
+  - {fileID: 3704641503931112342, guid: e5dfe31a6bd0a7c4f84bd48d70ed9c3c, type: 3}
+  - {fileID: 3704641503931112342, guid: e5dfe31a6bd0a7c4f84bd48d70ed9c3c, type: 3}
+  - {fileID: 3704641503931112342, guid: e5dfe31a6bd0a7c4f84bd48d70ed9c3c, type: 3}
 --- !u!95 &363048796
 Animator:
   serializedVersion: 3
@@ -1322,7 +1365,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
+  m_BackGroundColor: {r: 0.52799034, g: 0.6231468, b: 0.990566, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1585,6 +1628,36 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 8.565224, y: 0.7026948}
   m_EdgeRadius: 0
+--- !u!1 &707572160
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 707572161}
+  m_Layer: 10
+  m_Name: ShootingPositionChainGun
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &707572161
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 707572160}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1, y: 0.009999871, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 363048790}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &747176189
 GameObject:
   m_ObjectHideFlags: 0
