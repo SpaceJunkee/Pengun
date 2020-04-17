@@ -36,9 +36,11 @@ public class Weapon : MonoBehaviour
             case 2:
                 Pistol();
                 break;
-            case 3: Shotgun();
+            case 3: 
+                Shotgun();
                 break;
-            case 4: ChainGun();
+            case 4: 
+                ChainGun();
                 break;
         }
         
