@@ -87,7 +87,7 @@ public class Weapon : MonoBehaviour
 
     private void Shotgun()
     {
-        coolDownTime = 0.65f;
+        coolDownTime = 0.6f;
 
         //Button to fire a bullet 
         if (Time.time > nextFireTime)
