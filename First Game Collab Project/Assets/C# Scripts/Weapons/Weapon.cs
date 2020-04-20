@@ -7,12 +7,17 @@ public class Weapon : MonoBehaviour
 {
     public Transform shootingPositionMachineGun;
     public Transform shootingPositionPistol;
+    
+    //Chaingun positions
+    public Transform shootingPositionChainGun;
+    public Transform shootingPositionChainGun1;
+
+    //Shotgun positions array
     public Transform shootingPositionShotgun;
     public Transform shootingPositionShotgun1;
     public Transform shootingPositionShotgun2;
     public Transform shootingPositionShotgun3;
     public Transform shootingPositionShotgun4;
-    public Transform shootingPositionChainGun;
 
     public GameObject machineGunBulletPrefab;
     public GameObject pistolBulletPrefab;
@@ -82,7 +87,7 @@ public class Weapon : MonoBehaviour
 
     private void Shotgun()
     {
-        coolDownTime = 0.75f;
+        coolDownTime = 0.65f;
 
         //Button to fire a bullet 
         if (Time.time > nextFireTime)
@@ -143,6 +148,7 @@ public class Weapon : MonoBehaviour
     void ShootChainGun()
     {
         Instantiate(chainGunBulletPrefab, shootingPositionChainGun.position, shootingPositionChainGun.rotation);
+        Instantiate(chainGunBulletPrefab, shootingPositionChainGun1.position, shootingPositionChainGun1.rotation);
     }
 
     void ShootShotgun()
@@ -153,4 +159,5 @@ public class Weapon : MonoBehaviour
         Instantiate(shotgunBulletPrefab, shootingPositionShotgun3.position, shootingPositionShotgun3.rotation);
         Instantiate(shotgunBulletPrefab, shootingPositionShotgun4.position, shootingPositionShotgun4.rotation);
     }
+
 }

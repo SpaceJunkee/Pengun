@@ -40,7 +40,7 @@ public class ShotgunBullets : MonoBehaviour
     {
         //Use right instead of forward as we dont want to use z axis in 2d game
         
-        rigidBody.transform.Rotate(0, 0, Random.Range(-1f, 1f));
+        rigidBody.transform.Rotate(0, 0, Random.Range(-0.5f, 0.5f));
         rigidBody.velocity = transform.right * speed;
 
     }
