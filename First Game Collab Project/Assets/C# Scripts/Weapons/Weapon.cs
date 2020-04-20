@@ -19,6 +19,7 @@ public class Weapon : MonoBehaviour
     public Transform shootingPositionShotgun3;
     public Transform shootingPositionShotgun4;
 
+    //Game Objects
     public GameObject machineGunBulletPrefab;
     public GameObject pistolBulletPrefab;
     public GameObject chainGunBulletPrefab;
