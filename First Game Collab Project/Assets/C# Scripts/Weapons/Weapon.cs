@@ -8,12 +8,16 @@ public class Weapon : MonoBehaviour
     public Transform shootingPositionMachineGun;
     public Transform shootingPositionPistol;
     public Transform shootingPositionShotgun;
+    public Transform shootingPositionShotgun1;
+    public Transform shootingPositionShotgun2;
+    public Transform shootingPositionShotgun3;
+    public Transform shootingPositionShotgun4;
     public Transform shootingPositionChainGun;
 
     public GameObject machineGunBulletPrefab;
     public GameObject pistolBulletPrefab;
     public GameObject chainGunBulletPrefab;
-    public GameObject[] shotgunBulletPrefab = new GameObject[6];
+    public GameObject shotgunBulletPrefab;
         
     private float coolDownTime = 0.1f;
 
@@ -49,7 +53,7 @@ public class Weapon : MonoBehaviour
 
     private void Pistol()
     {
-        coolDownTime = 0.5f;
+        coolDownTime = 0.3f;
 
         if (Time.time > nextFireTime)
         {
@@ -78,12 +82,12 @@ public class Weapon : MonoBehaviour
 
     private void Shotgun()
     {
-        coolDownTime = 0.8f;
+        coolDownTime = 0.75f;
 
         //Button to fire a bullet 
         if (Time.time > nextFireTime)
         {
-            if (Input.GetButton("Fire1"))
+            if (Input.GetButtonDown("Fire1"))
             {
                 ShootShotgun();
                 nextFireTime = Time.time + coolDownTime;
@@ -143,10 +147,10 @@ public class Weapon : MonoBehaviour
 
     void ShootShotgun()
     {
-        for(int i = 0; i < shotgunBulletPrefab.Length; i++)
-        {
-            Instantiate(shotgunBulletPrefab[i], shootingPositionShotgun.position, shootingPositionShotgun.rotation);
-
-        }
+        Instantiate(shotgunBulletPrefab, shootingPositionShotgun.position, shootingPositionShotgun.rotation);
+        Instantiate(shotgunBulletPrefab, shootingPositionShotgun1.position, shootingPositionShotgun1.rotation);
+        Instantiate(shotgunBulletPrefab, shootingPositionShotgun2.position, shootingPositionShotgun2.rotation);
+        Instantiate(shotgunBulletPrefab, shootingPositionShotgun3.position, shootingPositionShotgun3.rotation);
+        Instantiate(shotgunBulletPrefab, shootingPositionShotgun4.position, shootingPositionShotgun4.rotation);
     }
 }
