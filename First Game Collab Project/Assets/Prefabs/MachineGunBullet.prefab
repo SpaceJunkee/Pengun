@@ -134,6 +134,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 40
-  lifeTimeOfBullet: 0.4
+  lifeTimeOfBullet: 0.5
   rigidBody: {fileID: 7312425768170839199}
   bulletDamage: 30
