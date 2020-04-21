@@ -9,7 +9,7 @@ public class AfterIMage : MonoBehaviour
     private float timeActive;
     private float alpha;
     private float alphaSet = 0.8f;
-    private float alphaMultiplier = 0.85f;
+    private float alphaMultiplier = 0.9f;
 
     private Transform player;
 
@@ -29,6 +29,7 @@ public class AfterIMage : MonoBehaviour
         sr.sprite = playerSr.sprite;
         transform.position = player.position;
         transform.rotation = player.rotation;
+        transform.localScale = player.localScale;
         timeActive = Time.time;
     }
 
