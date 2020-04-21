@@ -272,18 +272,19 @@ public class PlayerMovement : MonoBehaviour
         if(isTouchingWall && !isGrounded && rigidbody.velocity.y < 0)
         {
             isWallSliding = true;
-            jumpForce = 18;
+            maxJumpCount = 1;
         }
         else if(isTouchingWall && !isGrounded && rigidbody.velocity.y > 0)
         {
             isWallSliding = true;
-            jumpForce = 18;
+            maxJumpCount = 1;
+            
 
         }
         else
         {
             isWallSliding = false;
-            jumpForce = 15;
+            maxJumpCount = 2;
         }
 
         if(isWallSliding && (movementDirection < 0 || movementDirection > 0) && Input.GetButtonDown("Jump"))
