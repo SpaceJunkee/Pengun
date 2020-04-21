@@ -18,8 +18,6 @@ public class PlayerMovement : MonoBehaviour
 
     //Player speed
     public float movementSpeed = 8f;
-    public float topSpeed = 12f;
-    public float acceleration = 0.5f;
     
     //Jumping
     public float jumpForce;
@@ -114,18 +112,6 @@ public class PlayerMovement : MonoBehaviour
         //Left and right movement
         
         movementDirection = Input.GetAxis("Horizontal");//Scale of -1 to 1 (-1 being left and 1 being right)
-
-        if (movementDirection < 0 || movementDirection > 0)
-        {
-            if (movementSpeed < topSpeed)
-            {
-                movementSpeed += acceleration * Time.deltaTime;
-            }
-        }
-        else if(movementDirection == 0)
-        {
-            movementSpeed = 8f;
-        }
 
         //Dashing inputs
         if (Input.GetButtonDown("Dash") && !isWallSliding)
@@ -361,5 +347,6 @@ public class PlayerMovement : MonoBehaviour
     {
         return isWallSliding;
     }
+
 }
 
