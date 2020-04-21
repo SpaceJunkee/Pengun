@@ -1112,18 +1112,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.009769738, y: -0.01104337}
+  m_Offset: {x: 0.0006611347, y: -0.0009049773}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.3111111, y: 2.9777777}
+    oldSize: {x: 1.18, y: 2.68}
     newSize: {x: 5.4, y: 2.716}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.3085076, y: 2.949328}
+  m_Size: {x: 1.1861422, y: 2.6631346}
   m_EdgeRadius: 0
 --- !u!50 &363048792
 Rigidbody2D:
@@ -1140,7 +1140,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 3.2
+  m_GravityScale: 4
   m_Material: {fileID: 6200000, guid: fa817a6379947844b8056e11bd900a04, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -1158,12 +1158,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a15fccd2cb0a24c8dfa48659de9079, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 12
-  topSpeed: 12
+  movementSpeed: 13
+  topSpeed: 13
   acceleration: 9
-  jumpForce: 22
+  jumpForce: 25
   maxJumpCount: 2
-  fallMultiplier: 4
+  fallMultiplier: 2.9
   smallJumpMultiplier: 2.8
   ceilingCheck: {fileID: 918166630}
   groundCheck: {fileID: 173846742}
