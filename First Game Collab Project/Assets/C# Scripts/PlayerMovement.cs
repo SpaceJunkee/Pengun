@@ -290,7 +290,7 @@ public class PlayerMovement : MonoBehaviour
         if(isWallSliding && (movementDirection < 0 || movementDirection > 0) && Input.GetButtonDown("Jump"))
         {
             isWallSliding = false;
-            jumpForce = 15;
+            
         }
 
        
