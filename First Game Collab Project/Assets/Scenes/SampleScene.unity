@@ -4717,7 +4717,7 @@ MonoBehaviour:
   maxWallSlideSpeed: 15
   hopSpeed: 1000
   dashTime: 0.2
-  dashSpeed: 1200
+  dashSpeed: 1100
   distanceBetweenImages: 4
   dashCooldown: 1
 --- !u!114 &363048794
