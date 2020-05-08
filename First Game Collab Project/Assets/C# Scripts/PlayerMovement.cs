@@ -88,6 +88,7 @@ public class PlayerMovement : MonoBehaviour
 
         WallHop();
 
+
     }
 
     //Better than update for physics handling like movement or gravity, can be called multiple times per update frame.
@@ -274,7 +275,6 @@ public class PlayerMovement : MonoBehaviour
         if(isWallSliding && (movementDirection < 0 || movementDirection > 0) && Input.GetButtonDown("Jump"))
         {
             isWallSliding = false;
-            
         }
 
        
