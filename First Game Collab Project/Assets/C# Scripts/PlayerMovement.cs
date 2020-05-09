@@ -16,6 +16,9 @@ public class PlayerMovement : MonoBehaviour
     private float movementDirection;
     private RigidbodyConstraints2D originalConstraints;
 
+    //Animation
+    public Animator animator;
+
     //Player speed
     public float movementSpeed = 8f;
     
@@ -88,6 +91,8 @@ public class PlayerMovement : MonoBehaviour
 
         WallHop();
 
+        //Animation calls
+        RunAnim();
     }
 
     //Better than update for physics handling like movement or gravity, can be called multiple times per update frame.
@@ -274,7 +279,6 @@ public class PlayerMovement : MonoBehaviour
         if(isWallSliding && (movementDirection < 0 || movementDirection > 0) && Input.GetButtonDown("Jump"))
         {
             isWallSliding = false;
-            
         }
 
        
@@ -344,6 +348,14 @@ public class PlayerMovement : MonoBehaviour
     public bool getIsWallSliding()
     {
         return isWallSliding;
+    }
+
+    //Animation methods
+
+    //Run
+    private void RunAnim()
+    {
+        animator.SetFloat("MovementSpeed", Mathf.Abs(movementDirection)); 
     }
 
 
