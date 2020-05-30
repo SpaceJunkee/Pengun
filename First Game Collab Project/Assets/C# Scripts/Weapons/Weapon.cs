@@ -24,6 +24,7 @@ public class Weapon : MonoBehaviour
     public GameObject pistolBulletPrefab;
     public GameObject chainGunBulletPrefab;
     public GameObject shotgunBulletPrefab;
+    public GameObject boundaries;
         
     private float coolDownTime = 0.1f;
 
@@ -136,7 +137,6 @@ public class Weapon : MonoBehaviour
 
     void ShootMachineGun()
     {
-        
         Instantiate(machineGunBulletPrefab, shootingPositionMachineGun.position, shootingPositionMachineGun.rotation);
        
     }
