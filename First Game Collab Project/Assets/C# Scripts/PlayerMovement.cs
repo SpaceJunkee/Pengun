@@ -32,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
     //Remember jump press so you can jump again before hitting the ground.
     float pressedJumpRemember = 0;
     float pressedJumpTime = 0.2f;
-    public float inAirTime = 0.18f;
+    public float inAirTime = 0.15f;
 
     //Checks
     public Transform ceilingCheck;
@@ -161,7 +161,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            inAirTime = 0.18f;
+            inAirTime = 0.15f;
         }
 
     }

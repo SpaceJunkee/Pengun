@@ -2488,8 +2488,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 492171186}
   m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -42.6, y: -5.5, z: 70.233894}
-  m_LocalScale: {x: 15, y: -1.0161313, z: 1}
+  m_LocalPosition: {x: -42.7, y: -5.5, z: 70.233894}
+  m_LocalScale: {x: 15, y: 0.01, z: 1}
   m_Children: []
   m_Father: {fileID: 1593072794}
   m_RootOrder: 73
@@ -2558,7 +2558,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: b3031b9e9d3699e4681e6168ff72eb2e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -11500,7 +11500,7 @@ MonoBehaviour:
   animator: {fileID: 2136460911}
   movementSpeed: 14
   jumpForce: 26
-  maxJumpCount: 2
+  maxJumpCount: 1
   fallMultiplier: 3.1
   smallJumpMultiplier: 2.9
   inAirTime: 0.18
@@ -11513,7 +11513,7 @@ MonoBehaviour:
   wallObjects:
     serializedVersion: 2
     m_Bits: 512
-  checkRadius: 0
+  checkRadius: 0.5
   wallCheckDistance: 0.6
   wallSlidingSpeed: 1.5
   maxWallSlideSpeed: 15
