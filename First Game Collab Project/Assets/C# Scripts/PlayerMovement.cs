@@ -32,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
     //Remember jump press so you can jump again before hitting the ground.
     float pressedJumpRemember = 0;
     float pressedJumpTime = 0.2f;
+    public float inAirTime = 0.18f;
 
     //Checks
     public Transform ceilingCheck;
@@ -130,6 +131,7 @@ public class PlayerMovement : MonoBehaviour
         //Jumping inputs
 
         pressedJumpRemember -= Time.deltaTime;
+        
 
         if (Input.GetButtonDown("Jump")) 
         {
@@ -144,6 +146,22 @@ public class PlayerMovement : MonoBehaviour
             rigidbody.velocity = Vector2.up * jumpForce;
             isJumping = true;
 
+        }
+
+        if (!isGrounded && !isTouchingWall)
+        {
+            inAirTime -= Time.deltaTime;
+            
+            if(inAirTime <= 0)
+            {
+                jumpCount = 0;
+                isJumping = false;
+            }
+            
+        }
+        else
+        {
+            inAirTime = 0.18f;
         }
 
     }
