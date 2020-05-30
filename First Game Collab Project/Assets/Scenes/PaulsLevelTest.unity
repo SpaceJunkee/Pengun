@@ -947,8 +947,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1, y: 0.009999871, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 465915166}
+  m_Children: []
   m_Father: {fileID: 2136460917}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2301,36 +2300,6 @@ Transform:
   m_Father: {fileID: 1593072794}
   m_RootOrder: 28
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
---- !u!1 &465915165
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 465915166}
-  m_Layer: 10
-  m_Name: ShootingPositionChainGun (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &465915166
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 465915165}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.175, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 151685586}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &477049917
 GameObject:
   m_ObjectHideFlags: 0
@@ -6688,7 +6657,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1222513290}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.31, y: -2.2, z: 0}
+  m_LocalPosition: {x: -0.26, y: -2.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2136460917}
@@ -11470,7 +11439,6 @@ MonoBehaviour:
   shootingPositionMachineGun: {fileID: 242850480}
   shootingPositionPistol: {fileID: 1838707415}
   shootingPositionChainGun: {fileID: 151685586}
-  shootingPositionChainGun1: {fileID: 465915166}
   shootingPositionShotgun: {fileID: 1989841430}
   shootingPositionShotgun1: {fileID: 905264325}
   shootingPositionShotgun2: {fileID: 1490952723}
@@ -11478,7 +11446,7 @@ MonoBehaviour:
   shootingPositionShotgun4: {fileID: 1098166423}
   machineGunBulletPrefab: {fileID: 3322634179809757461, guid: 3730523821e8e994b8976cf090f6a361,
     type: 3}
-  pistolBulletPrefab: {fileID: 6190752870453819714, guid: c3c917deebb271d4a8112e655fb8a054,
+  pistolBulletPrefab: {fileID: 483066924957834202, guid: 8e4a057fbf1fec24396fdb5dbbac6406,
     type: 3}
   chainGunBulletPrefab: {fileID: 98742446656863649, guid: 092b4cbb8ef1dd74fa4f2b1331293657,
     type: 3}
@@ -11502,7 +11470,7 @@ MonoBehaviour:
   jumpForce: 26
   maxJumpCount: 1
   fallMultiplier: 3.1
-  smallJumpMultiplier: 2.9
+  smallJumpMultiplier: 4
   inAirTime: 0.18
   ceilingCheck: {fileID: 1615317623}
   groundCheck: {fileID: 1222513291}
@@ -11513,7 +11481,7 @@ MonoBehaviour:
   wallObjects:
     serializedVersion: 2
     m_Bits: 512
-  checkRadius: 0.5
+  checkRadius: 0.55
   wallCheckDistance: 0.6
   wallSlidingSpeed: 1.5
   maxWallSlideSpeed: 15

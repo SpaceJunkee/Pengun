@@ -32,7 +32,7 @@ public class PlayerMovement : MonoBehaviour
     //Remember jump press so you can jump again before hitting the ground.
     float pressedJumpRemember = 0;
     float pressedJumpTime = 0.2f;
-    public float inAirTime = 0.15f;
+    public float inAirTime = 0.1f;
 
     //Checks
     public Transform ceilingCheck;
@@ -111,6 +111,13 @@ public class PlayerMovement : MonoBehaviour
 
         Move();
     }
+    void OnDrawGizmosSelected()
+    {
+        // Draw a yellow sphere at the transform's position
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(groundCheck.position, checkRadius);
+    }
+
 
     //Set up movement inputs for character
     private void ProcessInputs()
@@ -161,7 +168,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            inAirTime = 0.15f;
+            inAirTime = 0.1f;
         }
 
     }
