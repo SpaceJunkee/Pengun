@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 483066924957834201}
   - component: {fileID: 483066924957834200}
   - component: {fileID: 483066924957834203}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PistolBullet 1 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -149,7 +149,7 @@ GameObject:
   m_Component:
   - component: {fileID: 483066925216195227}
   - component: {fileID: 483066925216195226}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Freeform Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -226,7 +226,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2827709321718077617}
   - component: {fileID: 8963367093867140628}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Point Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -27,12 +27,19 @@ public class MachineGunBullets : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-       EnemyScript1 enemy = collision.GetComponent<EnemyScript1>();
+        EnemyScript1 enemy = collision.GetComponent<EnemyScript1>();
+        BreackableCrate crate = collision.GetComponent<BreackableCrate>();
 
         if(enemy != null)
         {
             enemy.TakeDamage(bulletDamage);
         }
+
+        if (crate != null)
+        {
+            crate.TakeDamage(bulletDamage);
+        }
+
         destroyBullet();
     }
 
