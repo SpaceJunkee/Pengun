@@ -9,7 +9,7 @@ public class AfterIMage : MonoBehaviour
     private float timeActive;
     private float alpha;
     private float alphaSet = 0.8f;
-    private float alphaMultiplier = 0.9f;
+    private float alphaDecay = 10f;
 
     private Transform player;
 
@@ -35,7 +35,7 @@ public class AfterIMage : MonoBehaviour
 
     private void Update()
     {
-        alpha *= alphaMultiplier;
+        alpha -= alphaDecay * Time.deltaTime;
         color = new Color(1f, 1f, 1f, alpha);
         sr.color = color;
 

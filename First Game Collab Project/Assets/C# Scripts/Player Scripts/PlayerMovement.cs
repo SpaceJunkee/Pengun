@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
@@ -123,8 +124,17 @@ public class PlayerMovement : MonoBehaviour
     private void ProcessInputs()
     {
         //Left and right movement
-        
-        movementDirection = Input.GetAxis("Horizontal");//Scale of -1 to 1 (-1 being left and 1 being right)
+
+        movementDirection = Input.GetAxis("Horizontal");
+
+        if(movementDirection < 0)
+        {
+            movementDirection = Math.Min(movementDirection, -1);
+        }
+        else if(movementDirection > 0)
+        {
+            movementDirection = Math.Max(movementDirection, 1);
+        }
 
         //Dashing inputs
         if (Input.GetButtonDown("Dash") && !isWallSliding)
