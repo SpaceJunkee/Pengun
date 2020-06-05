@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
 
     //Animation
     public Animator animator;
+    public TrailRenderer trailRenderer;
 
     //Player speed
     public float movementSpeed = 8f;
@@ -72,6 +73,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody2D>();//Will get a component on this object of type rigidbody.
         originalConstraints = rigidbody.constraints;
+        trailRenderer.enabled = false;
     }
 
     private void Start()
@@ -85,7 +87,9 @@ public class PlayerMovement : MonoBehaviour
     {
         ProcessInputs();
 
-        fastWallSlide();
+        FastWallSlide();
+
+        FastRun();
 
         FlipCharDirection();
 
@@ -95,6 +99,7 @@ public class PlayerMovement : MonoBehaviour
 
         //Animation calls
         RunAnim();
+        FastRunAnim();
     }
 
     //Better than update for physics handling like movement or gravity, can be called multiple times per update frame.
@@ -127,6 +132,7 @@ public class PlayerMovement : MonoBehaviour
 
         movementDirection = Input.GetAxis("Horizontal");
 
+        //Deadzone makes player move at full speed 
         if(movementDirection < 0)
         {
             movementDirection = Math.Min(movementDirection, -1);
@@ -320,9 +326,9 @@ public class PlayerMovement : MonoBehaviour
     }
 
     //Lets the player slide down the wall faster when pushing slide button.
-    private void fastWallSlide()
+    private void FastWallSlide()
     {
-        if(isWallSliding && Input.GetButtonDown("Fire2"))
+        if(isWallSliding && Input.GetButtonDown("FastSlide"))
         {
             wallSlidingSpeed = maxWallSlideSpeed;
         }
@@ -332,6 +338,19 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private void FastRun()
+    {
+        if (Input.GetButton("FastRun"))
+        {
+            movementSpeed = 15;
+        }
+        else
+        {
+            movementSpeed = 11.5f;
+        }
+
+    }
+
     //Wall hop lets the player jump off the wall without jumping 
     private void WallHop()
     {
@@ -339,7 +358,8 @@ public class PlayerMovement : MonoBehaviour
         {
             rigidbody.AddForce(Vector2.left * hopSpeed, 0.0f);
             
-        }else if(isWallSliding && Input.GetButtonDown("Dash") && !playerFaceRight && movementDirection > 0)
+        }
+        else if(isWallSliding && Input.GetButtonDown("Dash") && !playerFaceRight && movementDirection > 0)
         {
             rigidbody.AddForce(Vector2.right * hopSpeed, 0.0f);
           
@@ -391,6 +411,22 @@ public class PlayerMovement : MonoBehaviour
     private void RunAnim()
     {
         animator.SetFloat("MovementSpeed", Mathf.Abs(movementDirection)); 
+    }
+
+    private void FastRunAnim()
+    {
+        animator.SetFloat("MovementSpeed", Mathf.Abs(movementDirection));
+
+        if (Input.GetButton("FastRun"))
+        {
+            animator.SetBool("IsFastButton", true);
+            trailRenderer.enabled = true;
+        }
+        else
+        {
+            animator.SetBool("IsFastButton", false);
+            trailRenderer.enabled = false;
+        }
     }
 
 
