@@ -27,18 +27,16 @@ public class ChainGunBullets : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         EnemyScript1 enemy = collision.GetComponent<EnemyScript1>();
-        BreackableCrate crate = collision.GetComponent<BreackableCrate>();
+        PlayerMovement player = collision.GetComponent<PlayerMovement>();
 
         if (enemy != null)
         {
             enemy.TakeDamage(bulletDamage);
         }
-
-        if (crate != null)
+        if (player != null)
         {
-            crate.TakeDamage(bulletDamage);
+            player.TakeDamage(bulletDamage);
         }
-
         destroyBullet();
     }
 
