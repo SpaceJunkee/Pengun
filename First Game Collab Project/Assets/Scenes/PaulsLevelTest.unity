@@ -114247,7 +114247,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 2136460911}
   trailRenderer: {fileID: 2136460918}
-  movementSpeed: 9.5
+  movementSpeed: 11.5
   jumpForce: 26
   maxJumpCount: 1
   fallMultiplier: 3.1
@@ -114271,7 +114271,7 @@ MonoBehaviour:
   dashSpeed: 1250
   distanceBetweenImages: 4
   dashCooldown: 1
-  stamina: 100
+  stamina: 200
 --- !u!61 &2136460914
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -114434,7 +114434,7 @@ TrailRenderer:
   m_Time: 0.25
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.3156482
+    widthMultiplier: 0.4908375
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -114488,7 +114488,7 @@ TrailRenderer:
       m_Mode: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
-    numCornerVertices: 0
+    numCornerVertices: 90
     numCapVertices: 0
     alignment: 0
     textureMode: 0

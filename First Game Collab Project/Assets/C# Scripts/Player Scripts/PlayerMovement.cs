@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -23,6 +24,9 @@ public class PlayerMovement : MonoBehaviour
     //Animation
     public Animator animator;
     public TrailRenderer trailRenderer;
+    Gradient gradient;
+    GradientColorKey[] colorKey;
+    GradientAlphaKey[] alphaKey;
 
     //Player speed
     public float movementSpeed = 8f;
@@ -81,6 +85,7 @@ public class PlayerMovement : MonoBehaviour
         rigidbody = GetComponent<Rigidbody2D>();//Will get a component on this object of type rigidbody.
         originalConstraints = rigidbody.constraints;
         trailRenderer.enabled = false;
+        gradient = new Gradient();
     }
 
     private void Start()
@@ -101,6 +106,8 @@ public class PlayerMovement : MonoBehaviour
         CheckIfWallSliding();
 
         WallHop();
+
+        TrailColour();  
 
         //Animation calls
         RunAnim();
@@ -355,6 +362,7 @@ public class PlayerMovement : MonoBehaviour
             if (stamina <= 0)
             {
                 movementSpeed = 5f;
+                animator.speed = 0.6f;
                 canFastRun = false;
                 StartCoroutine(StaminaRegenWait());
             }
@@ -370,6 +378,7 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator StaminaRegenWait()
     {
         yield return new WaitForSeconds(3.0f);
+        animator.speed = 1f;
         stamina = 200;
         movementSpeed = 11.5f;
         canFastRun = true;
@@ -450,6 +459,41 @@ public class PlayerMovement : MonoBehaviour
         {
             animator.SetBool("IsFastButton", false);
             trailRenderer.enabled = false;
+        }
+    }
+
+    private void TrailColour()
+    {
+        
+
+        if(stamina < 200)
+        {
+            float alpha = 1.0f;
+            gradient.SetKeys(new GradientColorKey[] { new GradientColorKey(Color.blue, 0.0f), new GradientColorKey(Color.cyan, 1.0f) },
+            new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(alpha, 1.0f) });
+            
+
+            trailRenderer.colorGradient = gradient;
+        }
+
+        if (stamina < 100)
+        {
+            float alpha = 1.0f;
+            gradient.SetKeys(new GradientColorKey[] { new GradientColorKey(Color.magenta, 0.0f), new GradientColorKey(Color.yellow, 1.0f) },
+            new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(alpha, 1.0f) });
+
+
+            trailRenderer.colorGradient = gradient;
+        }
+
+        if (stamina < 30)
+        {
+            float alpha = 1.0f;
+            gradient.SetKeys(new GradientColorKey[] { new GradientColorKey(Color.black, 0.0f), new GradientColorKey(Color.red, 1.0f) },
+            new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(alpha, 1.0f) });
+
+
+            trailRenderer.colorGradient = gradient;
         }
     }
 
