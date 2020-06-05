@@ -17,6 +17,9 @@ public class PlayerMovement : MonoBehaviour
     private float movementDirection;
     private RigidbodyConstraints2D originalConstraints;
 
+    //Timer
+    private IEnumerator coroutine;
+
     //Animation
     public Animator animator;
     public TrailRenderer trailRenderer;
@@ -66,6 +69,10 @@ public class PlayerMovement : MonoBehaviour
     private float lastImageXpos;
     private float lastDash = -100f;//Check when last dash was
 
+    //Fast run stamina
+    public float stamina = Mathf.Clamp(200, 0, 200);
+    private bool canFastRun = true;
+
 
 
     //Awake method is called before the start method when the objects are being initialized.
@@ -88,8 +95,6 @@ public class PlayerMovement : MonoBehaviour
         ProcessInputs();
 
         FastWallSlide();
-
-        FastRun();
 
         FlipCharDirection();
 
@@ -114,6 +119,8 @@ public class PlayerMovement : MonoBehaviour
         checkIfCanJump();
 
         CheckDash();
+
+        FastRun();
 
         Move();
     }
@@ -340,15 +347,32 @@ public class PlayerMovement : MonoBehaviour
 
     private void FastRun()
     {
-        if (Input.GetButton("FastRun"))
+        if (Input.GetButton("FastRun") && canFastRun && (movementDirection > 0 || movementDirection < 0))
         {
             movementSpeed = 15;
+            stamina--;
+
+            if (stamina <= 0)
+            {
+                movementSpeed = 5f;
+                canFastRun = false;
+                StartCoroutine(StaminaRegenWait());
+            }
         }
-        else
+        else if (stamina > 0 && stamina < 200)
         {
             movementSpeed = 11.5f;
+            stamina++;
         }
 
+    }
+
+    private IEnumerator StaminaRegenWait()
+    {
+        yield return new WaitForSeconds(3.0f);
+        stamina = 200;
+        movementSpeed = 11.5f;
+        canFastRun = true;
     }
 
     //Wall hop lets the player jump off the wall without jumping 
@@ -417,7 +441,7 @@ public class PlayerMovement : MonoBehaviour
     {
         animator.SetFloat("MovementSpeed", Mathf.Abs(movementDirection));
 
-        if (Input.GetButton("FastRun"))
+        if (Input.GetButton("FastRun") && canFastRun)
         {
             animator.SetBool("IsFastButton", true);
             trailRenderer.enabled = true;
