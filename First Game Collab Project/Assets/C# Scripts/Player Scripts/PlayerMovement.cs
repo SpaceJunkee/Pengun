@@ -362,6 +362,7 @@ public class PlayerMovement : MonoBehaviour
             if (stamina <= 0)
             {
                 movementSpeed = 5f;
+                jumpForce = 13f;
                 animator.speed = 0.6f;
                 canFastRun = false;
                 StartCoroutine(StaminaRegenWait());
@@ -371,6 +372,7 @@ public class PlayerMovement : MonoBehaviour
         {
             movementSpeed = 11.5f;
             stamina++;
+            jumpForce = 26f;
         }
 
     }
@@ -381,6 +383,7 @@ public class PlayerMovement : MonoBehaviour
         animator.speed = 1f;
         stamina = 200;
         movementSpeed = 11.5f;
+        jumpForce = 26f;
         canFastRun = true;
     }
 
