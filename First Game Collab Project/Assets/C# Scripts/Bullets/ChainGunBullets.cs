@@ -26,7 +26,7 @@ public class ChainGunBullets : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        EnemyScript1 enemy = collision.GetComponent<EnemyScript1>();
+        BasicEnemy enemy = collision.GetComponentInParent<BasicEnemy>();
         PlayerMovement player = collision.GetComponent<PlayerMovement>();
 
         if (enemy != null)

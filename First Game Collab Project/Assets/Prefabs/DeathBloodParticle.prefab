@@ -741,7 +741,7 @@ ParticleSystem:
     m_TextureUVChannel: 0
     m_TextureColorAffectsParticles: 1
     m_TextureAlphaAffectsParticles: 1
-    m_TextureBilinearFiltering: 0
+    m_TextureBilinearFiltering: 1
     randomDirectionAmount: 0
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
@@ -1538,8 +1538,7 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: 1801684832408766203, guid: 8d4789f23191e12469a13fdaf238d464,
-        type: 3}
+    - sprite: {fileID: 0}
     flipU: 0
     flipV: 0
   VelocityModule:
@@ -4788,7 +4787,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1046431875
-  m_SortingLayer: 2
+  m_SortingLayer: 0
   m_SortingOrder: 2
   m_RenderMode: 0
   m_SortMode: 0

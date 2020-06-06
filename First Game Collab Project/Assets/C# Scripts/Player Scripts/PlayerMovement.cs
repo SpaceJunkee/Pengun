@@ -65,6 +65,8 @@ public class PlayerMovement : MonoBehaviour
     private float lastImageXpos;
     private float lastDash = -100f;//Check when last dash was
 
+    //Health test
+    private int playerHealth = 100;
 
 
     //Awake method is called before the start method when the objects are being initialized.
@@ -392,6 +394,23 @@ public class PlayerMovement : MonoBehaviour
     {
         animator.SetFloat("MovementSpeed", Mathf.Abs(movementDirection)); 
     }
+
+    //Player to take damage
+    public void TakeDamage(int damage)
+    {
+        playerHealth -= damage;
+
+        if (playerHealth <= 0)
+        {
+            die();
+        }
+    }
+
+    void die()
+    {
+        Destroy(gameObject);
+    }
+
 
 
 }
