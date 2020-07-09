@@ -351,6 +351,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetButton("FastRun") && canFastRun && (movementDirection > 0 || movementDirection < 0))
         {
+            movementSpeed = 18;
+        }
+        else
+        {
             movementSpeed = 15;
         }
     }
