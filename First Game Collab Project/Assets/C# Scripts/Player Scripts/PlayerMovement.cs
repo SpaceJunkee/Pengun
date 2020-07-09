@@ -73,8 +73,7 @@ public class PlayerMovement : MonoBehaviour
     private float lastImageXpos;
     private float lastDash = -100f;//Check when last dash was
 
-    //Fast run stamina
-    public float stamina = Mathf.Clamp(200, 0, 200);
+    //Fast run
     private bool canFastRun = true;
 
 
@@ -84,8 +83,6 @@ public class PlayerMovement : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody2D>();//Will get a component on this object of type rigidbody.
         originalConstraints = rigidbody.constraints;
-        trailRenderer.enabled = false;
-        gradient = new Gradient();
     }
 
     private void Start()
@@ -106,8 +103,6 @@ public class PlayerMovement : MonoBehaviour
         CheckIfWallSliding();
 
         WallHop();
-
-        TrailColour();  
 
         //Animation calls
         RunAnim();
@@ -357,34 +352,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButton("FastRun") && canFastRun && (movementDirection > 0 || movementDirection < 0))
         {
             movementSpeed = 15;
-            stamina--;
-
-            if (stamina <= 0)
-            {
-                movementSpeed = 5f;
-                jumpForce = 13f;
-                animator.speed = 0.6f;
-                canFastRun = false;
-                StartCoroutine(StaminaRegenWait());
-            }
         }
-        else if (stamina > 0 && stamina < 200)
-        {
-            movementSpeed = 11.5f;
-            stamina++;
-            jumpForce = 26f;
-        }
-
-    }
-
-    private IEnumerator StaminaRegenWait()
-    {
-        yield return new WaitForSeconds(3.0f);
-        animator.speed = 1f;
-        stamina = 200;
-        movementSpeed = 11.5f;
-        jumpForce = 26f;
-        canFastRun = true;
     }
 
     //Wall hop lets the player jump off the wall without jumping 
@@ -456,50 +424,12 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButton("FastRun") && canFastRun)
         {
             animator.SetBool("IsFastButton", true);
-            trailRenderer.enabled = true;
         }
         else
         {
             animator.SetBool("IsFastButton", false);
-            trailRenderer.enabled = false;
         }
     }
-
-    private void TrailColour()
-    {
-        
-
-        if(stamina < 200)
-        {
-            float alpha = 1.0f;
-            gradient.SetKeys(new GradientColorKey[] { new GradientColorKey(Color.blue, 0.0f), new GradientColorKey(Color.cyan, 1.0f) },
-            new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(alpha, 1.0f) });
-            
-
-            trailRenderer.colorGradient = gradient;
-        }
-
-        if (stamina < 100)
-        {
-            float alpha = 1.0f;
-            gradient.SetKeys(new GradientColorKey[] { new GradientColorKey(Color.magenta, 0.0f), new GradientColorKey(Color.yellow, 1.0f) },
-            new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(alpha, 1.0f) });
-
-
-            trailRenderer.colorGradient = gradient;
-        }
-
-        if (stamina < 30)
-        {
-            float alpha = 1.0f;
-            gradient.SetKeys(new GradientColorKey[] { new GradientColorKey(Color.black, 0.0f), new GradientColorKey(Color.red, 1.0f) },
-            new GradientAlphaKey[] { new GradientAlphaKey(alpha, 0.0f), new GradientAlphaKey(alpha, 1.0f) });
-
-
-            trailRenderer.colorGradient = gradient;
-        }
-    }
-
 
 }
 
