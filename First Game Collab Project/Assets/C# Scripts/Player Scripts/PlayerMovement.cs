@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -17,8 +18,15 @@ public class PlayerMovement : MonoBehaviour
     private float movementDirection;
     private RigidbodyConstraints2D originalConstraints;
 
+    //Timer
+    private IEnumerator coroutine;
+
     //Animation
     public Animator animator;
+    public TrailRenderer trailRenderer;
+    Gradient gradient;
+    GradientColorKey[] colorKey;
+    GradientAlphaKey[] alphaKey;
 
     //Player speed
     public float movementSpeed = 8f;
@@ -65,6 +73,9 @@ public class PlayerMovement : MonoBehaviour
     private float lastImageXpos;
     private float lastDash = -100f;//Check when last dash was
 
+    //Fast run
+    private bool canFastRun = true;
+
 
 
     //Awake method is called before the start method when the objects are being initialized.
@@ -85,7 +96,7 @@ public class PlayerMovement : MonoBehaviour
     {
         ProcessInputs();
 
-        fastWallSlide();
+        FastWallSlide();
 
         FlipCharDirection();
 
@@ -95,6 +106,7 @@ public class PlayerMovement : MonoBehaviour
 
         //Animation calls
         RunAnim();
+        FastRunAnim();
     }
 
     //Better than update for physics handling like movement or gravity, can be called multiple times per update frame.
@@ -109,6 +121,8 @@ public class PlayerMovement : MonoBehaviour
         checkIfCanJump();
 
         CheckDash();
+
+        FastRun();
 
         Move();
     }
@@ -127,6 +141,7 @@ public class PlayerMovement : MonoBehaviour
 
         movementDirection = Input.GetAxis("Horizontal");
 
+        //Deadzone makes player move at full speed 
         if(movementDirection < 0)
         {
             movementDirection = Math.Min(movementDirection, -1);
@@ -320,15 +335,23 @@ public class PlayerMovement : MonoBehaviour
     }
 
     //Lets the player slide down the wall faster when pushing slide button.
-    private void fastWallSlide()
+    private void FastWallSlide()
     {
-        if(isWallSliding && Input.GetButtonDown("Fire2"))
+        if(isWallSliding && Input.GetButtonDown("FastSlide"))
         {
             wallSlidingSpeed = maxWallSlideSpeed;
         }
         else if (isGrounded ||isJumping)
         {
             wallSlidingSpeed = 1.5f;
+        }
+    }
+
+    private void FastRun()
+    {
+        if (Input.GetButton("FastRun") && canFastRun && (movementDirection > 0 || movementDirection < 0))
+        {
+            movementSpeed = 15;
         }
     }
 
@@ -339,7 +362,8 @@ public class PlayerMovement : MonoBehaviour
         {
             rigidbody.AddForce(Vector2.left * hopSpeed, 0.0f);
             
-        }else if(isWallSliding && Input.GetButtonDown("Dash") && !playerFaceRight && movementDirection > 0)
+        }
+        else if(isWallSliding && Input.GetButtonDown("Dash") && !playerFaceRight && movementDirection > 0)
         {
             rigidbody.AddForce(Vector2.right * hopSpeed, 0.0f);
           
@@ -393,6 +417,19 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("MovementSpeed", Mathf.Abs(movementDirection)); 
     }
 
+    private void FastRunAnim()
+    {
+        animator.SetFloat("MovementSpeed", Mathf.Abs(movementDirection));
+
+        if (Input.GetButton("FastRun") && canFastRun)
+        {
+            animator.SetBool("IsFastButton", true);
+        }
+        else
+        {
+            animator.SetBool("IsFastButton", false);
+        }
+    }
 
 }
 
