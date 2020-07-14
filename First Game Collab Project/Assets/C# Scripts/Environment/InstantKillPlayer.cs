@@ -16,11 +16,12 @@ public class InstantKillPlayer : MonoBehaviour
   
 
     //If object collides with player
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         //If the trap collides with player kill him
-        if (other.CompareTag("Player"))
-        { 
+        if (collision.CompareTag("Player"))
+        {
+            Destroy(collision.gameObject);
             EndGame();
             
         }
@@ -40,7 +41,6 @@ public class InstantKillPlayer : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);//get active scene gets current scene. 
     }
 
-  
 }
 
 /*Note: It might be better to use the integer in some cases. */

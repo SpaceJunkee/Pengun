@@ -23,10 +23,6 @@ public class PlayerMovement : MonoBehaviour
 
     //Animation
     public Animator animator;
-    public TrailRenderer trailRenderer;
-    Gradient gradient;
-    GradientColorKey[] colorKey;
-    GradientAlphaKey[] alphaKey;
 
     //Player speed
     public float movementSpeed = 8f;
@@ -337,25 +333,32 @@ public class PlayerMovement : MonoBehaviour
     //Lets the player slide down the wall faster when pushing slide button.
     private void FastWallSlide()
     {
-        if(isWallSliding && Input.GetButtonDown("FastSlide"))
+        if(isWallSliding && Input.GetAxis("Vertical") < 0)
         {
             wallSlidingSpeed = maxWallSlideSpeed;
         }
         else if (isGrounded ||isJumping)
         {
-            wallSlidingSpeed = 1.5f;
+            wallSlidingSpeed = 0.7f;
+        }
+        else
+        {
+            wallSlidingSpeed = 0.7f;
         }
     }
+
+  
 
     private void FastRun()
     {
         if (Input.GetButton("FastRun") && canFastRun && (movementDirection > 0 || movementDirection < 0))
         {
-            movementSpeed = 18;
+            movementSpeed = 16;
+            
         }
         else
         {
-            movementSpeed = 15;
+            movementSpeed = 13.5f;
         }
     }
 
