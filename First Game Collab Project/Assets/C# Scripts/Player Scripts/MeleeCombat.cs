@@ -10,14 +10,22 @@ public class MeleeCombat : MonoBehaviour
     public float attackRange = 0.5f;
     public LayerMask enemyLayers;
     public int meleeDamage = 150;
+    public float attackRate = 2f;
+    public float meleeCooldown = 0f;
+
  
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Melee"))
+        if(Time.time >= meleeCooldown)
         {
-            Attack();
+            if (Input.GetButtonDown("Melee"))
+            {
+                Attack();
+                meleeCooldown = Time.time + 0.6f / attackRate;
+            }
         }
+        
     }
 
     private void Attack()
