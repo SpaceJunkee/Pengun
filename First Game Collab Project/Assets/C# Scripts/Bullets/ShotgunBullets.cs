@@ -27,8 +27,10 @@ public class ShotgunBullets : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Enemy enemy = collision.GetComponent<Enemy>();
+        BasicEnemy enemy = collision.GetComponent<BasicEnemy>();
         BreackableCrate crate = collision.GetComponent<BreackableCrate>();
+
+        Debug.Log(collision.gameObject.name + " : " + gameObject.name + " : " + Time.time);
 
         if (enemy != null)
         {

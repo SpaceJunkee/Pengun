@@ -143,10 +143,8 @@ public abstract class Enemy : MonoBehaviour
         searchTime = 4;
         canFlip = true;
     }
-    public virtual void EnterDeadState(){
-        Instantiate(deathChunkParticle, gameObject.transform.position, deathChunkParticle.transform.rotation);
-        Instantiate(deathBloodParticle, gameObject.transform.position, deathBloodParticle.transform.rotation);
-        Destroy(gameObject);
+    protected virtual void EnterDeadState(){
+
     }
     protected virtual void UpdateMoveState(){
 

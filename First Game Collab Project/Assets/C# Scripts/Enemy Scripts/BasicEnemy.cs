@@ -40,17 +40,14 @@ public class BasicEnemy : Enemy
         wallDetected = Physics2D.Raycast(wallCheck.position, transform.right, wallCheckDistance, groundCheckLayer);
 
         if(PlayerDetected()){
-            Debug.Log("Switching to Alert");
             SwitchState(State.Alert);
         }
         else if(!groundDetected || wallDetected)
         {
-            Debug.Log("Switching to Idle");
             SwitchState(State.Idle);
         }
         else
         {
-            Debug.Log("Moving");
             movement.Set(movementSpeed * facingDirection, enemyRb.velocity.y);
             enemyRb.velocity = movement;
         }
@@ -82,12 +79,20 @@ public class BasicEnemy : Enemy
         }
     }
 
-     protected override void OnDrawGizmos()
+    protected override void EnterDeadState()
+    {
+        Instantiate(deathChunkParticle, gameObject.transform.position, deathChunkParticle.transform.rotation);
+        Instantiate(deathBloodParticle, gameObject.transform.position, deathBloodParticle.transform.rotation);
+        Destroy(gameObject);
+    }
+
+    protected override void OnDrawGizmos()
     {
         base.OnDrawGizmos();
         Gizmos.DrawLine(groundCheck.position, new Vector2(groundCheck.position.x, groundCheck.position.y - groundCheckDistance));
         Gizmos.DrawLine(wallCheck.position, new Vector2(wallCheck.position.x + wallCheckDistance, wallCheck.position.y));
     }
+
    
 
 
