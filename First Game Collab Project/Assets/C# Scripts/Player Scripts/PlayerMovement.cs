@@ -61,6 +61,8 @@ public class PlayerMovement : MonoBehaviour
     public float hopSpeed;
 
     //Dashing
+    public int dashCount;
+    public int maxDashInAir = 1;
     public float dashTime;
     public float dashSpeed;
     public float distanceBetweenImages;
@@ -84,7 +86,7 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         jumpCount = maxJumpCount;
-
+        dashCount = maxDashInAir;
     }
 
     // Update is called once per frame(updates every frame so if 60fps update runs 60 times per second)
@@ -93,7 +95,7 @@ public class PlayerMovement : MonoBehaviour
         ProcessInputs();
 
         FastWallSlide();
-
+   
         FlipCharDirection();
 
         CheckIfWallSliding();
@@ -126,7 +128,7 @@ public class PlayerMovement : MonoBehaviour
     {
         // Draw a yellow sphere at the transform's position
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(groundCheck.position, checkRadius);
+        Gizmos.DrawWireSphere(groundCheck.position, checkRadius);
     }
 
 
@@ -165,7 +167,6 @@ public class PlayerMovement : MonoBehaviour
         {
             pressedJumpRemember = pressedJumpTime;
             isJumping = true;
-
         }
 
         if ((pressedJumpRemember > 0) && jumpCount > 0)
@@ -219,17 +220,38 @@ public class PlayerMovement : MonoBehaviour
 
     private void AttemptDash()
     {
-        isDashing = true;
-        dashTimeLeft = dashTime;
-        lastDash = Time.time;
 
-        AfterImagePool.Instance.GetFromPool();
-        lastImageXpos = transform.position.x;
+        if (!isGrounded && dashCount != 0)
+        {
+            isDashing = true;
+            dashTimeLeft = dashTime;
+            lastDash = Time.time;
+
+            AfterImagePool.Instance.GetFromPool();
+            lastImageXpos = transform.position.x;
+
+            dashCount = 0;
+        }
+        else if(isGrounded && !isTouchingWall)
+        {
+            isDashing = true;
+            dashTimeLeft = dashTime;
+            lastDash = Time.time;
+
+            AfterImagePool.Instance.GetFromPool();
+            lastImageXpos = transform.position.x;
+
+        }
+        
     }
 
     private void CheckDash()
     {
- 
+        if(isGrounded || isWallSliding)
+        {
+            dashCount = 1;
+        }
+
         if (isDashing)
         {
             if (dashTimeLeft > 0 && playerFaceRight)
@@ -334,7 +356,7 @@ public class PlayerMovement : MonoBehaviour
     //Lets the player slide down the wall faster when pushing slide button.
     private void FastWallSlide()
     {
-        if(isWallSliding && Input.GetAxis("Vertical") < 0)
+        if(isWallSliding && Input.GetAxis("Vertical") < 0 && Input.GetButton("FastRun"))
         {
             wallSlidingSpeed = maxWallSlideSpeed;
         }
@@ -349,7 +371,6 @@ public class PlayerMovement : MonoBehaviour
     }
 
   
-
     private void FastRun()
     {
         if (Input.GetButton("FastRun") && canFastRun && (movementDirection > 0 || movementDirection < 0))
@@ -359,7 +380,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            movementSpeed = 13.5f;
+            movementSpeed = 13f;
         }
     }
 
@@ -397,8 +418,8 @@ public class PlayerMovement : MonoBehaviour
     //Turns character
     private void TurnCharacterDirection()
     {
-            playerFaceRight = !playerFaceRight; //Opposite direction
-            transform.Rotate(0f, 180f, 0f);
+        playerFaceRight = !playerFaceRight; //Opposite direction
+        transform.Rotate(0f, 180f, 0f);
     }
 
     //Getters
