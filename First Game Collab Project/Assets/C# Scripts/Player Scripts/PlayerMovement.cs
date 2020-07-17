@@ -48,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
     public float checkRadius;
     private bool playerFaceRight = true;
     private bool isJumping = false;
+    private bool isWallJumping = false;
     private bool isGrounded;
     private bool isTouchingWall;
     private bool isWallSliding;
@@ -84,7 +85,6 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         jumpCount = maxJumpCount;
-
     }
 
     // Update is called once per frame(updates every frame so if 60fps update runs 60 times per second)
@@ -126,7 +126,7 @@ public class PlayerMovement : MonoBehaviour
     {
         // Draw a yellow sphere at the transform's position
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(groundCheck.position, checkRadius);
+        Gizmos.DrawWireSphere(groundCheck.position, checkRadius);
     }
 
 
@@ -165,7 +165,6 @@ public class PlayerMovement : MonoBehaviour
         {
             pressedJumpRemember = pressedJumpTime;
             isJumping = true;
-
         }
 
         if ((pressedJumpRemember > 0) && jumpCount > 0)
@@ -359,7 +358,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            movementSpeed = 13.5f;
+            movementSpeed = 13f;
         }
     }
 
@@ -397,8 +396,8 @@ public class PlayerMovement : MonoBehaviour
     //Turns character
     private void TurnCharacterDirection()
     {
-            playerFaceRight = !playerFaceRight; //Opposite direction
-            transform.Rotate(0f, 180f, 0f);
+        playerFaceRight = !playerFaceRight; //Opposite direction
+        transform.Rotate(0f, 180f, 0f);
     }
 
     //Getters
