@@ -15783,8 +15783,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57ff6e37d8d190c4e9b8ab0d02602077, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  crateChunkParticle: {fileID: 0}
-  crateDustParticle: {fileID: 0}
+  crateChunkParticle: {fileID: 3156617957552640249, guid: d1cb66a89d6134f4c9fc6db1068f13e9,
+    type: 3}
+  crateDustParticle: {fileID: 7025119648989236515, guid: fa0a23ea36829b84e8b3fd917c7b55cd,
+    type: 3}
   health: 100
 --- !u!212 &194822713
 SpriteRenderer:
@@ -22126,8 +22128,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57ff6e37d8d190c4e9b8ab0d02602077, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  crateChunkParticle: {fileID: 0}
-  crateDustParticle: {fileID: 0}
+  crateChunkParticle: {fileID: 3156617957552640249, guid: d1cb66a89d6134f4c9fc6db1068f13e9,
+    type: 3}
+  crateDustParticle: {fileID: 7025119648989236515, guid: fa0a23ea36829b84e8b3fd917c7b55cd,
+    type: 3}
   health: 100
 --- !u!212 &320278277
 SpriteRenderer:
@@ -24661,8 +24665,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57ff6e37d8d190c4e9b8ab0d02602077, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  crateChunkParticle: {fileID: 0}
-  crateDustParticle: {fileID: 0}
+  crateChunkParticle: {fileID: 3156617957552640249, guid: d1cb66a89d6134f4c9fc6db1068f13e9,
+    type: 3}
+  crateDustParticle: {fileID: 7025119648989236515, guid: fa0a23ea36829b84e8b3fd917c7b55cd,
+    type: 3}
   health: 100
 --- !u!212 &354184453
 SpriteRenderer:
@@ -42616,8 +42622,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57ff6e37d8d190c4e9b8ab0d02602077, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  crateChunkParticle: {fileID: 0}
-  crateDustParticle: {fileID: 0}
+  crateChunkParticle: {fileID: 3156617957552640249, guid: d1cb66a89d6134f4c9fc6db1068f13e9,
+    type: 3}
+  crateDustParticle: {fileID: 7025119648989236515, guid: fa0a23ea36829b84e8b3fd917c7b55cd,
+    type: 3}
   health: 100
 --- !u!212 &727774933
 SpriteRenderer:
@@ -45794,8 +45802,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57ff6e37d8d190c4e9b8ab0d02602077, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  crateChunkParticle: {fileID: 0}
-  crateDustParticle: {fileID: 0}
+  crateChunkParticle: {fileID: 3156617957552640249, guid: d1cb66a89d6134f4c9fc6db1068f13e9,
+    type: 3}
+  crateDustParticle: {fileID: 7025119648989236515, guid: fa0a23ea36829b84e8b3fd917c7b55cd,
+    type: 3}
   health: 100
 --- !u!212 &801170111
 SpriteRenderer:
@@ -54326,8 +54336,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57ff6e37d8d190c4e9b8ab0d02602077, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  crateChunkParticle: {fileID: 0}
-  crateDustParticle: {fileID: 0}
+  crateChunkParticle: {fileID: 3156617957552640249, guid: d1cb66a89d6134f4c9fc6db1068f13e9,
+    type: 3}
+  crateDustParticle: {fileID: 7025119648989236515, guid: fa0a23ea36829b84e8b3fd917c7b55cd,
+    type: 3}
   health: 100
 --- !u!212 &936936131
 SpriteRenderer:
@@ -120369,8 +120381,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57ff6e37d8d190c4e9b8ab0d02602077, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  crateChunkParticle: {fileID: 0}
-  crateDustParticle: {fileID: 0}
+  crateChunkParticle: {fileID: 3156617957552640249, guid: d1cb66a89d6134f4c9fc6db1068f13e9,
+    type: 3}
+  crateDustParticle: {fileID: 7025119648989236515, guid: fa0a23ea36829b84e8b3fd917c7b55cd,
+    type: 3}
   health: 100
 --- !u!212 &1742031974
 SpriteRenderer:
@@ -132861,8 +132875,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57ff6e37d8d190c4e9b8ab0d02602077, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  crateChunkParticle: {fileID: 0}
-  crateDustParticle: {fileID: 0}
+  crateChunkParticle: {fileID: 3156617957552640249, guid: d1cb66a89d6134f4c9fc6db1068f13e9,
+    type: 3}
+  crateDustParticle: {fileID: 7025119648989236515, guid: fa0a23ea36829b84e8b3fd917c7b55cd,
+    type: 3}
   health: 100
 --- !u!212 &1962853239
 SpriteRenderer:
@@ -144204,8 +144220,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57ff6e37d8d190c4e9b8ab0d02602077, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  crateChunkParticle: {fileID: 0}
-  crateDustParticle: {fileID: 0}
+  crateChunkParticle: {fileID: 3156617957552640249, guid: d1cb66a89d6134f4c9fc6db1068f13e9,
+    type: 3}
+  crateDustParticle: {fileID: 7025119648989236515, guid: fa0a23ea36829b84e8b3fd917c7b55cd,
+    type: 3}
   health: 100
 --- !u!212 &2080971799
 SpriteRenderer:
