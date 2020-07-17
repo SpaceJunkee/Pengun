@@ -229,6 +229,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void CheckDash()
     {
+ 
         if (isDashing)
         {
             if (dashTimeLeft > 0 && playerFaceRight)
