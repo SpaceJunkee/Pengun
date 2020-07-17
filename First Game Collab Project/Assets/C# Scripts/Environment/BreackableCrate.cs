@@ -6,18 +6,12 @@ using UnityEngine;
 public class BreackableCrate : MonoBehaviour
 {
 
-    private ParticleSystem particle;
-    private SpriteRenderer spriteRend;
-    private BoxCollider2D boxCollider;
+    [SerializeField]
+    protected GameObject
+        crateChunkParticle,
+        crateDustParticle;
 
     public int health = 50;
-
-    private void Awake()
-    {
-        particle = GetComponentInChildren<ParticleSystem>();
-        spriteRend = GetComponent<SpriteRenderer>();
-        boxCollider = GetComponent<BoxCollider2D>();
-    }
 
 
     //Enemy to take damage
@@ -27,18 +21,14 @@ public class BreackableCrate : MonoBehaviour
 
         if (health <= 0)
         {
-            StartCoroutine(BreakUp());
+            BreakCrate();
         }
     }
 
-    private IEnumerator BreakUp()
+    private void BreakCrate()
     {
-        particle.Play();
-
-        spriteRend.enabled = false;
-        boxCollider.enabled = false;
-
-        yield return new WaitForSeconds(particle.main.startLifetime.constantMax);
+        Instantiate(crateChunkParticle, gameObject.transform.position, crateChunkParticle.transform.rotation);
+        Instantiate(crateDustParticle, gameObject.transform.position, crateDustParticle.transform.rotation);
         Destroy(gameObject);
     }
 

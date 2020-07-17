@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Slide
+  - Enemy
+  - Basic
   layers:
   - Default
   - TransparentFX
