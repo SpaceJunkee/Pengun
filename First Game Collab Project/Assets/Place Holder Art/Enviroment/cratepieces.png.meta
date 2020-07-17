@@ -5,6 +5,9 @@ TextureImporter:
   - first:
       213: 6275658229489833335
     second: cratepieces_0
+  - first:
+      213: 1960116004094541786
+    second: cratepieces_1
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -93,12 +96,12 @@ TextureImporter:
       name: cratepieces_0
       rect:
         serializedVersion: 2
-        x: 230
-        y: 286
+        x: 231
+        y: 285
         width: 138
         height: 44
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -106,6 +109,27 @@ TextureImporter:
       bones: []
       spriteID: 7759f7ce8ed971750800000000000000
       internalID: 6275658229489833335
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cratepieces_1
+      rect:
+        serializedVersion: 2
+        x: 230
+        y: 329
+        width: 1
+        height: 1
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: adffc9ede1bb33b10800000000000000
+      internalID: 1960116004094541786
       vertices: []
       indices: 
       edges: []

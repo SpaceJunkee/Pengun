@@ -27,19 +27,16 @@ public class MachineGunBullets : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        GameObject enemyFound = collision.gameObject;
-        BreackableCrate crate = collision.GetComponent<BreackableCrate>();
-
-        Debug.Log(collision.gameObject.name + " : " + gameObject.name + " : " + Time.time);
+        GameObject collisonObject = collision.gameObject;
 
         if (collision.gameObject.name == "Basic")
         {
-            enemyFound.GetComponentInParent<BasicEnemy>().TakeDamage(bulletDamage);
+            collisonObject.GetComponentInParent<BasicEnemy>().TakeDamage(bulletDamage);
         }
 
-        if (crate != null)
+        if (collision.gameObject.name == "Crate") ;
         {
-            crate.TakeDamage(bulletDamage);
+            collisonObject.GetComponent<Crate>().BreakCrate();
         }
 
         destroyBullet();
