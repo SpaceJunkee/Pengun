@@ -48,7 +48,6 @@ public class PlayerMovement : MonoBehaviour
     public float checkRadius;
     private bool playerFaceRight = true;
     private bool isJumping = false;
-    private bool isWallJumping = false;
     private bool isGrounded;
     private bool isTouchingWall;
     private bool isWallSliding;
@@ -62,6 +61,8 @@ public class PlayerMovement : MonoBehaviour
     public float hopSpeed;
 
     //Dashing
+    public int dashCount;
+    public int maxDashInAir = 1;
     public float dashTime;
     public float dashSpeed;
     public float distanceBetweenImages;
@@ -85,6 +86,7 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         jumpCount = maxJumpCount;
+        dashCount = maxDashInAir;
     }
 
     // Update is called once per frame(updates every frame so if 60fps update runs 60 times per second)
@@ -93,7 +95,7 @@ public class PlayerMovement : MonoBehaviour
         ProcessInputs();
 
         FastWallSlide();
-
+   
         FlipCharDirection();
 
         CheckIfWallSliding();
@@ -218,17 +220,38 @@ public class PlayerMovement : MonoBehaviour
 
     private void AttemptDash()
     {
-        isDashing = true;
-        dashTimeLeft = dashTime;
-        lastDash = Time.time;
 
-        AfterImagePool.Instance.GetFromPool();
-        lastImageXpos = transform.position.x;
+        if (!isGrounded && dashCount != 0)
+        {
+            isDashing = true;
+            dashTimeLeft = dashTime;
+            lastDash = Time.time;
+
+            AfterImagePool.Instance.GetFromPool();
+            lastImageXpos = transform.position.x;
+
+            dashCount = 0;
+        }
+        else if(isGrounded && !isTouchingWall)
+        {
+            isDashing = true;
+            dashTimeLeft = dashTime;
+            lastDash = Time.time;
+
+            AfterImagePool.Instance.GetFromPool();
+            lastImageXpos = transform.position.x;
+
+        }
+        
     }
 
     private void CheckDash()
     {
- 
+        if(isGrounded || isWallSliding)
+        {
+            dashCount = 1;
+        }
+
         if (isDashing)
         {
             if (dashTimeLeft > 0 && playerFaceRight)
@@ -333,7 +356,7 @@ public class PlayerMovement : MonoBehaviour
     //Lets the player slide down the wall faster when pushing slide button.
     private void FastWallSlide()
     {
-        if(isWallSliding && Input.GetAxis("Vertical") < 0)
+        if(isWallSliding && Input.GetAxis("Vertical") < 0 && Input.GetButton("FastRun"))
         {
             wallSlidingSpeed = maxWallSlideSpeed;
         }
@@ -348,7 +371,6 @@ public class PlayerMovement : MonoBehaviour
     }
 
   
-
     private void FastRun()
     {
         if (Input.GetButton("FastRun") && canFastRun && (movementDirection > 0 || movementDirection < 0))
