@@ -68545,6 +68545,8 @@ MonoBehaviour:
   wallSlidingSpeed: 1.5
   maxWallSlideSpeed: 15
   hopSpeed: 1000
+  dashCount: 0
+  maxDashInAir: 1
   dashTime: 0.2
   dashSpeed: 1250
   distanceBetweenImages: 4
@@ -93633,7 +93635,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1443417454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93648,8 +93650,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   detectionRayLength: 10
-  deathChunkParticle: {fileID: 0}
-  deathBloodParticle: {fileID: 0}
+  deathChunkParticle: {fileID: 971292390820401973, guid: b17e1d53000441e4dbe033806e1e420e,
+    type: 3}
+  deathBloodParticle: {fileID: 4395469947336070784, guid: 0d8eea9441dcb8a47804466b8f3a59e8,
+    type: 3}
   bulletPrefab: {fileID: 3322634179809757461, guid: 3730523821e8e994b8976cf090f6a361,
     type: 3}
   shootPosition: {fileID: 708443581}
