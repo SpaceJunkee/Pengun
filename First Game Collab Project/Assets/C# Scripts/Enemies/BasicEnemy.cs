@@ -84,8 +84,9 @@ public class BasicEnemy : Enemy
 
     protected override void EnterDeadState()
     {
-        Instantiate(deathChunkParticle, gameObject.transform.position, deathChunkParticle.transform.rotation);
-        Instantiate(deathBloodParticle, gameObject.transform.position, deathBloodParticle.transform.rotation);
+        Debug.Log("Entered function");
+        Instantiate(deathChunkParticle, enemy.transform.position, deathChunkParticle.transform.rotation);
+        Instantiate(deathBloodParticle, enemy.transform.position, deathBloodParticle.transform.rotation);
         Destroy(gameObject);
     }
 

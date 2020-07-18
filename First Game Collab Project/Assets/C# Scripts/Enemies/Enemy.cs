@@ -211,6 +211,8 @@ public abstract class Enemy : MonoBehaviour
     {
         currentHealth -= damage;
 
+        Debug.Log(currentHealth);
+
         if(currentHealth <= 0)
         {
             EnterDeadState();
