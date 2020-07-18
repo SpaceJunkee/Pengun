@@ -23,7 +23,7 @@ public class Bullet : MonoBehaviour
 
     protected void OnTriggerEnter2D(Collider2D collision)
     {
-        EnemyScript1 enemy = collision.GetComponent<EnemyScript1>();
+        BasicEnemy enemy = collision.GetComponentInParent<BasicEnemy>();
         BreackableCrate crate = collision.GetComponent<BreackableCrate>();
 
         if (enemy != null)
