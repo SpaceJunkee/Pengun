@@ -52,6 +52,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isTouchingWall;
     private bool isWallSliding;
     private bool isDashing;
+    public static bool canMove = true;
 
 
     //Wall sliding and jumping
@@ -92,8 +93,11 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame(updates every frame so if 60fps update runs 60 times per second)
     void Update()
     {
-        ProcessInputs();
-
+        if (canMove)
+        {
+            ProcessInputs();
+        }
+        
         FastWallSlide();
    
         FlipCharDirection();
@@ -122,7 +126,11 @@ public class PlayerMovement : MonoBehaviour
 
         FastRun();
 
-        Move();
+        if (canMove)
+        {
+            Move();
+        }
+        
     }
     void OnDrawGizmosSelected()
     {
@@ -198,24 +206,23 @@ public class PlayerMovement : MonoBehaviour
     //Moves Character 
     private void Move()
     {
-        //Moves player in the y axis * the movement speed
-        if (!isWallSliding)
-        {
-             rigidbody.velocity = new Vector2(movementDirection * movementSpeed, rigidbody.velocity.y);
-        }
-
-        //Set down velocity for wall sliding
-        if (isWallSliding)
-        {
-            if (rigidbody.velocity.y < -wallSlidingSpeed)
+            //Moves player in the y axis * the movement speed
+            if (!isWallSliding)
             {
-                rigidbody.velocity = new Vector2(rigidbody.velocity.x, -wallSlidingSpeed);
+                rigidbody.velocity = new Vector2(movementDirection * movementSpeed, rigidbody.velocity.y);
             }
-        }
 
-        //Jumping
-        Jump();
+            //Set down velocity for wall sliding
+            if (isWallSliding)
+            {
+                if (rigidbody.velocity.y < -wallSlidingSpeed)
+                {
+                    rigidbody.velocity = new Vector2(rigidbody.velocity.x, -wallSlidingSpeed);
+                }
+            }
 
+            //Jumping
+            Jump();
     }
 
     private void AttemptDash()
