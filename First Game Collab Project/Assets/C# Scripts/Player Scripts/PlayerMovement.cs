@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UIElements;
 
 public class PlayerMovement : MonoBehaviour
@@ -60,6 +61,8 @@ public class PlayerMovement : MonoBehaviour
     public float wallSlidingSpeed;
     public float maxWallSlideSpeed;
     public float hopSpeed;
+    public float wallClimbStamina;
+    public float originalWallClimbStamina = 30f;
 
     //Dashing
     public int dashCount;
@@ -97,8 +100,6 @@ public class PlayerMovement : MonoBehaviour
         {
             ProcessInputs();
         }
-        
-        FastWallSlide();
    
         FlipCharDirection();
 
@@ -339,42 +340,57 @@ public class PlayerMovement : MonoBehaviour
         if(isTouchingWall && !isGrounded && rigidbody.velocity.y < 0)
         {
             isWallSliding = true;
+            wallSlidingSpeed = -2f;
+            wallClimbStamina--; 
             
         }
         else if(isTouchingWall && !isGrounded && rigidbody.velocity.y > 0)
         {
             isWallSliding = true;
+            wallSlidingSpeed = -2f;
+            wallClimbStamina--;
+
+        }
+        else
+        {
+            isWallSliding = false;
+
+        }
+
+        
+
+        if (isWallSliding && (movementDirection < 0 || movementDirection > 0) && Input.GetButtonDown("Jump"))
+        {
+            isWallSliding = false;
+        }
+
+        if(isWallSliding && Input.GetButtonDown("Jump"))
+        {
+            wallClimbStamina = originalWallClimbStamina + 7f;
+        }
+
+        if (wallClimbStamina < 0)
+        {
+            //Fast wall slide
+            if (isWallSliding && Input.GetAxis("Vertical") < 0)
+            {
+                wallSlidingSpeed = maxWallSlideSpeed;
+            }
+            else
+            {
+                wallSlidingSpeed = 3.5f;
+            }
+            
             
         }
-        else
-        {
-            isWallSliding = false;
 
-        }
-
-        if(isWallSliding && (movementDirection < 0 || movementDirection > 0) && Input.GetButtonDown("Jump"))
+        if (isGrounded || !isWallSliding)
         {
-            isWallSliding = false;
+            wallClimbStamina = originalWallClimbStamina;
         }
 
-       
-    }
 
-    //Lets the player slide down the wall faster when pushing slide button.
-    private void FastWallSlide()
-    {
-        if(isWallSliding && Input.GetAxis("Vertical") < 0 && Input.GetButton("FastRun"))
-        {
-            wallSlidingSpeed = maxWallSlideSpeed;
-        }
-        else if (isGrounded ||isJumping)
-        {
-            wallSlidingSpeed = 0.7f;
-        }
-        else
-        {
-            wallSlidingSpeed = 0.7f;
-        }
+
     }
 
   
@@ -382,12 +398,11 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetButton("FastRun") && canFastRun && (movementDirection > 0 || movementDirection < 0))
         {
-            movementSpeed = 16;
-            
+            movementSpeed = 16;      
         }
         else
         {
-            movementSpeed = 13f;
+            movementSpeed = 10f;
         }
     }
 
