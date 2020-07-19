@@ -369,7 +369,7 @@ public class PlayerMovement : MonoBehaviour
             wallClimbStamina = originalWallClimbStamina + 7f;
         }
 
-        if (wallClimbStamina < 0)
+        if (wallClimbStamina <= 0)
         {
             //Fast wall slide
             if (isWallSliding && Input.GetAxis("Vertical") < 0)
@@ -380,8 +380,10 @@ public class PlayerMovement : MonoBehaviour
             {
                 wallSlidingSpeed = 3.5f;
             }
-            
-            
+                
+        }else if(wallClimbStamina >= 0 && Input.GetAxis("Vertical") < 0)
+        {
+            wallSlidingSpeed = maxWallSlideSpeed;
         }
 
         if (isGrounded || !isWallSliding)
