@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 483066924957834200}
   - component: {fileID: 483066924957834203}
   m_Layer: 11
-  m_Name: PistolBullet 1 1
-  m_TagString: Untagged
+  m_Name: PistolBullet
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -119,10 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 285c2add1d69f2e4198afab4e6f4019c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 50
-  lifeTimeOfBullet: 0.6
   rigidBody: {fileID: 483066924957834201}
-  bulletDamage: 100
 --- !u!58 &483066924957834203
 CircleCollider2D:
   m_ObjectHideFlags: 0

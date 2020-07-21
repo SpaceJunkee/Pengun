@@ -23,8 +23,6 @@ public class FallingPlatform : MonoBehaviour
             gate.transform.Translate(Vector3.down * 14f, Space.World);
             Invoke("DropPlatform", 0.7f);
             Destroy(gameObject, 2.45f);
-
-
         }
     }
 
