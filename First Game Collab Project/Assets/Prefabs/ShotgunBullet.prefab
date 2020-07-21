@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8947810451266732599}
   m_Layer: 11
   m_Name: ShotgunBullet
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -133,7 +133,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3cb4080038d75f4fbfc2599a082721e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 65
-  lifeTimeOfBullet: 0.25
   rigidBody: {fileID: 6735160194287219119}
-  bulletDamage: 40

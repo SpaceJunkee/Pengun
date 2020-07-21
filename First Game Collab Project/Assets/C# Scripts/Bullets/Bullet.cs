@@ -25,6 +25,7 @@ public class Bullet : MonoBehaviour
     {
         BasicEnemy enemy = collision.GetComponentInParent<BasicEnemy>();
         BreackableCrate crate = collision.GetComponent<BreackableCrate>();
+        Button button = collision.GetComponent<Button>();
 
         if (enemy != null)
         {
@@ -34,6 +35,11 @@ public class Bullet : MonoBehaviour
         if (crate != null)
         {
             crate.TakeDamage(bulletDamage);
+        }
+
+        if(button != null)
+        {
+            button.ButtonPressed();
         }
 
         destroyBullet();

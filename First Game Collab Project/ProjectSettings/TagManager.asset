@@ -7,6 +7,7 @@ TagManager:
   - Slide
   - Enemy
   - Basic
+  - Bullet
   layers:
   - Default
   - TransparentFX
@@ -25,7 +26,7 @@ TagManager:
   - Crate
   - NonClimbingWall
   - SlidingSlope
-  - 
+  - Button
   - 
   - 
   - 

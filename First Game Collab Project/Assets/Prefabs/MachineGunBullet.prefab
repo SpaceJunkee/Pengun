@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4199955482527388809}
   m_Layer: 11
   m_Name: MachineGunBullet
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -133,7 +133,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c39585bc122f564fa2e4d8443bf0ad3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 50
-  lifeTimeOfBullet: 0.5
   rigidBody: {fileID: 7312425768170839199}
-  bulletDamage: 30

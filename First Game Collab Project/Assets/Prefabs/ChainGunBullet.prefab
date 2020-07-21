@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4620204656822486579}
   m_Layer: 11
   m_Name: ChainGunBullet
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -133,7 +133,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1306c98fd6b4834fac178d40c0f294f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 50
-  lifeTimeOfBullet: 0.5
   rigidBody: {fileID: 5348138819086559275}
-  bulletDamage: 15
