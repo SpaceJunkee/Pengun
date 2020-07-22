@@ -20,7 +20,8 @@ public abstract class Enemy : MonoBehaviour
 
     public int 
         maxHealth,
-        detectionRayLength;
+        frontRayLength,
+        behindRayLength;
     
     private float 
         coolDownTime;
@@ -41,7 +42,8 @@ public abstract class Enemy : MonoBehaviour
 
     [SerializeField]
     private Transform
-        shootPosition;
+        shootPosition,
+        behindRayPosition;
     protected GameObject enemy;
     protected Rigidbody2D enemyRb;
     protected Animator enemyAnim;
@@ -129,7 +131,7 @@ public abstract class Enemy : MonoBehaviour
     }
 
     protected virtual void EnterAlertState(){
-        alertTime = 1;
+        alertTime = 0.5f;
     }
     protected virtual void EnterIdleState(){
 
@@ -220,8 +222,8 @@ public abstract class Enemy : MonoBehaviour
     }
     
     protected virtual bool PlayerDetected(){
-        detectionRayLength = 10;
-        RaycastHit2D hit = Physics2D.Raycast(shootPosition.position, Vector2.right * facingDirection, detectionRayLength);
+        frontRayLength = 10;
+        RaycastHit2D hit = Physics2D.Raycast(shootPosition.position, Vector2.right * facingDirection, frontRayLength);
 
         if (hit.collider != null)
         {
@@ -240,7 +242,29 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-     protected void Flip()
+    protected virtual bool PlayerInRange()
+    {
+        behindRayLength = 3;
+        RaycastHit2D hit = Physics2D.Raycast(behindRayPosition.position, Vector2.left * facingDirection, behindRayLength);
+
+        if (hit.collider != null)
+        {
+            if (hit.collider.name == "Player")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    protected void Flip()
     {
         facingDirection *= -1;
         enemy.transform.Rotate(0.0f, 180.0f, 0.0f);
@@ -249,7 +273,8 @@ public abstract class Enemy : MonoBehaviour
 
      protected virtual void OnDrawGizmos()
     {
-        Gizmos.DrawLine(shootPosition.position, new Vector2(shootPosition.position.x + (detectionRayLength * facingDirection), shootPosition.position.y));
+        Gizmos.DrawLine(shootPosition.position, new Vector2(shootPosition.position.x + (frontRayLength * facingDirection), shootPosition.position.y));
+        Gizmos.DrawLine(behindRayPosition.position, new Vector2(behindRayPosition.position.x - (behindRayLength * facingDirection), behindRayPosition.position.y));
     }
     
 }
