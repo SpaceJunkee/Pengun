@@ -45,6 +45,11 @@ public class BasicEnemy : Enemy
         if (PlayerDetected()){
             SwitchState(State.Alert);
         }
+        else if (PlayerInRange())
+        {
+            Flip();
+            SwitchState(State.Alert);
+        }
         else if(!groundDetected || wallDetected || crateDetected)
         {
             SwitchState(State.Idle);

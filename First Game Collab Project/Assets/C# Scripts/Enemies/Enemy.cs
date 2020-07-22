@@ -20,7 +20,8 @@ public abstract class Enemy : MonoBehaviour
 
     public int 
         maxHealth,
-        detectionRayLength;
+        frontRayLength,
+        behindRayLength;
     
     private float 
         coolDownTime;
@@ -41,7 +42,9 @@ public abstract class Enemy : MonoBehaviour
 
     [SerializeField]
     private Transform
-        shootPosition;
+        shootPosition,
+        frontRayPosition,
+        behindRayPosition;
     protected GameObject enemy;
     protected Rigidbody2D enemyRb;
     protected Animator enemyAnim;
@@ -85,20 +88,11 @@ public abstract class Enemy : MonoBehaviour
             case State.Dead:
                 break;
         }
+
     }
 
       protected void SwitchState(State state)
     {
-        switch (currentState)
-        {
-            case State.Move:
-                break;
-            case State.Alert:
-                break;
-            case State.Dead:
-                break;
-        }
-
         switch (state)
         {
            case State.Move:
@@ -129,14 +123,14 @@ public abstract class Enemy : MonoBehaviour
     }
 
     protected virtual void EnterAlertState(){
-        alertTime = 1;
+        alertTime = 0.5f;
     }
     protected virtual void EnterIdleState(){
 
     }
     protected virtual void EnterAttackState(){
         canShoot = true;
-        coolDownTime = 2;
+        coolDownTime = 1;
     }
 
     protected virtual void EnterSearchState(){
@@ -158,23 +152,20 @@ public abstract class Enemy : MonoBehaviour
        
     }
     protected virtual void UpdateAttackState(){
-        if(!PlayerDetected()){
+        if(PlayerDetected()){
+            Shoot();
+        } 
+        else if (PlayerInRange())
+        {
+            Flip();
+            Shoot();
+        }
+        else
+        {
             SwitchState(State.Search);
         }
 
-        if (canShoot)
-        {
-            Instantiate(bulletPrefab, shootPosition.position, shootPosition.rotation);
-            canShoot = false;
-        }
-
-        coolDownTime -= Time.deltaTime;
-
-        if(coolDownTime <= 0)
-        {
-            coolDownTime = 2;
-            canShoot = true;
-        }
+        
     }
 
     protected virtual void UpdateSearchState(){
@@ -220,8 +211,8 @@ public abstract class Enemy : MonoBehaviour
     }
     
     protected virtual bool PlayerDetected(){
-        detectionRayLength = 10;
-        RaycastHit2D hit = Physics2D.Raycast(shootPosition.position, Vector2.right * facingDirection, detectionRayLength);
+        frontRayLength = 10;
+        RaycastHit2D hit = Physics2D.Raycast(frontRayPosition.position, Vector2.right * facingDirection, frontRayLength);
 
         if (hit.collider != null)
         {
@@ -240,16 +231,57 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
-     protected void Flip()
+    protected virtual bool PlayerInRange()
+    {
+        behindRayLength = 3;
+        RaycastHit2D hit = Physics2D.Raycast(behindRayPosition.position, Vector2.left * facingDirection, behindRayLength);
+
+        if (hit.collider != null)
+        {
+            if (hit.collider.name == "Player")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    protected void Flip()
     {
         facingDirection *= -1;
         enemy.transform.Rotate(0.0f, 180.0f, 0.0f);
 
     }
 
+    protected void Shoot()
+    {
+        if (canShoot)
+        {
+            Instantiate(bulletPrefab, shootPosition.position, shootPosition.rotation);
+            canShoot = false;
+        }
+
+        coolDownTime -= Time.deltaTime;
+        Debug.Log(coolDownTime);
+
+        if (coolDownTime <= 0)
+        {
+            coolDownTime = 2;
+            canShoot = true;
+        }
+    }
+
      protected virtual void OnDrawGizmos()
     {
-        Gizmos.DrawLine(shootPosition.position, new Vector2(shootPosition.position.x + (detectionRayLength * facingDirection), shootPosition.position.y));
+        Gizmos.DrawLine(shootPosition.position, new Vector2(shootPosition.position.x + (frontRayLength * facingDirection), shootPosition.position.y));
+        Gizmos.DrawLine(behindRayPosition.position, new Vector2(behindRayPosition.position.x - (behindRayLength * facingDirection), behindRayPosition.position.y));
     }
     
 }
