@@ -43,6 +43,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField]
     private Transform
         shootPosition,
+        frontRayPosition,
         behindRayPosition;
     protected GameObject enemy;
     protected Rigidbody2D enemyRb;
@@ -87,20 +88,11 @@ public abstract class Enemy : MonoBehaviour
             case State.Dead:
                 break;
         }
+
     }
 
       protected void SwitchState(State state)
     {
-        switch (currentState)
-        {
-            case State.Move:
-                break;
-            case State.Alert:
-                break;
-            case State.Dead:
-                break;
-        }
-
         switch (state)
         {
            case State.Move:
@@ -138,7 +130,7 @@ public abstract class Enemy : MonoBehaviour
     }
     protected virtual void EnterAttackState(){
         canShoot = true;
-        coolDownTime = 2;
+        coolDownTime = 1;
     }
 
     protected virtual void EnterSearchState(){
@@ -160,23 +152,20 @@ public abstract class Enemy : MonoBehaviour
        
     }
     protected virtual void UpdateAttackState(){
-        if(!PlayerDetected()){
+        if(PlayerDetected()){
+            Shoot();
+        } 
+        else if (PlayerInRange())
+        {
+            Flip();
+            Shoot();
+        }
+        else
+        {
             SwitchState(State.Search);
         }
 
-        if (canShoot)
-        {
-            Instantiate(bulletPrefab, shootPosition.position, shootPosition.rotation);
-            canShoot = false;
-        }
-
-        coolDownTime -= Time.deltaTime;
-
-        if(coolDownTime <= 0)
-        {
-            coolDownTime = 2;
-            canShoot = true;
-        }
+        
     }
 
     protected virtual void UpdateSearchState(){
@@ -223,7 +212,7 @@ public abstract class Enemy : MonoBehaviour
     
     protected virtual bool PlayerDetected(){
         frontRayLength = 10;
-        RaycastHit2D hit = Physics2D.Raycast(shootPosition.position, Vector2.right * facingDirection, frontRayLength);
+        RaycastHit2D hit = Physics2D.Raycast(frontRayPosition.position, Vector2.right * facingDirection, frontRayLength);
 
         if (hit.collider != null)
         {
@@ -269,6 +258,24 @@ public abstract class Enemy : MonoBehaviour
         facingDirection *= -1;
         enemy.transform.Rotate(0.0f, 180.0f, 0.0f);
 
+    }
+
+    protected void Shoot()
+    {
+        if (canShoot)
+        {
+            Instantiate(bulletPrefab, shootPosition.position, shootPosition.rotation);
+            canShoot = false;
+        }
+
+        coolDownTime -= Time.deltaTime;
+        Debug.Log(coolDownTime);
+
+        if (coolDownTime <= 0)
+        {
+            coolDownTime = 2;
+            canShoot = true;
+        }
     }
 
      protected virtual void OnDrawGizmos()
