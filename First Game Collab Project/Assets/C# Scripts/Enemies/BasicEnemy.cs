@@ -66,11 +66,23 @@ public class BasicEnemy : Enemy
         idleTime = 2;
     }
     protected override void UpdateIdleState(){
-        idleTime -= Time.deltaTime;
 
-        if(idleTime < 0){
+        if (PlayerDetected())
+        {
+            SwitchState(State.Alert);
+        }
+        else if (PlayerInRange())
+        {
+            Flip();
+            SwitchState(State.Alert);
+        }
+        else if (idleTime < 0){
             Flip();
             SwitchState(State.Move);
+        }
+        else
+        {
+            idleTime -= Time.deltaTime;
         }
     }
 
@@ -78,10 +90,15 @@ public class BasicEnemy : Enemy
          alertTime -= Time.deltaTime;
 
         if(alertTime < 0){
-            if(PlayerDetected()){
+            if(PlayerDetected() || PlayerInRange()){
                 SwitchState(State.Attack);
             }
-            else{
+            else if (!groundDetected || wallDetected || crateDetected)
+            {
+                SwitchState(State.Idle);
+            }
+            else
+            {
                 SwitchState(State.Move);
             }
         }
