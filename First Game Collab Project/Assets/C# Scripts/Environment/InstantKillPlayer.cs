@@ -25,6 +25,11 @@ public class InstantKillPlayer : MonoBehaviour
             EndGame();
             
         }
+        else if (collision.CompareTag("Basic"))
+        {
+            Destroy(collision.gameObject);
+
+        }
     }
 
     public void EndGame()
