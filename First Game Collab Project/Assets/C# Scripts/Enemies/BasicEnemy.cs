@@ -14,6 +14,7 @@ public class BasicEnemy : Enemy
         groundCheckDistance,
         wallCheckDistance,
         movementSpeed,
+        chaseSpeed,
         idleTime;
 
     [SerializeField]
@@ -66,11 +67,23 @@ public class BasicEnemy : Enemy
         idleTime = 2;
     }
     protected override void UpdateIdleState(){
-        idleTime -= Time.deltaTime;
 
-        if(idleTime < 0){
+        if (PlayerDetected())
+        {
+            SwitchState(State.Alert);
+        }
+        else if (PlayerInRange())
+        {
+            Flip();
+            SwitchState(State.Alert);
+        }
+        else if (idleTime < 0){
             Flip();
             SwitchState(State.Move);
+        }
+        else
+        {
+            idleTime -= Time.deltaTime;
         }
     }
 
@@ -78,21 +91,53 @@ public class BasicEnemy : Enemy
          alertTime -= Time.deltaTime;
 
         if(alertTime < 0){
-            if(PlayerDetected()){
+            if(PlayerDetected() || PlayerInRange()){
                 SwitchState(State.Attack);
             }
-            else{
+            else if (!groundDetected || wallDetected || crateDetected)
+            {
+                SwitchState(State.Idle);
+            }
+            else
+            {
                 SwitchState(State.Move);
             }
         }
     }
 
+    protected override void UpdateAttackState()
+    {
+        if(player == null)
+        {
+            SwitchState(State.Move);
+        }
+        else if(enemy == null)
+        {
+            SwitchState(State.Fell);
+        }
+        else
+        {
+            Shoot();
+
+            if (enemy.transform.position.x < player.transform.position.x && facingDirection < 0 || enemy.transform.position.x > player.transform.position.x && facingDirection > 0)
+            {
+                Flip();
+            }
+            else if (enemy.transform.position.x > player.transform.position.x)
+            {
+                facingDirection = -1;
+            }
+
+            movement.Set(chaseSpeed * facingDirection, enemyRb.velocity.y);
+            enemyRb.velocity = movement;
+        }
+    }
+
     protected override void EnterDeadState()
     {
-        Debug.Log("Entered function");
         Instantiate(deathChunkParticle, enemy.transform.position, deathChunkParticle.transform.rotation);
         Instantiate(deathBloodParticle, enemy.transform.position, deathBloodParticle.transform.rotation);
-        Destroy(gameObject);
+        Destroy(enemy);
     }
 
     protected override void OnDrawGizmos()

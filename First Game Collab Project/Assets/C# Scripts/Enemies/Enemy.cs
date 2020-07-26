@@ -12,6 +12,7 @@ public abstract class Enemy : MonoBehaviour
         Attack,
         Search,
         Stun,
+        Fell,
         Dead
     }
     private bool 
@@ -34,18 +35,20 @@ public abstract class Enemy : MonoBehaviour
 
     private State currentState;
 
-     [SerializeField]
+    [SerializeField]
     protected GameObject
-        deathChunkParticle,
-        deathBloodParticle,
-        bulletPrefab;
+       deathChunkParticle,
+       deathBloodParticle,
+       bulletPrefab;
 
     [SerializeField]
     private Transform
         shootPosition,
         frontRayPosition,
         behindRayPosition;
-    protected GameObject enemy;
+    protected GameObject 
+        enemy,
+        player;
     protected Rigidbody2D enemyRb;
     protected Animator enemyAnim;
 
@@ -53,6 +56,8 @@ public abstract class Enemy : MonoBehaviour
         enemy = transform.Find(tagName).gameObject;
         enemyRb = enemy.GetComponent<Rigidbody2D>();
         enemyAnim = enemy.GetComponent<Animator>();
+
+        player = GameObject.Find("Player").gameObject;
 
         currentHealth = maxHealth;
         facingDirection = 1;
@@ -79,11 +84,10 @@ public abstract class Enemy : MonoBehaviour
             case State.Attack:
                 UpdateAttackState();
                 break;
-            case State.Search:
-                UpdateSearchState();
-                break;
             case State.Stun:
                 UpdateStunState();
+                break;
+            case State.Fell:
                 break;
             case State.Dead:
                 break;
@@ -106,12 +110,14 @@ public abstract class Enemy : MonoBehaviour
             case State.Attack:
                 EnterAttackState();
                 break;
-            case State.Search:
-                EnterSearchState();
-                break;
             case State.Stun:
+                EnterStunState();
+                break;
+            case State.Fell:
+                EnterFellState();
                 break;
             case State.Dead:
+                EnterDeadState();
                 break;
         }
 
@@ -133,10 +139,16 @@ public abstract class Enemy : MonoBehaviour
         coolDownTime = 1;
     }
 
-    protected virtual void EnterSearchState(){
-        searchTime = 4;
-        canFlip = true;
+    protected virtual void EnterStunState()
+    {
+
     }
+
+    protected virtual void EnterFellState()
+    {
+        Destroy(enemy);
+    }
+
     protected virtual void EnterDeadState(){
 
     }
@@ -151,38 +163,9 @@ public abstract class Enemy : MonoBehaviour
     protected virtual void UpdateAlertState(){
        
     }
+
     protected virtual void UpdateAttackState(){
-        if(PlayerDetected()){
-            Shoot();
-        } 
-        else if (PlayerInRange())
-        {
-            Flip();
-            Shoot();
-        }
-        else
-        {
-            SwitchState(State.Search);
-        }
 
-        
-    }
-
-    protected virtual void UpdateSearchState(){
-        searchTime -= Time.deltaTime;
-
-        if(PlayerDetected()){
-            SwitchState(State.Attack);
-        }
-
-        if(searchTime < 2 && canFlip){
-            Flip();
-            canFlip = false;
-        }
-
-        if(searchTime < 0){
-            SwitchState(State.Move);
-        }
     }
 
     protected virtual void UpdateStunState(){
@@ -206,7 +189,11 @@ public abstract class Enemy : MonoBehaviour
 
         if(currentHealth <= 0)
         {
-            EnterDeadState();
+            SwitchState(State.Dead);
+        }
+        else if(currentHealth <= 10)
+        {
+            SwitchState(State.Stun);
         }
     }
     
