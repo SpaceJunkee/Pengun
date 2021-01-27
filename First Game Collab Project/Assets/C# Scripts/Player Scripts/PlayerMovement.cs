@@ -52,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isGrounded;
     private bool isTouchingWall;
     private bool isWallSliding;
-    private bool isDashing;
+    public static bool isDashing;
     public static bool canMove = true;
 
 
@@ -77,6 +77,11 @@ public class PlayerMovement : MonoBehaviour
 
     //Fast run
     private bool canFastRun = true;
+    public ParticleSystem speedTrail;
+
+    //Falling
+    public static bool isfalling = false;
+    public float fallingTime = 1;
 
 
 
@@ -100,7 +105,9 @@ public class PlayerMovement : MonoBehaviour
         {
             ProcessInputs();
         }
-   
+
+        CheckIfFalling();
+
         FlipCharDirection();
 
         CheckIfWallSliding();
@@ -253,6 +260,32 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
+    private void CheckIfFalling()
+    {
+        if (!isGrounded && !isJumping && !isWallSliding)
+        {
+            fallingTime -= Time.deltaTime;
+
+            if(fallingTime <= 0.1)
+            {
+                isfalling = true;
+            }
+        }
+
+        if (isGrounded)
+        {
+            fallingTime += 0.4f;
+            fallingTime += Time.deltaTime;
+
+            if(fallingTime >= 0.5)
+            {
+                isfalling = false;
+                fallingTime = 1;
+            }
+            
+        }
+    }
+
     private void CheckDash()
     {
         if(isGrounded || isWallSliding)
@@ -400,11 +433,22 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetButton("FastRun") && canFastRun && (movementDirection > 0 || movementDirection < 0))
         {
-            movementSpeed = 16;      
+            movementSpeed = 16;
+
+            if (isGrounded)
+            {
+                speedTrail.Play();
+            }
+            
         }
         else
         {
             movementSpeed = 13f;
+
+            if (isGrounded)
+            {
+                speedTrail.Stop();
+            }
         }
     }
 
@@ -457,6 +501,11 @@ public class PlayerMovement : MonoBehaviour
         return isGrounded;
     }
 
+    public bool getIsDashing()
+    {
+        return isDashing;
+    }
+
     public bool getIsWallSliding()
     {
         return isWallSliding;
@@ -472,16 +521,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FastRunAnim()
     {
-        animator.SetFloat("MovementSpeed", Mathf.Abs(movementDirection));
-
-        if (Input.GetButton("FastRun") && canFastRun)
-        {
-            animator.SetBool("IsFastButton", true);
-        }
-        else
-        {
-            animator.SetBool("IsFastButton", false);
-        }
+    
     }
 
 }

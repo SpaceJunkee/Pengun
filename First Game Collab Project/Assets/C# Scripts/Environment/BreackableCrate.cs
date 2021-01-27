@@ -13,6 +13,15 @@ public class BreackableCrate : MonoBehaviour
 
     public int health = 50;
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+
+        if (collision.collider.name == "Player" && PlayerMovement.isDashing || collision.collider.name == "Player" && PlayerMovement.isfalling)
+        {
+            BreakCrate();
+        }
+    }
+
 
     //Enemy to take damage
     public void TakeDamage(int damage)
