@@ -18,6 +18,16 @@ public class BreackableCrate : MonoBehaviour
 
         if (collision.collider.name == "Player" && PlayerMovement.isDashing || collision.collider.name == "Player" && PlayerMovement.isfalling)
         {
+            CameraShake.Instance.ShakeCamera(4f, 0.2f);
+            BreakCrate();
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.collider.name == "Player" && PlayerMovement.isDashing || collision.collider.name == "Player" && PlayerMovement.isfalling)
+        {
+            CameraShake.Instance.ShakeCamera(4f, 0.2f);
             BreakCrate();
         }
     }

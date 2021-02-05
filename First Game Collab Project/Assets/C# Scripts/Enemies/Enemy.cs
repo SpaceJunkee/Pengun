@@ -124,6 +124,7 @@ public abstract class Enemy : MonoBehaviour
         currentState = state;
     }
 
+
     public void ExecuteEnemyUpdate(){
         Update();
     }
@@ -185,8 +186,6 @@ public abstract class Enemy : MonoBehaviour
     {
         currentHealth -= damage;
 
-        Debug.Log(currentHealth);
-
         if(currentHealth <= 0)
         {
             SwitchState(State.Dead);
@@ -196,7 +195,17 @@ public abstract class Enemy : MonoBehaviour
             SwitchState(State.Stun);
         }
     }
-    
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.name == "Player" && PlayerMovement.isDashing || collision.collider.name == "Player" && PlayerMovement.isfalling)
+        {
+            Debug.Log("Touching");
+            CameraShake.Instance.ShakeCamera(4f, 0.2f);
+            TakeDamage(100);
+        }
+    }
+
     protected virtual bool PlayerDetected(){
         frontRayLength = 10;
         RaycastHit2D hit = Physics2D.Raycast(frontRayPosition.position, Vector2.right * facingDirection, frontRayLength);
@@ -256,7 +265,6 @@ public abstract class Enemy : MonoBehaviour
         }
 
         coolDownTime -= Time.deltaTime;
-        Debug.Log(coolDownTime);
 
         if (coolDownTime <= 0)
         {

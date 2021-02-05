@@ -133,6 +133,7 @@ public class BasicEnemy : Enemy
         }
     }
 
+
     protected override void EnterDeadState()
     {
         Instantiate(deathChunkParticle, enemy.transform.position, deathChunkParticle.transform.rotation);

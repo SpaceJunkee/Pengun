@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.UIElements;
+using Vector2 = UnityEngine.Vector2;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -23,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator coroutine;
 
     //Animation
-    public Animator animator;
+    //public Animator animator;
 
     //Player speed
     public float movementSpeed = 8f;
@@ -77,7 +79,7 @@ public class PlayerMovement : MonoBehaviour
 
     //Fast run
     private bool canFastRun = true;
-    public ParticleSystem speedTrail;
+    public TrailRenderer speedTrail;
 
     //Falling
     public static bool isfalling = false;
@@ -437,7 +439,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (isGrounded)
             {
-                speedTrail.Play();
+                speedTrail.emitting = true;
             }
             
         }
@@ -447,7 +449,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (isGrounded)
             {
-                speedTrail.Stop();
+                speedTrail.emitting = false;
             }
         }
     }
@@ -516,12 +518,17 @@ public class PlayerMovement : MonoBehaviour
     //Run
     private void RunAnim()
     {
-        animator.SetFloat("MovementSpeed", Mathf.Abs(movementDirection)); 
+        //animator.SetFloat("MovementSpeed", Mathf.Abs(movementDirection)); 
     }
 
     private void FastRunAnim()
     {
     
+    }
+
+    public void StopPlayer()
+    {
+        rigidbody.velocity = Vector2.zero;
     }
 
 }
