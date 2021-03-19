@@ -12,30 +12,40 @@ public class BreackableCrate : MonoBehaviour
         crateDustParticle;
 
     public int health = 50;
+    public bool isBreakable = true;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-
-        if (collision.collider.name == "Player" && PlayerMovement.isDashing || collision.collider.name == "Player" && PlayerMovement.isfalling)
+        if (isBreakable)
         {
-            CameraShake.Instance.ShakeCamera(4f, 0.2f);
-            BreakCrate();
+            if (collision.collider.name == "Player" && PlayerMovement.isDashing || 
+                collision.collider.name == "Player" && PlayerMovement.isfalling)
+            {
+                CameraShake.Instance.ShakeCamera(4f, 0.2f);
+                BreakCrate();
+            }
         }
+        
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.collider.name == "Player" && PlayerMovement.isDashing || collision.collider.name == "Player" && PlayerMovement.isfalling)
+        if (isBreakable)
         {
-            CameraShake.Instance.ShakeCamera(4f, 0.2f);
-            BreakCrate();
+            if (collision.collider.name == "Player" && PlayerMovement.isDashing || collision.collider.name == "Player" && PlayerMovement.isfalling)
+            {
+                CameraShake.Instance.ShakeCamera(4f, 0.2f);
+                BreakCrate();
+            }
         }
+       
     }
 
 
     //Enemy to take damage
     public void TakeDamage(int damage)
     {
+        CameraShake.Instance.ShakeCamera(4f, 0.2f);
         health -= damage;
 
         if (health <= 0)

@@ -11,9 +11,8 @@ public class InstantKillPlayer : MonoBehaviour
     //public int respawn;
 
     private bool isGameEnded = false;
-    public float restartDelay = 0.5f;
-
-  
+    public float restartDelay = 1f;
+    public GameObject playerChunkParticle, playerBloodParticle;
 
     //If object collides with player
     private void OnTriggerEnter2D(Collider2D collision)
@@ -21,14 +20,16 @@ public class InstantKillPlayer : MonoBehaviour
         //If the trap collides with player kill him
         if (collision.CompareTag("Player"))
         {
+           // CameraShake.Instance.ShakeCamera(1f, 0.4f);
+            Instantiate(playerChunkParticle, collision.gameObject.transform.position, playerChunkParticle.transform.rotation);
+            Instantiate(playerBloodParticle, collision.gameObject.transform.position, playerBloodParticle.transform.rotation);
             Destroy(collision.gameObject);
-            EndGame();
+            Invoke("EndGame", 0.3f);
             
         }
         else if (collision.CompareTag("Basic"))
         {
             Destroy(collision.gameObject);
-
         }
     }
 
@@ -40,6 +41,8 @@ public class InstantKillPlayer : MonoBehaviour
             Invoke("Restart", restartDelay);
         }
     }
+
+
 
     private void Restart()
     {

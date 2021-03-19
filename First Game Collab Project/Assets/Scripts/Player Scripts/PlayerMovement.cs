@@ -245,7 +245,6 @@ public class PlayerMovement : MonoBehaviour
     {
         animator.SetTrigger("Parry");
         particleSystem.Play();
-
     }
 
     //Moves Character 
