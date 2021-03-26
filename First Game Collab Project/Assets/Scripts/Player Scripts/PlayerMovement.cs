@@ -414,16 +414,13 @@ public class PlayerMovement : MonoBehaviour
         {
             isWallSliding = true;
             wallSlidingSpeed = -2f;
-            //wallClimbStamina--; 
-            StartCoroutine(StickToWall());
-
+            wallClimbStamina -= Time.deltaTime;
         }
         else if(isTouchingWall && !isGrounded && rigidbody.velocity.y > 0)
         {
             isWallSliding = true;
             wallSlidingSpeed = -2f;
-            //wallClimbStamina--;
-            StartCoroutine(StickToWall());
+            wallClimbStamina -= Time.deltaTime;
 
         }
         else
@@ -440,8 +437,7 @@ public class PlayerMovement : MonoBehaviour
 
         if(isTouchingWall && Input.GetButtonDown("Jump"))
         {
-            StartCoroutine(StickToWall());
-            wallClimbStamina = originalWallClimbStamina + 7f;
+            wallClimbStamina = originalWallClimbStamina;
         }
 
         if (wallClimbStamina <= 0)
@@ -470,15 +466,6 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    IEnumerator StickToWall()
-    {
-        wallSlidingSpeed = -2f;
-        yield return new WaitForSeconds(1);
-        wallClimbStamina = 30;
-        wallClimbStamina--;
-    }
-
-  
     private void FastRun()
     {
         if (Input.GetButton("FastRun") && canFastRun && (movementDirection > 0 || movementDirection < 0))
