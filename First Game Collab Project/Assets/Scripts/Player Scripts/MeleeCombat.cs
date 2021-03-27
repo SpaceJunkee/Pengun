@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MeleeCombat : MonoBehaviour
 {
-    public ParticleSystem meleeSwipe;
     public Transform attackPos;
     public float attackRange = 0.5f;
     public LayerMask enemyLayers;
@@ -20,7 +19,7 @@ public class MeleeCombat : MonoBehaviour
         {
             if (Input.GetButtonDown("Melee"))
             {
-                meleeSwipe.Play();
+                //play anim
                 Attack();
                 meleeCooldown = Time.time + 0.6f / attackRate;
             }
