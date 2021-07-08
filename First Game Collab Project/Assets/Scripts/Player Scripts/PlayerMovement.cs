@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rigidbody;
     private float movementDirection;
     private RigidbodyConstraints2D originalConstraints;
+    public HurtKnockBack hurtKnockBack;
 
     //Timer
     private IEnumerator coroutine;
@@ -54,10 +55,12 @@ public class PlayerMovement : MonoBehaviour
     private bool playerFaceRight = true;
     private bool isJumping = false;
     private bool isGrounded;
+    private bool isStandingOnLava;
     private bool isTouchingWall;
     private bool isWallSliding;
     public static bool isDashing;
     public static bool canMove = true;
+
 
 
     //Wall sliding and jumping
@@ -132,6 +135,7 @@ public class PlayerMovement : MonoBehaviour
 
         //Check if player is standing on the ground
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, groundObjects);
+        isStandingOnLava = hurtKnockBack.getIsStandingOnLava();
 
         //Check if player is touching a wall
         isTouchingWall = Physics2D.Raycast(wallCheck.position, transform.right, wallCheckDistance, wallObjects);
@@ -163,11 +167,11 @@ public class PlayerMovement : MonoBehaviour
 
         movementDirection = Input.GetAxis("Horizontal");
 
-        if (isGrounded && movementDirection != 0)
+        if (isGrounded && movementDirection != 0 || isStandingOnLava && movementDirection != 0)
         {
             animator.SetBool("Running", true);
         }
-        else if (isGrounded && movementDirection == 0)
+        else if (isGrounded && movementDirection == 0 || isStandingOnLava && movementDirection == 0)
         {
             animator.SetBool("Running", false);
         }
@@ -207,7 +211,7 @@ public class PlayerMovement : MonoBehaviour
             pressedJumpRemember = pressedJumpTime;
             isJumping = true;
 
-            if (isGrounded)
+            if (isGrounded || isStandingOnLava)
             {
                 animator.SetTrigger("Jump");
             }
@@ -222,7 +226,7 @@ public class PlayerMovement : MonoBehaviour
             isJumping = true;
         }
 
-        if (!isGrounded && !isTouchingWall)
+        if (!isGrounded && !isTouchingWall && !isStandingOnLava)
         {
             inAirTime -= Time.deltaTime;
             
@@ -401,7 +405,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void checkIfCanJump()
     {
-        if (isGrounded)
+        if (isGrounded || isStandingOnLava)
         {
             jumpCount = maxJumpCount;
         }
@@ -548,6 +552,16 @@ public class PlayerMovement : MonoBehaviour
         return isWallSliding;
     }
 
+    public Transform getGroundCheck()
+    {
+        return groundCheck;
+    }
+
+    public float getCheckRadius()
+    {
+        return checkRadius;
+    }
+
     //Animation methods
 
     //Run
@@ -567,7 +581,6 @@ public class PlayerMovement : MonoBehaviour
         rigidbody.velocity = Vector2.zero;
     }
 
-    //Animation methods
    
 }
 
