@@ -20,11 +20,8 @@ public class InstantKillPlayer : MonoBehaviour
         //If the trap collides with player kill him
         if (collision.CompareTag("Player"))
         {
-           // CameraShake.Instance.ShakeCamera(1f, 0.4f);
-            Instantiate(playerChunkParticle, collision.gameObject.transform.position, playerChunkParticle.transform.rotation);
-            Instantiate(playerBloodParticle, collision.gameObject.transform.position, playerBloodParticle.transform.rotation);
-            Destroy(collision.gameObject);
-            Invoke("EndGame", 0.3f);
+            // CameraShake.Instance.ShakeCamera(1f, 0.4f);
+            InstantiateDeathParticles(collision);
             
         }
         else if (collision.CompareTag("Basic"))
@@ -53,6 +50,14 @@ public class InstantKillPlayer : MonoBehaviour
     private void ResetEnvironmentStates()
     {
         Button.isButtonPushed = false;
+    }
+
+    public void InstantiateDeathParticles(Collider2D collision)
+    {
+        Instantiate(playerChunkParticle, collision.gameObject.transform.position, playerChunkParticle.transform.rotation);
+        Instantiate(playerBloodParticle, collision.gameObject.transform.position, playerBloodParticle.transform.rotation);
+        Destroy(collision.gameObject);
+        Invoke("EndGame", 0.3f);
     }
 
 }

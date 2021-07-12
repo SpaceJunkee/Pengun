@@ -6,7 +6,6 @@ public class SteamPipesActivator : MonoBehaviour
 {
 
     public ParticleSystem particleSystem;
-    public HurtKnockBack hurtKnockBack;
 
     private void Start()
     {
@@ -28,9 +27,7 @@ public class SteamPipesActivator : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            CameraShake.Instance.ShakeCamera(4f, 0.1f);
-            hurtKnockBack.StartCoroutine("Flash");
-            //TAKE HEALTH OFF PLAYER
+            other.GetComponent<HealthManager>().HurtPlayer();
         }
     }
 

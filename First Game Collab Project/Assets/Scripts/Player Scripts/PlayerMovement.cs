@@ -579,8 +579,8 @@ public class PlayerMovement : MonoBehaviour
     {
         animator.SetBool("Running", false);
         rigidbody.velocity = Vector2.zero;
+        rigidbody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
     }
-
    
 }
 

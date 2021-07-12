@@ -5,15 +5,17 @@ using UnityEngine;
 public class HurtKnockBack : MonoBehaviour
 {
     public Rigidbody2D playerRB;
+    public HealthManager healthManager;
+    public MeshRenderer meshRenderer;
+    public PlayerMovement playerMovement;
+    public LayerMask lavaObjects;
+
     public float knockBackAmount;
     public float knockBackdirectionForce;
     public float hurtNumber = 0;
-    private bool hasBeenHurt = false;
-    public MeshRenderer meshRenderer;
-    public PlayerMovement playerMovement;
-    private bool isStandingOnLava;
-    public LayerMask lavaObjects;
 
+    private bool hasBeenHurt = false;
+    private bool isStandingOnLava;
     public bool isPlayerFacingRight;
 
 
@@ -34,7 +36,7 @@ public class HurtKnockBack : MonoBehaviour
     public IEnumerator HurtPlayer(Collision2D collision)
     {
         Vector2 direction = (this.transform.position - collision.transform.position).normalized;
-        
+        this.GetComponent<HealthManager>().HurtPlayer();
 
         if (isPlayerFacingRight)
         {
@@ -49,22 +51,10 @@ public class HurtKnockBack : MonoBehaviour
             KnockBack(-direction);
         }
         
-        CameraShake.Instance.ShakeCamera(6f, 0.2f);
-        StartCoroutine(Flash());
+
         hasBeenHurt = true;
         yield return new WaitForSeconds(2f);
         hasBeenHurt = false;
-    }
-
-    public IEnumerator Flash()
-    {
-        for(int i = 0; i < 4; i++)
-        {
-            meshRenderer.enabled = false;
-            yield return new WaitForSeconds(0.07f);
-            meshRenderer.enabled = true;
-            yield return new WaitForSeconds(0.07f);
-        }      
     }
 
     public void KnockBack(Vector2 direction)
