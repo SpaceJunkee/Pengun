@@ -21,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
     
     private Rigidbody2D rigidbody;
     private float movementDirection;
-    private RigidbodyConstraints2D originalConstraints;
+    public static RigidbodyConstraints2D originalConstraints;
     public HurtKnockBack hurtKnockBack;
 
     //Timer
@@ -561,6 +561,10 @@ public class PlayerMovement : MonoBehaviour
     {
         return checkRadius;
     }
+
+    public float getMovementDirection()
+    {
+        return movementDirection;    }
 
     //Animation methods
 

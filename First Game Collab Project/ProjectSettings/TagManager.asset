@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Basic
   - Bullet
+  - Platform
   layers:
   - Default
   - TransparentFX

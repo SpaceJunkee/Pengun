@@ -33,13 +33,13 @@ public class KillPlayer : MonoBehaviour
     private void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);//get active scene gets current scene.  
-        ResetEnvironmentStates(); //Resets environment states like buttons etc.
+       // ResetEnvironmentStates(); //Resets environment states like buttons etc. ONLY USE IF NEEDING TO RESET ENVIRONMENT STATES ETC.
         
     }
 
     private void ResetEnvironmentStates()
     {
-        Button.isButtonPushed = false;
+       // Button.isButtonPushed = false;
     }
 
 

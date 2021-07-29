@@ -30,11 +30,10 @@ public class Portal : MonoBehaviour
     private void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);//get active scene gets current scene.  
-        ResetEnvironmentStates(); //Resets environment states like buttons etc.
     }
 
     private void ResetEnvironmentStates()
     {
-        Button.isButtonPushed = false;
+        
     }
 }

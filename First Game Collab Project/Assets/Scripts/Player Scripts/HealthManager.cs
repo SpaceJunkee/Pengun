@@ -10,6 +10,7 @@ public class HealthManager : MonoBehaviour
     public GameObject mediumHealthImage;
     public GameObject lowHealthImage;
     public MeshRenderer meshRenderer;
+    public ParticleSystem healthIncreaseParticles;
 
     public int maxHealth = 3;
     private int mediumHealth = 2;
@@ -74,6 +75,7 @@ public class HealthManager : MonoBehaviour
     {
         if (currentHealth != maxHealth)
         {
+            healthIncreaseParticles.Play();
             currentHealth = maxHealth;
             maxHealthImage.SetActive(true);
             mediumHealthImage.SetActive(true);
