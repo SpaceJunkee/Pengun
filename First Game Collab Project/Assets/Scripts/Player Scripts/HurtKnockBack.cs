@@ -51,6 +51,14 @@ public class HurtKnockBack : MonoBehaviour
         }
     }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy") && !hasBeenHurt)
+        {
+            StartCoroutine(HurtPlayerTrigger(collision));
+        }
+    }
+
     public IEnumerator HurtPlayer(Collision2D collision)
     {
         Vector2 direction = (this.transform.position - collision.transform.position).normalized;

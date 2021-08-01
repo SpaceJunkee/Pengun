@@ -9,13 +9,18 @@ public class TimeManager : MonoBehaviour
     public void StartSlowMotion(float timeFactor)
     {
         Time.timeScale = timeFactor;
-        Time.fixedDeltaTime = Time.timeScale * .02f;
+        Time.fixedDeltaTime = Time.timeScale * 0.02f;
     }
 
     public void StopSlowMotion()
     {
         Time.timeScale = 1f;
         Time.fixedDeltaTime = Time.timeScale * 0.02f;
+    }
+
+    public void InvokeStopSlowMotion(float delay)
+    {
+        Invoke("StopSlowMotion", delay);
     }
 
 }
