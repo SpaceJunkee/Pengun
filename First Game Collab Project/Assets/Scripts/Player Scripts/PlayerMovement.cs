@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
      */
 
     //Variables
-    
+    public CassetteTapes cassetteTapes;
     private Rigidbody2D rigidbody;
     private float movementDirection;
     public static RigidbodyConstraints2D originalConstraints;
@@ -97,7 +97,7 @@ public class PlayerMovement : MonoBehaviour
     //Awake method is called before the start method when the objects are being initialized.
     private void Awake()
     {
-        rigidbody = GetComponent<Rigidbody2D>();//Will get a component on this object of type rigidbody.
+        rigidbody = GetComponent<Rigidbody2D>();
         originalConstraints = rigidbody.constraints;
     }
 
@@ -163,6 +163,9 @@ public class PlayerMovement : MonoBehaviour
     //Set up movement inputs for character
     private void ProcessInputs()
     {
+
+        ManageCassetteTapes();
+
         //Left and right movement
 
         movementDirection = Input.GetAxis("Horizontal");
@@ -523,12 +526,39 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
+    public void StopPlayer()
+    {
+        animator.SetBool("Running", false);
+        rigidbody.velocity = Vector2.zero;
+        rigidbody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
+    }
+
 
     //Turns character
     private void TurnCharacterDirection()
     {
         playerFaceRight = !playerFaceRight; //Opposite direction
         transform.Rotate(0f, 180f, 0f);
+    }
+
+    private void ManageCassetteTapes()
+    {
+        if (DPadButtons.IsLeft)
+        {
+            cassetteTapes.ChangeToBaseTrackLeft();
+        }
+        else if (DPadButtons.IsRight)
+        {
+            cassetteTapes.ChangeToTrackRight();
+        }
+        else if (DPadButtons.IsUp)
+        {
+            cassetteTapes.ChangeToTrackUp();
+        }
+        else if (DPadButtons.IsDown)
+        {
+            cassetteTapes.ChangeToTrackDown();
+        }
     }
 
     //Getters
@@ -577,13 +607,6 @@ public class PlayerMovement : MonoBehaviour
     private void FastRunAnim()
     {
     
-    }
-
-    public void StopPlayer()
-    {
-        animator.SetBool("Running", false);
-        rigidbody.velocity = Vector2.zero;
-        rigidbody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
     }
    
 }
