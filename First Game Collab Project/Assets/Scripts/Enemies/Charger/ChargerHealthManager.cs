@@ -35,7 +35,7 @@ public class ChargerHealthManager : MonoBehaviour
             timemanager.InvokeStopSlowMotion(0.02f);
             StartCoroutine("HurtFlashEffect");
             StartCoroutine("CanBeHurtAgain");
-            rigidbody.AddForce(transform.up * 300, ForceMode2D.Impulse);
+            rigidbody.AddForce(transform.up * 100, ForceMode2D.Impulse);
 
             currentHealth--;
 

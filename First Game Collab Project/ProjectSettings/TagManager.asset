@@ -9,6 +9,7 @@ TagManager:
   - Basic
   - Bullet
   - Platform
+  - ChargerStartPos
   layers:
   - Default
   - TransparentFX
