@@ -82,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
     private float lastDash = -100f;//Check when last dash was
 
     //Fast run
-    private bool canFastRun = true;
+    private bool canFastRun = false;
     public TrailRenderer speedTrail;
 
     //Falling
@@ -475,9 +475,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void FastRun()
     {
-        if (Input.GetButton("FastRun") && canFastRun && (movementDirection > 0 || movementDirection < 0))
+        if (canFastRun && (movementDirection > 0 || movementDirection < 0))
         {
-            movementSpeed = 16;
+            movementSpeed = 18f;
 
             if (isGrounded)
             {
@@ -488,7 +488,6 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             movementSpeed = 13f;
-
             if (isGrounded)
             {
                 speedTrail.emitting = false;
@@ -546,26 +545,28 @@ public class PlayerMovement : MonoBehaviour
         if (DPadButtons.IsLeft)
         {
             cassetteTapes.ChangeToBaseTrackLeft();
-
+            ManageMusicAbilities(false);
             RotateMusicParticles(180f, new Color32(0,255,177,255));
             
         }
         else if (DPadButtons.IsRight)
         {
             cassetteTapes.ChangeToTrackRight();
+            ManageMusicAbilities(true);
+            FastRun();
 
             RotateMusicParticles(0f, new Color32(255, 42,0,255));
         }
         else if (DPadButtons.IsUp)
         {
             cassetteTapes.ChangeToTrackUp();
-
+            ManageMusicAbilities(false);
             RotateMusicParticles(90f, new Color32(255,252,0,255));
         }
         else if (DPadButtons.IsDown)
         {
             cassetteTapes.ChangeToTrackDown();
-
+            ManageMusicAbilities(false);
             RotateMusicParticles(270f, new Color32(0, 200, 255, 255));
         }
     }
@@ -576,6 +577,11 @@ public class PlayerMovement : MonoBehaviour
         Quaternion target = Quaternion.Euler(0, 0, zValue);
         musicDirectionParticles.transform.rotation = target;
         musicDirectionParticles.Play();
+    }
+
+    void ManageMusicAbilities(bool toggleCanFastRun)
+    {
+        canFastRun = toggleCanFastRun;
     }
 
     //Getters
