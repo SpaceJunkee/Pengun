@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
 using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -92,6 +91,7 @@ public class PlayerMovement : MonoBehaviour
 
     //particle
     public ParticleSystem particleSystem;
+    public ParticleSystem musicDirectionParticles;
 
 
     //Awake method is called before the start method when the objects are being initialized.
@@ -546,19 +546,36 @@ public class PlayerMovement : MonoBehaviour
         if (DPadButtons.IsLeft)
         {
             cassetteTapes.ChangeToBaseTrackLeft();
+
+            RotateMusicParticles(180f, new Color32(0,255,177,255));
+            
         }
         else if (DPadButtons.IsRight)
         {
             cassetteTapes.ChangeToTrackRight();
+
+            RotateMusicParticles(0f, new Color32(255, 42,0,255));
         }
         else if (DPadButtons.IsUp)
         {
             cassetteTapes.ChangeToTrackUp();
+
+            RotateMusicParticles(90f, new Color32(255,252,0,255));
         }
         else if (DPadButtons.IsDown)
         {
             cassetteTapes.ChangeToTrackDown();
+
+            RotateMusicParticles(270f, new Color32(0, 200, 255, 255));
         }
+    }
+
+    void RotateMusicParticles(float zValue, Color32 color)
+    {
+        musicDirectionParticles.startColor = color;
+        Quaternion target = Quaternion.Euler(0, 0, zValue);
+        musicDirectionParticles.transform.rotation = target;
+        musicDirectionParticles.Play();
     }
 
     //Getters
