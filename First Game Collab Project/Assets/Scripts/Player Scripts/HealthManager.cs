@@ -17,12 +17,37 @@ public class HealthManager : MonoBehaviour
     private int lowHealth = 1;
     public int minHealth = 0;
     public int currentHealth;
+    public int armouredHealth;
 
     public bool canBeHurt = true;
+    bool hasArmour = true;
 
     private void Start()
     {
-        currentHealth = maxHealth;
+        armouredHealth = maxHealth;
+        currentHealth = armouredHealth;
+    }
+
+    private void Update()
+    {
+        if (!hasArmour)
+        {
+            currentHealth = lowHealth;
+            maxHealthImage.SetActive(false);
+            mediumHealthImage.SetActive(false);
+        }
+        else if (hasArmour && armouredHealth == maxHealth)
+        {
+            currentHealth = armouredHealth;
+            maxHealthImage.SetActive(true);
+            mediumHealthImage.SetActive(true);
+        }
+        else if(hasArmour && armouredHealth == mediumHealth)
+        {
+            currentHealth = armouredHealth;
+            maxHealthImage.SetActive(false);
+            mediumHealthImage.SetActive(true);
+        }
     }
 
     public void HurtPlayer()
@@ -45,14 +70,16 @@ public class HealthManager : MonoBehaviour
 
         StartCoroutine("HurtFlashEffect");
 
-        if (currentHealth == maxHealth)
+        if (currentHealth == maxHealth && hasArmour)
         {
-            currentHealth = mediumHealth;
+            armouredHealth = mediumHealth;
+            currentHealth = armouredHealth;
             maxHealthImage.SetActive(false);
         }
-        else if(currentHealth == mediumHealth)
+        else if(currentHealth == mediumHealth && hasArmour)
         {
-            currentHealth = lowHealth;
+            armouredHealth = lowHealth;
+            currentHealth = armouredHealth;
             mediumHealthImage.SetActive(false);
         }
         else if(currentHealth == lowHealth)
@@ -73,10 +100,10 @@ public class HealthManager : MonoBehaviour
 
     public void AddToCurrentHealth()
     {
-        if (currentHealth != maxHealth)
+        if (hasArmour && armouredHealth != maxHealth)
         {
             healthIncreaseParticles.Play();
-            currentHealth = maxHealth;
+            armouredHealth = maxHealth;
             maxHealthImage.SetActive(true);
             mediumHealthImage.SetActive(true);
         }
@@ -86,6 +113,12 @@ public class HealthManager : MonoBehaviour
     public int getCurrentHealth()
     {
         return currentHealth;
+    }
+
+    public void setHasArmour(bool toggleHasArmour)
+    {
+        hasArmour = toggleHasArmour;
+
     }
 
     IEnumerator HurtFlashEffect()

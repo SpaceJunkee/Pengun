@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     private float movementDirection;
     public static RigidbodyConstraints2D originalConstraints;
     public HurtKnockBack hurtKnockBack;
+    public HealthManager healthManager;
 
     //Timer
     private IEnumerator coroutine;
@@ -82,7 +83,6 @@ public class PlayerMovement : MonoBehaviour
     private float lastDash = -100f;//Check when last dash was
 
     //Fast run
-    private bool canFastRun = false;
     public TrailRenderer speedTrail;
 
     //Falling
@@ -92,6 +92,10 @@ public class PlayerMovement : MonoBehaviour
     //particle
     public ParticleSystem particleSystem;
     public ParticleSystem musicDirectionParticles;
+
+    //Music Abilities
+    private bool canFastRun = false;
+    private bool hasArmour;
 
 
     //Awake method is called before the start method when the objects are being initialized.
@@ -545,14 +549,14 @@ public class PlayerMovement : MonoBehaviour
         if (DPadButtons.IsLeft)
         {
             cassetteTapes.ChangeToBaseTrackLeft();
-            ManageMusicAbilities(false);
+            ManageMusicAbilities(false, true);
             RotateMusicParticles(180f, new Color32(0,255,177,255));
             
         }
         else if (DPadButtons.IsRight)
         {
             cassetteTapes.ChangeToTrackRight();
-            ManageMusicAbilities(true);
+            ManageMusicAbilities(true, false);
             FastRun();
 
             RotateMusicParticles(0f, new Color32(255, 42,0,255));
@@ -560,13 +564,13 @@ public class PlayerMovement : MonoBehaviour
         else if (DPadButtons.IsUp)
         {
             cassetteTapes.ChangeToTrackUp();
-            ManageMusicAbilities(false);
+            ManageMusicAbilities(false, false);
             RotateMusicParticles(90f, new Color32(255,252,0,255));
         }
         else if (DPadButtons.IsDown)
         {
             cassetteTapes.ChangeToTrackDown();
-            ManageMusicAbilities(false);
+            ManageMusicAbilities(false, false);
             RotateMusicParticles(270f, new Color32(0, 200, 255, 255));
         }
     }
@@ -579,9 +583,10 @@ public class PlayerMovement : MonoBehaviour
         musicDirectionParticles.Play();
     }
 
-    void ManageMusicAbilities(bool toggleCanFastRun)
+    void ManageMusicAbilities(bool toggleCanFastRun, bool toggleHasArmour)
     {
         canFastRun = toggleCanFastRun;
+        healthManager.setHasArmour(toggleHasArmour);
     }
 
     //Getters
