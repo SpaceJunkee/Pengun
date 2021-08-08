@@ -27,7 +27,7 @@ public class ChargerHealthManager : MonoBehaviour
         isDashing = PlayerMovement.isDashing;
     }
 
-    public void DecreaseHealth()
+    public void DecreaseHealth(int damageAmount)
     {
         if (canBeHurt)
         {
@@ -37,9 +37,9 @@ public class ChargerHealthManager : MonoBehaviour
             StartCoroutine("CanBeHurtAgain");
             rigidbody.AddForce(transform.up * 100, ForceMode2D.Impulse);
 
-            currentHealth--;
+            currentHealth -= damageAmount;
 
-            if (currentHealth == minHealth)
+            if (currentHealth <= minHealth)
             {
                 KillEnemy();
             }
@@ -53,7 +53,7 @@ public class ChargerHealthManager : MonoBehaviour
        
         if (collision.gameObject.CompareTag("Player") && isDashing)
         {
-            DecreaseHealth();
+            DecreaseHealth(PlayerDamageController.damageOutput);
         }
        
     }
@@ -62,7 +62,7 @@ public class ChargerHealthManager : MonoBehaviour
     {      
         if (collision.gameObject.CompareTag("Player") && isDashing)
         {
-            DecreaseHealth();
+            DecreaseHealth(PlayerDamageController.damageOutput);
         }          
     }
 

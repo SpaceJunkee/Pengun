@@ -33386,6 +33386,7 @@ GameObject:
   - component: {fileID: 1397586208}
   - component: {fileID: 1397586209}
   - component: {fileID: 1397586204}
+  - component: {fileID: 1397586210}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -33452,6 +33453,7 @@ MonoBehaviour:
   cassetteTapes: {fileID: 830624687}
   hurtKnockBack: {fileID: 1397586206}
   healthManager: {fileID: 1397586207}
+  playerDamageController: {fileID: 1397586210}
   animator: {fileID: 1796584689}
   movementSpeed: 8
   jumpForce: 26
@@ -33684,6 +33686,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.76488495, y: 0.9933686}
   m_EdgeRadius: 0
+--- !u!114 &1397586210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1397586198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6dd45ee33a74ff48ab4666b69bead5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageOutput: 1
 --- !u!1 &1403698077
 GameObject:
   m_ObjectHideFlags: 0

@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
     public static RigidbodyConstraints2D originalConstraints;
     public HurtKnockBack hurtKnockBack;
     public HealthManager healthManager;
+    public PlayerDamageController playerDamageController;
 
     //Timer
     private IEnumerator coroutine;
@@ -96,6 +97,11 @@ public class PlayerMovement : MonoBehaviour
     //Music Abilities
     private bool canFastRun = false;
     private bool hasArmour;
+    private bool isBerzerkModeActivated = false;
+
+    //Music Ability variables
+    int damageMultiplier = 3;
+    int originalDamageMultiplier = 1;
 
 
     //Awake method is called before the start method when the objects are being initialized.
@@ -126,6 +132,15 @@ public class PlayerMovement : MonoBehaviour
         CheckIfWallSliding();
 
         WallHop();
+
+        if (isBerzerkModeActivated)
+        {
+            playerDamageController.setDamageOutput(damageMultiplier);
+        }
+        else
+        {
+            playerDamageController.setDamageOutput(originalDamageMultiplier);
+        }
 
         //Animation calls
         RunAnim();
@@ -549,14 +564,14 @@ public class PlayerMovement : MonoBehaviour
         if (DPadButtons.IsLeft)
         {
             cassetteTapes.ChangeToBaseTrackLeft();
-            ManageMusicAbilities(false, true);
+            ManageMusicAbilities(false, true, false);
             RotateMusicParticles(180f, new Color32(0,255,177,255));
             
         }
         else if (DPadButtons.IsRight)
         {
             cassetteTapes.ChangeToTrackRight();
-            ManageMusicAbilities(true, false);
+            ManageMusicAbilities(true, false, false);
             FastRun();
 
             RotateMusicParticles(0f, new Color32(255, 42,0,255));
@@ -564,13 +579,13 @@ public class PlayerMovement : MonoBehaviour
         else if (DPadButtons.IsUp)
         {
             cassetteTapes.ChangeToTrackUp();
-            ManageMusicAbilities(false, false);
+            ManageMusicAbilities(false, false, false);
             RotateMusicParticles(90f, new Color32(255,252,0,255));
         }
         else if (DPadButtons.IsDown)
         {
             cassetteTapes.ChangeToTrackDown();
-            ManageMusicAbilities(false, false);
+            ManageMusicAbilities(false, false, true);
             RotateMusicParticles(270f, new Color32(0, 200, 255, 255));
         }
     }
@@ -583,10 +598,11 @@ public class PlayerMovement : MonoBehaviour
         musicDirectionParticles.Play();
     }
 
-    void ManageMusicAbilities(bool toggleCanFastRun, bool toggleHasArmour)
+    void ManageMusicAbilities(bool toggleCanFastRun, bool toggleHasArmour, bool toggleBerzerkMode)
     {
         canFastRun = toggleCanFastRun;
         healthManager.setHasArmour(toggleHasArmour);
+        isBerzerkModeActivated = toggleBerzerkMode;
     }
 
     //Getters
