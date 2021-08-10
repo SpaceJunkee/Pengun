@@ -100,7 +100,7 @@ public class HealthManager : MonoBehaviour
 
     public void AddToCurrentHealth()
     {
-        if (hasArmour && armouredHealth != maxHealth)
+        if (armouredHealth != maxHealth)
         {
             healthIncreaseParticles.Play();
             armouredHealth = maxHealth;
@@ -113,6 +113,11 @@ public class HealthManager : MonoBehaviour
     public int getCurrentHealth()
     {
         return currentHealth;
+    }
+
+    public int getArmouredHealth()
+    {
+        return armouredHealth;
     }
 
     public void setHasArmour(bool toggleHasArmour)

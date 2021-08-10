@@ -24,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
     public HurtKnockBack hurtKnockBack;
     public HealthManager healthManager;
     public PlayerDamageController playerDamageController;
+    public TimeManager timemanager;
 
     //Timer
     private IEnumerator coroutine;
@@ -184,6 +185,8 @@ public class PlayerMovement : MonoBehaviour
     {
 
         ManageCassetteTapes();
+
+        OpenRadialMenu();
 
         //Left and right movement
 
@@ -558,44 +561,37 @@ public class PlayerMovement : MonoBehaviour
         playerFaceRight = !playerFaceRight; //Opposite direction
         transform.Rotate(0f, 180f, 0f);
     }
+    
+    bool hasTrackedChanged1, hasTrackedChanged2, hasTrackedChanged3, hasTrackedChanged4 = false;
 
     private void ManageCassetteTapes()
     {
-        if (DPadButtons.IsLeft)
+        if (RadialMenuScript.selection == 3 && !hasTrackedChanged1)
         {
             cassetteTapes.ChangeToBaseTrackLeft();
             ManageMusicAbilities(false, true, false);
-            RotateMusicParticles(180f, new Color32(0,255,177,255));
-            
+            ResetHasTrackedChanged(true, false, false, false);
         }
-        else if (DPadButtons.IsRight)
+        else if (RadialMenuScript.selection == 2 && !hasTrackedChanged2)
         {
             cassetteTapes.ChangeToTrackRight();
             ManageMusicAbilities(true, false, false);
             FastRun();
-
-            RotateMusicParticles(0f, new Color32(255, 42,0,255));
+            ResetHasTrackedChanged(false, true, false, false);
         }
-        else if (DPadButtons.IsUp)
+        else if (RadialMenuScript.selection == 1 && !hasTrackedChanged3)
         {
             cassetteTapes.ChangeToTrackUp();
             ManageMusicAbilities(false, false, false);
-            RotateMusicParticles(90f, new Color32(255,252,0,255));
+            ResetHasTrackedChanged(false, false, true, false);
         }
-        else if (DPadButtons.IsDown)
+        else if (RadialMenuScript.selection == 0 && !hasTrackedChanged4)
         {
             cassetteTapes.ChangeToTrackDown();
             ManageMusicAbilities(false, false, true);
-            RotateMusicParticles(270f, new Color32(0, 200, 255, 255));
+            ResetHasTrackedChanged(false, false, false, true);
         }
-    }
-
-    void RotateMusicParticles(float zValue, Color32 color)
-    {
-        musicDirectionParticles.startColor = color;
-        Quaternion target = Quaternion.Euler(0, 0, zValue);
-        musicDirectionParticles.transform.rotation = target;
-        musicDirectionParticles.Play();
+        
     }
 
     void ManageMusicAbilities(bool toggleCanFastRun, bool toggleHasArmour, bool toggleBerzerkMode)
@@ -603,6 +599,32 @@ public class PlayerMovement : MonoBehaviour
         canFastRun = toggleCanFastRun;
         healthManager.setHasArmour(toggleHasArmour);
         isBerzerkModeActivated = toggleBerzerkMode;
+    }
+
+    bool isNotInMenu = false;
+
+    void OpenRadialMenu()
+    {
+        if (Input.GetButton("OpenAbilityMenu"))
+        {
+            timemanager.StartSlowMotion(0.3f);
+            RadialMenuScript.isActive = true;
+            isNotInMenu = false;
+        }
+        else if(isNotInMenu == false)
+        {
+            timemanager.StopSlowMotion();
+            RadialMenuScript.isActive = false;
+            isNotInMenu = true;
+        }
+    }
+
+    void ResetHasTrackedChanged(bool track1, bool track2, bool track3, bool track4)
+    {
+        hasTrackedChanged1 = track1;
+        hasTrackedChanged2 = track2;
+        hasTrackedChanged3 = track3;
+        hasTrackedChanged4 = track4;
     }
 
     //Getters
