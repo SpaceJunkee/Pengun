@@ -57,8 +57,8 @@ public class CassetteTapes : MonoBehaviour
     void PlayTapeChangeSound()
     {
         tapeSwitchSound.Play();
-        /*PauseTapes();
-        Invoke("UnPauseTapes", tapeSwitchSound.clip.length - 0.4f);*/
+        PauseTapes();
+        Invoke("UnPauseTapes", tapeSwitchSound.clip.length - 0.4f);
     }
 
     void PauseTapes()

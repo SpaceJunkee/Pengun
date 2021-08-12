@@ -91,10 +91,6 @@ public class PlayerMovement : MonoBehaviour
     public static bool isfalling = false;
     public float fallingTime = 1;
 
-    //particle
-    public ParticleSystem particleSystem;
-    public ParticleSystem musicDirectionParticles;
-
     //Music Abilities
     private bool canFastRun = false;
     private bool hasArmour;
@@ -212,18 +208,12 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //Dashing inputs
-        if (Input.GetButtonDown("Dash") && !isWallSliding)
+        if (Input.GetButtonDown("Dash") && !isWallSliding && !PlayerMelee.isShooting)
         {
             if(Time.time >=  (lastDash + dashCooldown))
             {
                 AttemptDash();
             }
-        }
-
-        //Parry
-        if (Input.GetButtonDown("Parry") && !isWallSliding)
-        {
-            Parry();
         }
 
         //Jumping inputs
@@ -267,13 +257,6 @@ public class PlayerMovement : MonoBehaviour
             inAirTime = 0.1f;
         }
 
-    }
-
-    //Parry
-    private void Parry()
-    {
-        animator.SetTrigger("Parry");
-        particleSystem.Play();
     }
 
     //Moves Character 

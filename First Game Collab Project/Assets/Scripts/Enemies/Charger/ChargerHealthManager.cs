@@ -51,7 +51,7 @@ public class ChargerHealthManager : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
        
-        if (collision.gameObject.CompareTag("Player") && isDashing)
+        if (collision.gameObject.CompareTag("Player") && isDashing )
         {
             DecreaseHealth(PlayerDamageController.damageOutput);
         }
@@ -69,7 +69,7 @@ public class ChargerHealthManager : MonoBehaviour
     IEnumerator CanBeHurtAgain()
     {
         canBeHurt = false;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.25f);
         canBeHurt = true;
     }
 
