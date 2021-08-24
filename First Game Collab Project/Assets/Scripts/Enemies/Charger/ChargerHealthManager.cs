@@ -37,6 +37,8 @@ public class ChargerHealthManager : MonoBehaviour
             StartCoroutine("CanBeHurtAgain");
             rigidbody.AddForce(transform.up * 100, ForceMode2D.Impulse);
 
+            Instantiate(chargerChunkParticle, this.gameObject.transform.position, chargerChunkParticle.transform.rotation);
+
             currentHealth -= damageAmount;
 
             if (currentHealth <= minHealth)
@@ -90,9 +92,9 @@ public class ChargerHealthManager : MonoBehaviour
             for(int x = 0; x < spriteRenderer.Length; x++)
             {
                 spriteRenderer[x].enabled = false;
-                yield return new WaitForSeconds(0.02f);
+                yield return new WaitForSeconds(0.05f);
                 spriteRenderer[x].enabled = true;
-                yield return new WaitForSeconds(0.02f);
+                yield return new WaitForSeconds(0.05f);
             }
             
         }

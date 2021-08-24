@@ -103,7 +103,7 @@ public class ChargerAI : MonoBehaviour
             rigidbody.AddForce(targetPosition * chargeForce, ForceMode2D.Impulse);
         }
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(2.4f);
         animator.SetBool("IsFinishedCharging", true);
     }
 

@@ -11,7 +11,7 @@ public class EnemyPathfinding : MonoBehaviour
     public float nextWaypointDistance = 3f;
     public float pathUpdateRate;
     public float range;
-    float distanceToPlayer;
+    public float distanceToPlayer;
     public float targetDistanceOverlap;
 
     public Transform enemyGFX;
@@ -19,7 +19,7 @@ public class EnemyPathfinding : MonoBehaviour
     Path path;
     int currentWaypoint = 0;
     bool reachedEndOfPath = false;
-    bool playerIsInRange = false;
+    public bool playerIsInRange = false;
 
     Seeker seeker;
     Rigidbody2D rigidBody;

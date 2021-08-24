@@ -95,7 +95,7 @@ MonoBehaviour:
   speed: 8
   attackRange: 8
   playerRange: 20
-  chargeForce: 0.6
+  chargeForce: 1.1
 --- !u!1102 &-2472632887171017292
 AnimatorState:
   serializedVersion: 5

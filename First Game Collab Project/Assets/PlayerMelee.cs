@@ -17,6 +17,8 @@ public class PlayerMelee : MonoBehaviour
     bool canAttack = true;
     public static bool isShooting = false;
 
+    bool enemyHasBeenHit = false;
+
     void Update()
     {
         if (canAttack)
@@ -27,17 +29,27 @@ public class PlayerMelee : MonoBehaviour
                 CameraShake.Instance.ShakeCamera(8f, 0.25f);
                 shotGunBlastSound.Play();
 
-                Attack();
+                //If attack does not hit an enemy, fire a second attack to give some leeway.
+                if (!Attack())
+                {
+                    Invoke("Attack", 0.25f);
+                    Debug.Log("SecondAttack");
+                }
+                
             }
         }
           
     }
 
-    void Attack()
+     bool Attack()
     {
         isShooting = true;
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange1, enemyLayers);
         Collider2D[] hitEnemiesPoint2 = Physics2D.OverlapCircleAll(attackPoint2.position, attackRange2, enemyLayers);
+
+        canAttack = false;
+
+        StartCoroutine("CanAttackAgain");
 
         foreach (Collider2D enemy in hitEnemies)
         {
@@ -50,8 +62,7 @@ public class PlayerMelee : MonoBehaviour
             {
                     enemy.GetComponent<EnemyHealthManager>().DecreaseHealth(PlayerDamageController.damageOutput);
             }
-            
-            Debug.Log("Hit");
+            return true;
         }
 
         foreach (Collider2D enemy in hitEnemiesPoint2)
@@ -65,13 +76,10 @@ public class PlayerMelee : MonoBehaviour
             {
                     enemy.GetComponent<EnemyHealthManager>().DecreaseHealth(PlayerDamageController.damageOutput);
             }
-
-            Debug.Log("Hit2");
+            return true;
         }
-        canAttack = false;
-
-        StartCoroutine("CanAttackAgain");
-
+        
+        return false;
         
     }
 
@@ -89,7 +97,7 @@ public class PlayerMelee : MonoBehaviour
         yield return new WaitForSeconds(0.75f);
         shotGunReadySound.Play();
         readyToShootParticles.Play();
-        //yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.2f);
         canAttack = true;
         isShooting = false;
     }

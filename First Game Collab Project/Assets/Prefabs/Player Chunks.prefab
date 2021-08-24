@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6816551504442973159}
   - component: {fileID: 3009930036082573158}
   m_Layer: 0
-  m_Name: Enemy Chunks
+  m_Name: Player Chunks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
