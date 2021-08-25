@@ -21,7 +21,7 @@ public class PlayerMelee : MonoBehaviour
 
     void Update()
     {
-        if (canAttack)
+        if (canAttack && !PlayerMovement.isDashing)
         {
             if (Input.GetButtonDown("Melee"))
             {
@@ -35,7 +35,9 @@ public class PlayerMelee : MonoBehaviour
                     Invoke("Attack", 0.25f);
                     Debug.Log("SecondAttack");
                 }
-                
+
+                StartCoroutine("CanAttackAgain");
+
             }
         }
           
@@ -48,8 +50,6 @@ public class PlayerMelee : MonoBehaviour
         Collider2D[] hitEnemiesPoint2 = Physics2D.OverlapCircleAll(attackPoint2.position, attackRange2, enemyLayers);
 
         canAttack = false;
-
-        StartCoroutine("CanAttackAgain");
 
         foreach (Collider2D enemy in hitEnemies)
         {

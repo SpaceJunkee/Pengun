@@ -31918,7 +31918,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2c98b53878857b4ba5c58f8d127d428, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 3
+  maxHealth: 6
   minHealth: 0
   chargerChunkParticle: {fileID: 971292390820401973, guid: b17e1d53000441e4dbe033806e1e420e,
     type: 3}
@@ -43827,7 +43827,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 6.949875, y: 0.23921251}
+  m_Offset: {x: 6.449875, y: 0.23921251}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -43838,7 +43838,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 9.865906, y: 4.432172}
+  m_Size: {x: 10.865906, y: 4.432172}
   m_EdgeRadius: 0
 --- !u!1 &1337968357
 GameObject:
@@ -44615,7 +44615,7 @@ MonoBehaviour:
   shotGunReadySound: {fileID: 25619709}
   attackPoint: {fileID: 1242506519}
   attackPoint2: {fileID: 2040393057}
-  attackRange1: 1.5
+  attackRange1: 1.6
   attackRange2: 2.2
   enemyLayers:
     serializedVersion: 2

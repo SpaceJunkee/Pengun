@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ChargerHealthManager : MonoBehaviour
 {
-    public int maxHealth = 3;
+    public int maxHealth = 6;
     public int minHealth = 0;
 
     public GameObject chargerChunkParticle, chargerBloodParticle;
@@ -71,7 +71,7 @@ public class ChargerHealthManager : MonoBehaviour
     IEnumerator CanBeHurtAgain()
     {
         canBeHurt = false;
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.18f);
         canBeHurt = true;
     }
 
