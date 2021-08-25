@@ -15,7 +15,7 @@ public class EnemyHealthManager : MonoBehaviour
 
     public int currentHealth;
     private bool canBeHurt = true;
-
+    public bool isDead = false;
     private bool isDashing;
 
     private void Start()
@@ -82,7 +82,8 @@ public class EnemyHealthManager : MonoBehaviour
     public void KillEnemy()
     {
         deathSound.Play();
-        Destroy(this.gameObject);
+        isDead = true;
+        Destroy(this.gameObject, 0.05f);
         Instantiate(chargerChunkParticle, this.gameObject.transform.position, chargerChunkParticle.transform.rotation);
         Instantiate(chargerBloodParticle, this.gameObject.transform.position, chargerBloodParticle.transform.rotation);
     }

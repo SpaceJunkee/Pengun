@@ -5,10 +5,12 @@ using UnityEngine;
 public class GrombieAI : MonoBehaviour
 {
     EnemyPathfinding enemyPathFinding;
+    EnemyHealthManager grombieHealthManager;
     bool hasStopped = false;
     float dumboOriginalSpeed;
     bool isInAttackRange;
     public float attackRange;
+    bool hasPuddleDropped = false;
 
     public GameObject gromPuddle;
 
@@ -20,6 +22,7 @@ public class GrombieAI : MonoBehaviour
     private void Start()
     {
         enemyPathFinding = this.GetComponent<EnemyPathfinding>();
+        grombieHealthManager = this.GetComponent<EnemyHealthManager>();
         dumboOriginalSpeed = enemyPathFinding.speed;
         attackPoint = this.transform.GetChild(1).gameObject;
         puddleSpawnPositionObject = this.transform.GetChild(2).gameObject;
@@ -34,7 +37,7 @@ public class GrombieAI : MonoBehaviour
     {
         if (enemyPathFinding.playerIsInRange && !hasStopped)
         {
-            StartCoroutine("MoveDumboLikeAZombie");
+            StartCoroutine("MoveGrombieLikeAZombie");
         }
 
         if (enemyPathFinding.distanceToPlayer < attackRange)
@@ -57,16 +60,22 @@ public class GrombieAI : MonoBehaviour
 
         gromPuddleSpawnPosition = puddleSpawnPositionObject.transform.position;
 
+        if (grombieHealthManager.isDead && !hasPuddleDropped)
+        {
+            hasPuddleDropped = true;
+            Instantiate(gromPuddle, gromPuddleSpawnPosition, Quaternion.identity);
+        }
+
     }   
 
 
     private void OnDestroy()
     {
-        Instantiate(gromPuddle, gromPuddleSpawnPosition, Quaternion.identity);
+        
     }
 
 
-    IEnumerator MoveDumboLikeAZombie()
+    IEnumerator MoveGrombieLikeAZombie()
     {
         hasStopped = true;
         enemyPathFinding.speed = dumboOriginalSpeed;

@@ -8,6 +8,7 @@ public class ChargerHealthManager : MonoBehaviour
     public int minHealth = 0;
 
     public GameObject chargerChunkParticle, chargerBloodParticle;
+    GameObject parentObject;
     public SpriteRenderer[] spriteRenderer;
     public TimeManager timemanager;
     public Rigidbody2D rigidbody;
@@ -20,6 +21,7 @@ public class ChargerHealthManager : MonoBehaviour
     private void Start()
     {
         currentHealth = maxHealth;
+        parentObject = transform.parent.gameObject;
     }
 
     private void Update()
@@ -77,7 +79,7 @@ public class ChargerHealthManager : MonoBehaviour
 
     public void KillEnemy()
     {
-        Destroy(GameObject.Find("ChargerEnemy"));
+        Destroy(parentObject);
         Instantiate(chargerChunkParticle, this.gameObject.transform.position, chargerChunkParticle.transform.rotation);
         Instantiate(chargerBloodParticle, this.gameObject.transform.position, chargerBloodParticle.transform.rotation);
     }
