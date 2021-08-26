@@ -25,6 +25,8 @@ public class PlayerMovement : MonoBehaviour
     public HealthManager healthManager;
     public PlayerDamageController playerDamageController;
     public TimeManager timemanager;
+    public ParticleSystem readyToDashParticles;
+    public AudioSource dashAudio;
 
     //Timer
     private IEnumerator coroutine;
@@ -62,8 +64,6 @@ public class PlayerMovement : MonoBehaviour
     private bool isWallSliding;
     public static bool isDashing;
     public static bool canMove = true;
-
-
 
     //Wall sliding and jumping
     public float wallCheckDistance;
@@ -120,6 +120,15 @@ public class PlayerMovement : MonoBehaviour
         if (canMove)
         {
             ProcessInputs();
+        }
+
+        if (isDashing)
+        {
+            canMove = false;
+        }
+        else
+        {
+            canMove = true;
         }
 
         CheckIfFalling();
@@ -208,7 +217,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //Dashing inputs
-        if (Input.GetButtonDown("Dash") && !isWallSliding && !PlayerMelee.isShooting)
+        if (Input.GetButtonDown("Dash") && !isWallSliding)
         {
             if(Time.time >=  (lastDash + dashCooldown))
             {
@@ -285,7 +294,7 @@ public class PlayerMovement : MonoBehaviour
     {
 
         animator.SetTrigger("Dash");
-
+        dashAudio.Play();
         if (!isGrounded && dashCount != 0)
         {
             isDashing = true;
@@ -378,7 +387,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 isDashing = false;
                 rigidbody.constraints = originalConstraints;
-
+                readyToDashParticles.Play();
             }
 
         }

@@ -73,7 +73,7 @@ public class ChargerHealthManager : MonoBehaviour
     IEnumerator CanBeHurtAgain()
     {
         canBeHurt = false;
-        yield return new WaitForSeconds(0.18f);
+        yield return new WaitForSeconds(0.25f);
         canBeHurt = true;
     }
 

@@ -26,11 +26,6 @@ public class GrombieAI : MonoBehaviour
         dumboOriginalSpeed = enemyPathFinding.speed;
         attackPoint = this.transform.GetChild(1).gameObject;
         puddleSpawnPositionObject = this.transform.GetChild(2).gameObject;
-
-        if(gromPuddle)
-        {
-            Destroy(gromPuddle);
-        }
     }
 
     private void Update()
