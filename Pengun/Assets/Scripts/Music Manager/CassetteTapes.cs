@@ -15,9 +15,9 @@ public class CassetteTapes : MonoBehaviour
         SwapTape(0);
     }
 
-    public void ChangeToBaseTrackLeft()
+    public void ChangeToBaseTrackUp()
     {
-        Debug.Log("InLeft");
+        Debug.Log("InTop");
         SwapTape(0);
     }
 
@@ -27,16 +27,10 @@ public class CassetteTapes : MonoBehaviour
         SwapTape(1);
     }
 
-    public void ChangeToTrackUp()
+    public void ChangeToTrackLeft()
     {
-        Debug.Log("InUp");
+        Debug.Log("InLeft");
         SwapTape(2);
-    }
-
-    public void ChangeToTrackDown()
-    {
-        Debug.Log("InDown");
-        SwapTape(3);
     }
 
     void SwapTape(int tapeNumber)

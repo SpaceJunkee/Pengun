@@ -295,6 +295,7 @@ public class PlayerMovement : MonoBehaviour
 
         animator.SetTrigger("Dash");
         dashAudio.Play();
+
         if (!isGrounded && dashCount != 0)
         {
             isDashing = true;
@@ -554,34 +555,28 @@ public class PlayerMovement : MonoBehaviour
         transform.Rotate(0f, 180f, 0f);
     }
     
-    bool hasTrackedChanged1, hasTrackedChanged2, hasTrackedChanged3, hasTrackedChanged4 = false;
+    bool hasTrackedChanged1, hasTrackedChanged2, hasTrackedChanged3 = false;
 
     private void ManageCassetteTapes()
     {
-        if (RadialMenuScript.selection == 3 && !hasTrackedChanged1)
+        if (RadialMenuScript.selection == 2 && !hasTrackedChanged1)
         {
-            cassetteTapes.ChangeToBaseTrackLeft();
+            cassetteTapes.ChangeToBaseTrackUp();
             ManageMusicAbilities(false, true, false);
             ResetHasTrackedChanged(true, false, false, false);
         }
-        else if (RadialMenuScript.selection == 2 && !hasTrackedChanged2)
+        else if (RadialMenuScript.selection == 1 && !hasTrackedChanged2)
         {
             cassetteTapes.ChangeToTrackRight();
             ManageMusicAbilities(true, false, false);
             FastRun();
             ResetHasTrackedChanged(false, true, false, false);
         }
-        else if (RadialMenuScript.selection == 1 && !hasTrackedChanged3)
+        else if (RadialMenuScript.selection == 0 && !hasTrackedChanged3)
         {
-            cassetteTapes.ChangeToTrackUp();
+            cassetteTapes.ChangeToTrackLeft();
             ManageMusicAbilities(false, false, false);
             ResetHasTrackedChanged(false, false, true, false);
-        }
-        else if (RadialMenuScript.selection == 0 && !hasTrackedChanged4)
-        {
-            cassetteTapes.ChangeToTrackDown();
-            ManageMusicAbilities(false, false, true);
-            ResetHasTrackedChanged(false, false, false, true);
         }
         
     }
@@ -616,7 +611,6 @@ public class PlayerMovement : MonoBehaviour
         hasTrackedChanged1 = track1;
         hasTrackedChanged2 = track2;
         hasTrackedChanged3 = track3;
-        hasTrackedChanged4 = track4;
     }
 
     //Getters

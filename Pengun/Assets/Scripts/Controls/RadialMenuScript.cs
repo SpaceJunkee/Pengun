@@ -20,13 +20,13 @@ public class RadialMenuScript : MonoBehaviour
 
     private void Start()
     {
-        selection = 3;
+        selection = 2;
     }
 
     private void Update()
     {
 
-        if(Input.GetAxis("RightStickX") >0 || Input.GetAxis("RightStickY") > 0 || Input.GetAxis("RightStickX") < 0 || Input.GetAxis("RightStickY") < 0)
+        if(Input.GetAxis("RightStickX") > 0 || Input.GetAxis("RightStickY") > 0 || Input.GetAxis("RightStickX") < 0 || Input.GetAxis("RightStickY") < 0)
         {
             hasMovedStick = true;
         }
@@ -41,7 +41,7 @@ public class RadialMenuScript : MonoBehaviour
             if (hasMovedStick)
             {
                 currentAngle = Angle(Input.GetAxis("RightStickX"), Input.GetAxis("RightStickY"));
-                selection = (int)currentAngle / 90;
+                selection = (int)currentAngle / 120;
             }
                        
 
