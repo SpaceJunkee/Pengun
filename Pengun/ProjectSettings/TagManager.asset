@@ -12,6 +12,8 @@ TagManager:
   - ChargerStartPos
   - Dumbo
   - GromPuddle
+  - BloodWave
+  - Grombie
   layers:
   - Default
   - TransparentFX

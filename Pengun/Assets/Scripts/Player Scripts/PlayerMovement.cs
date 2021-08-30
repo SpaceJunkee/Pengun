@@ -27,6 +27,8 @@ public class PlayerMovement : MonoBehaviour
     public TimeManager timemanager;
     public ParticleSystem readyToDashParticles;
     public AudioSource dashAudio;
+    public AudioSource bloodWaveAudio;
+    public GameObject BloodSlamBlast;
 
     //Timer
     private IEnumerator coroutine;
@@ -63,7 +65,8 @@ public class PlayerMovement : MonoBehaviour
     private bool isTouchingWall;
     private bool isWallSliding;
     public static bool isDashing;
-    public static bool canMove = true;
+    public static bool canMove;
+    public static bool canUseInput = true;
 
     //Wall sliding and jumping
     public float wallCheckDistance;
@@ -95,9 +98,12 @@ public class PlayerMovement : MonoBehaviour
     private bool canFastRun = false;
     private bool hasArmour;
     private bool isBerzerkModeActivated = false;
+    private bool isInArmourMode = false;
+    private bool isInStrengthMode = false;
+    private bool isInSpeedMode = false;
 
     //Music Ability variables
-    int damageMultiplier = 3;
+    int damageMultiplier = 2;
     int originalDamageMultiplier = 1;
 
 
@@ -110,6 +116,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        canMove = true;
         jumpCount = maxJumpCount;
         dashCount = maxDashInAir;
     }
@@ -120,20 +127,14 @@ public class PlayerMovement : MonoBehaviour
         if (canMove)
         {
             ProcessInputs();
-        }
+            FlipCharDirection();
 
-        if (isDashing)
-        {
-            canMove = false;
-        }
-        else
-        {
-            canMove = true;
+            //Animation calls
+            RunAnim();
+            FastRunAnim();
         }
 
         CheckIfFalling();
-
-        FlipCharDirection();
 
         CheckIfWallSliding();
 
@@ -147,11 +148,6 @@ public class PlayerMovement : MonoBehaviour
         {
             playerDamageController.setDamageOutput(originalDamageMultiplier);
         }
-
-        //Animation calls
-        RunAnim();
-        FastRunAnim();
-
     }
 
     //Better than update for physics handling like movement or gravity, can be called multiple times per update frame.
@@ -165,15 +161,15 @@ public class PlayerMovement : MonoBehaviour
         //Check if player is touching a wall
         isTouchingWall = Physics2D.Raycast(wallCheck.position, transform.right, wallCheckDistance, wallObjects);
 
-        checkIfCanJump();
-
         CheckDash();
-
-        FastRun();
 
         if (canMove)
         {
             Move();
+
+            checkIfCanJump();           
+
+            FastRun();
         }
         
     }
@@ -188,6 +184,7 @@ public class PlayerMovement : MonoBehaviour
     //Set up movement inputs for character
     private void ProcessInputs()
     {
+        ManageSpecialAbilities();
 
         ManageCassetteTapes();
 
@@ -216,31 +213,35 @@ public class PlayerMovement : MonoBehaviour
             movementDirection = Math.Max(movementDirection, 1);
         }
 
-        //Dashing inputs
-        if (Input.GetButtonDown("Dash") && !isWallSliding)
+        if (canUseInput)
         {
-            if(Time.time >=  (lastDash + dashCooldown))
+            //Dashing inputs
+            if (Input.GetButtonDown("Dash") && !isWallSliding)
             {
-                AttemptDash();
+                if (Time.time >= (lastDash + dashCooldown))
+                {
+                    AttemptDash();
+                }
+            }
+
+            //Jumping inputs
+
+            pressedJumpRemember -= Time.deltaTime;
+
+
+            if (Input.GetButtonDown("Jump"))
+            {
+                pressedJumpRemember = pressedJumpTime;
+                isJumping = true;
+
+                if (isGrounded || isStandingOnLava)
+                {
+                    animator.SetTrigger("Jump");
+                }
+
             }
         }
-
-        //Jumping inputs
-
-        pressedJumpRemember -= Time.deltaTime;
         
-
-        if (Input.GetButtonDown("Jump")) 
-        {
-            pressedJumpRemember = pressedJumpTime;
-            isJumping = true;
-
-            if (isGrounded || isStandingOnLava)
-            {
-                animator.SetTrigger("Jump");
-            }
-            
-        }
 
         if ((pressedJumpRemember > 0) && jumpCount > 0)
         {
@@ -290,9 +291,34 @@ public class PlayerMovement : MonoBehaviour
             Jump();
     }
 
+    private void CheckIfFalling()
+    {
+        if (!isGrounded && !isJumping && !isWallSliding)
+        {
+            fallingTime -= Time.deltaTime;
+
+            if (fallingTime <= 0.1)
+            {
+                isfalling = true;
+            }
+        }
+
+        if (isGrounded)
+        {
+            fallingTime += 0.4f;
+            fallingTime += Time.deltaTime;
+
+            if (fallingTime >= 0.5)
+            {
+                isfalling = false;
+                fallingTime = 1;
+            }
+
+        }
+    }
+
     private void AttemptDash()
     {
-
         animator.SetTrigger("Dash");
         dashAudio.Play();
 
@@ -321,32 +347,6 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
-    private void CheckIfFalling()
-    {
-        if (!isGrounded && !isJumping && !isWallSliding)
-        {
-            fallingTime -= Time.deltaTime;
-
-            if(fallingTime <= 0.1)
-            {
-                isfalling = true;
-            }
-        }
-
-        if (isGrounded)
-        {
-            fallingTime += 0.4f;
-            fallingTime += Time.deltaTime;
-
-            if(fallingTime >= 0.5)
-            {
-                isfalling = false;
-                fallingTime = 1;
-            }
-            
-        }
-    }
-
     private void CheckDash()
     {
         if(isGrounded || isWallSliding)
@@ -356,6 +356,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (isDashing)
         {
+            canMove = false;
             if (dashTimeLeft > 0 && playerFaceRight)
             {
                 rigidbody.AddForce(Vector2.right * dashSpeed, 0.0f);
@@ -387,6 +388,7 @@ public class PlayerMovement : MonoBehaviour
             if (dashTimeLeft <= 0 || isTouchingWall)
             {
                 isDashing = false;
+                canMove = true;
                 rigidbody.constraints = originalConstraints;
                 readyToDashParticles.Play();
             }
@@ -484,8 +486,6 @@ public class PlayerMovement : MonoBehaviour
             wallClimbStamina = originalWallClimbStamina;
         }
 
-
-
     }
 
     private void FastRun()
@@ -542,9 +542,16 @@ public class PlayerMovement : MonoBehaviour
 
     public void StopPlayer()
     {
+        canMove = false;
         animator.SetBool("Running", false);
         rigidbody.velocity = Vector2.zero;
         rigidbody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
+    }
+
+    public void EnableMovement()
+    {
+        canMove = true;
+        rigidbody.constraints = originalConstraints;
     }
 
 
@@ -563,20 +570,20 @@ public class PlayerMovement : MonoBehaviour
         {
             cassetteTapes.ChangeToBaseTrackUp();
             ManageMusicAbilities(false, true, false);
-            ResetHasTrackedChanged(true, false, false, false);
+            ResetHasTrackedChanged(true, false, false);
         }
         else if (RadialMenuScript.selection == 1 && !hasTrackedChanged2)
         {
             cassetteTapes.ChangeToTrackRight();
             ManageMusicAbilities(true, false, false);
             FastRun();
-            ResetHasTrackedChanged(false, true, false, false);
+            ResetHasTrackedChanged(false, true, false);
         }
         else if (RadialMenuScript.selection == 0 && !hasTrackedChanged3)
         {
             cassetteTapes.ChangeToTrackLeft();
-            ManageMusicAbilities(false, false, false);
-            ResetHasTrackedChanged(false, false, true, false);
+            ManageMusicAbilities(false, false, true);
+            ResetHasTrackedChanged(false, false, true);
         }
         
     }
@@ -586,27 +593,71 @@ public class PlayerMovement : MonoBehaviour
         canFastRun = toggleCanFastRun;
         healthManager.setHasArmour(toggleHasArmour);
         isBerzerkModeActivated = toggleBerzerkMode;
+
+        isInArmourMode = toggleHasArmour;
+        isInSpeedMode = toggleCanFastRun;
+        isInStrengthMode = toggleBerzerkMode;
+
     }
+
+    void ManageSpecialAbilities()
+    {
+        if (Input.GetButtonDown("SpecialAbility") && isInArmourMode)
+        {
+            Debug.Log("Armour");
+        }
+        else if (Input.GetButtonDown("SpecialAbility") && isInSpeedMode)
+        {
+            Debug.Log("Speed");
+        }
+        else if (Input.GetButtonDown("SpecialAbility") && isInStrengthMode)
+        {
+            //Play animation
+            if (!isWallSliding && canUseInput)
+            {
+                ActivateBloodWave();
+            }
+                
+        }
+    }
+
+    private void ActivateBloodWave()
+    {
+        bloodWaveAudio.Play();
+        canMove = false;
+        CameraShake.Instance.ShakeCamera(4f, 1.5f);
+        Instantiate(BloodSlamBlast, this.transform.position, Quaternion.identity);
+        StopPlayer();
+        Invoke("EnableMovement", 1.5f);
+        Debug.Log("Strength");
+    }
+
 
     bool isNotInMenu = false;
 
     void OpenRadialMenu()
     {
-        if (Input.GetButton("OpenAbilityMenu"))
+        if (Input.GetButton("OpenAbilityMenu") && canMove)
         {
-            timemanager.StartSlowMotion(0.3f);
+            timemanager.StartSlowMotion(0.1f);
             RadialMenuScript.isActive = true;
             isNotInMenu = false;
+            canUseInput = false;
         }
         else if(isNotInMenu == false)
         {
             timemanager.StopSlowMotion();
             RadialMenuScript.isActive = false;
             isNotInMenu = true;
+            canUseInput = true;
+        }
+        else
+        {
+            return;
         }
     }
 
-    void ResetHasTrackedChanged(bool track1, bool track2, bool track3, bool track4)
+    void ResetHasTrackedChanged(bool track1, bool track2, bool track3)
     {
         hasTrackedChanged1 = track1;
         hasTrackedChanged2 = track2;

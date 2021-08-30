@@ -55,19 +55,24 @@ public class ChargerHealthManager : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
        
-        if (collision.gameObject.CompareTag("Player") && isDashing )
+        if ((collision.gameObject.CompareTag("Player") && isDashing))
         {
             DecreaseHealth(PlayerDamageController.damageOutput);
         }
-       
+
+        if (collision.gameObject.CompareTag("BloodWave"))
+        {
+            DecreaseHealth(PlayerDamageController.damageOutput *2);
+        }
+
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {      
-        if (collision.gameObject.CompareTag("Player") && isDashing)
+        if ((collision.gameObject.CompareTag("Player") && isDashing))
         {
             DecreaseHealth(PlayerDamageController.damageOutput);
-        }          
+        }
     }
 
     IEnumerator CanBeHurtAgain()

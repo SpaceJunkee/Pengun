@@ -56,7 +56,6 @@ public class EnemyPathfinding : MonoBehaviour
         if (seeker.IsDone())
         {
             seeker.StartPath(rigidBody.position, target.position, OnPathComplete);
-           // rigidBody.constraints = PlayerMovement.originalConstraints;
         }
         
     }

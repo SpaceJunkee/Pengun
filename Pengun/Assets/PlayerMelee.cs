@@ -21,7 +21,7 @@ public class PlayerMelee : MonoBehaviour
 
     void Update()
     {
-        if (canAttack && !PlayerMovement.isDashing)
+        if (canAttack && !PlayerMovement.isDashing && PlayerMovement.canMove && PlayerMovement.canUseInput)
         {
             if (Input.GetButtonDown("Melee"))
             {

@@ -54,6 +54,22 @@ public class EnemyHealthManager : MonoBehaviour
 
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("BloodWave"))
+        {
+            KillEnemy();
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("BloodWave"))
+        {
+            KillEnemy();
+        }
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
 
@@ -70,6 +86,7 @@ public class EnemyHealthManager : MonoBehaviour
         {
             DecreaseHealth(PlayerDamageController.damageOutput);
         }
+
     }
 
     IEnumerator CanBeHurtAgain()
@@ -83,7 +100,16 @@ public class EnemyHealthManager : MonoBehaviour
     {
         deathSound.Play();
         isDead = true;
-        Destroy(this.gameObject, 0.05f);
+
+        if (this.CompareTag("Grombie"))
+        {
+            Destroy(this.gameObject, 0.05f);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+
         Instantiate(chargerChunkParticle, this.gameObject.transform.position, chargerChunkParticle.transform.rotation);
         Instantiate(chargerBloodParticle, this.gameObject.transform.position, chargerBloodParticle.transform.rotation);
     }
