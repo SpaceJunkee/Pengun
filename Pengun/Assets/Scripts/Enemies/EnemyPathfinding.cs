@@ -14,8 +14,6 @@ public class EnemyPathfinding : MonoBehaviour
     public float distanceToPlayer;
     public float targetDistanceOverlap;
 
-    public Transform enemyGFX;
-
     Path path;
     int currentWaypoint = 0;
     bool reachedEndOfPath = false;
@@ -31,9 +29,6 @@ public class EnemyPathfinding : MonoBehaviour
     {
         seeker = GetComponent<Seeker>();
         rigidBody = GetComponent<Rigidbody2D>();
-
-        enemyScaleX = enemyGFX.localScale.x;
-        enemyScaleY = enemyGFX.localScale.y;
 
         //UpdatePath();
 
@@ -105,15 +100,6 @@ public class EnemyPathfinding : MonoBehaviour
             currentWaypoint++;
         }
 
-        if(force.x >= 0.01f)
-        {
-            enemyGFX.localScale = new Vector3(-enemyScaleX, enemyScaleY, 1f);
-            
-        }
-        else if(force.x <= -0.01f)
-        {
-            enemyGFX.localScale = new Vector3(enemyScaleX, enemyScaleY, 1f);
-        }
     }
 
     public bool GetReachedEndOfPath()
