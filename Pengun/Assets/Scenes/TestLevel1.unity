@@ -813,7 +813,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1397586205}
-  m_RootOrder: 12
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!199 &141293214
 ParticleSystemRenderer:
@@ -15721,8 +15721,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1397586205}
-  m_RootOrder: 11
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!199 &292452503
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -15763,7 +15763,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_RenderMode: 0
   m_SortMode: 0
   m_MinParticleSize: 0
@@ -15774,7 +15774,7 @@ ParticleSystemRenderer:
   m_SortingFudge: 0
   m_NormalDirection: 1
   m_ShadowBias: 0
-  m_RenderAlignment: 0
+  m_RenderAlignment: 1
   m_Pivot: {x: 0, y: 0, z: 0}
   m_Flip: {x: 0, y: 0, z: 0}
   m_UseCustomVertexStreams: 0
@@ -15862,7 +15862,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 0
+  moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
   randomSeed: 0
@@ -15872,7 +15872,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.15
+      scalar: 0.25
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -15982,8 +15982,8 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 0.77250254, b: 0, a: 1}
-        key1: {r: 1, g: 0.25, b: 0.25, a: 1}
+        key0: {r: 1, g: 0.9194028, b: 0, a: 1}
+        key1: {r: 1, g: 0, b: 0, a: 1}
         key2: {r: 1, g: 1, b: 1, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -16011,8 +16011,8 @@ ParticleSystem:
         m_NumAlphaKeys: 2
       minGradient:
         serializedVersion: 2
-        key0: {r: 0, g: 0, b: 0, a: 1}
-        key1: {r: 0.2264151, g: 0.2264151, b: 0.2264151, a: 1}
+        key0: {r: 0.33962262, g: 0.33962262, b: 0.33962262, a: 1}
+        key1: {r: 0, g: 0, b: 0, a: 1}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -16356,7 +16356,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    randomizeRotationDirection: 0
+    randomizeRotationDirection: 1
     maxNumParticles: 1000
     size3D: 0
     rotation3D: 0
@@ -16622,7 +16622,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1000
+      scalar: 0
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -16725,8 +16725,66 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    m_BurstCount: 0
-    m_Bursts: []
+    m_BurstCount: 1
+    m_Bursts:
+    - serializedVersion: 2
+      time: 0
+      countCurve:
+        serializedVersion: 2
+        minMaxState: 0
+        scalar: 150
+        minScalar: 30
+        maxCurve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        minCurve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+      cycleCount: 2
+      repeatInterval: 0.05
+      probability: 1
   SizeModule:
     enabled: 0
     curve:
@@ -17061,7 +17119,7 @@ ParticleSystem:
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
-        key1: {r: 1, g: 1, b: 1, a: 0.39215687}
+        key1: {r: 1, g: 0, b: 0, a: 0.39215687}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -17896,16 +17954,16 @@ ParticleSystem:
           time: 0
           value: 1
           inSlope: 0
-          outSlope: -0.8
+          outSlope: 0
           tangentMode: 0
           weightedMode: 0
           inWeight: 0.33333334
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: 0.2
+          value: 0.81081074
           inSlope: -0.8
-          outSlope: 0
+          outSlope: -0.8
           tangentMode: 0
           weightedMode: 0
           inWeight: 0.33333334
@@ -25621,7 +25679,7 @@ MonoBehaviour:
   m_ZDamping: 0.5
   m_ScreenX: 0.45
   m_ScreenY: 0.6
-  m_CameraDistance: 10
+  m_CameraDistance: 40
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
   m_DeadZoneDepth: 0
@@ -26439,7 +26497,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 776602645}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 82.299446, y: 10.74, z: -10}
+  m_LocalPosition: {x: 82.17385, y: 10.74, z: -40}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 511343445}
@@ -41723,7 +41781,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1397586205}
-  m_RootOrder: 13
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!199 &976769381
 ParticleSystemRenderer:
@@ -47113,7 +47171,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1242506519}
   m_Layer: 10
-  m_Name: AttackPoint
+  m_Name: AttackPoint1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47537,7 +47595,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1384810538}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.067603, y: 9.43, z: -10}
+  m_LocalPosition: {x: 5.067603, y: 9.43, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -47901,9 +47959,9 @@ Transform:
   - {fileID: 1895997372}
   - {fileID: 1403698078}
   - {fileID: 170992826}
-  - {fileID: 292452502}
   - {fileID: 141293213}
   - {fileID: 976769380}
+  - {fileID: 292452502}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -48026,7 +48084,7 @@ MonoBehaviour:
   readyToShootParticles: {fileID: 141293215}
   shotGunBlastSound: {fileID: 1163533594}
   shotGunReadySound: {fileID: 25619709}
-  attackPoint: {fileID: 1242506519}
+  attackPoint1: {fileID: 1242506519}
   attackPoint2: {fileID: 2040393057}
   attackRange1: 1.6
   attackRange2: 2.2
@@ -64482,6 +64540,26 @@ PrefabInstance:
       propertyPath: timemanager
       value: 
       objectReference: {fileID: 943055218}
+    - target: {fileID: 4335532461603091468, guid: 78686e85b5dfcfc43a678252e6890986,
+        type: 3}
+      propertyPath: m_Offset.x
+      value: -0.21365356
+      objectReference: {fileID: 0}
+    - target: {fileID: 4335532461603091468, guid: 78686e85b5dfcfc43a678252e6890986,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 2.5726929
+      objectReference: {fileID: 0}
+    - target: {fileID: 4335532462270742984, guid: 78686e85b5dfcfc43a678252e6890986,
+        type: 3}
+      propertyPath: m_Offset.x
+      value: -0.03931427
+      objectReference: {fileID: 0}
+    - target: {fileID: 4335532462270742984, guid: 78686e85b5dfcfc43a678252e6890986,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 3.653946
+      objectReference: {fileID: 0}
     - target: {fileID: 4335532462270742987, guid: 78686e85b5dfcfc43a678252e6890986,
         type: 3}
       propertyPath: m_Name

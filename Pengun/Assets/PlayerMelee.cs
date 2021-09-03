@@ -8,8 +8,14 @@ public class PlayerMelee : MonoBehaviour
     public ParticleSystem readyToShootParticles;
     public AudioSource shotGunBlastSound;
     public AudioSource shotGunReadySound;
-    public Transform attackPoint;
+    public Transform attackPoint1;
     public Transform attackPoint2;
+
+    Vector3 secondAttackPointPos;
+    Vector3 secondAttackPoint2Pos;
+    float secondAttackOffset = 2.5f;
+    Vector3[] secondAttackPositionsArray;
+
     public float attackRange1 = 0.5f;
     public float attackRange2 = 0.5f;
     public LayerMask enemyLayers;
@@ -19,6 +25,14 @@ public class PlayerMelee : MonoBehaviour
 
     bool enemyHasBeenHit = false;
 
+
+
+    PlayerMovement playerMovement;
+
+    private void Start()
+    {
+        playerMovement = this.GetComponent<PlayerMovement>();
+    }
     void Update()
     {
         if (canAttack && !PlayerMovement.isDashing && PlayerMovement.canMove && PlayerMovement.canUseInput)
@@ -30,25 +44,27 @@ public class PlayerMelee : MonoBehaviour
                 shotGunBlastSound.Play();
 
                 //If attack does not hit an enemy, fire a second attack to give some leeway.
-                if (!Attack())
+                if (!Attack(attackPoint1.position, attackPoint2.position))
                 {
-                    Invoke("Attack", 0.25f);
-
-                    Debug.Log("SecondAttack");
+                    StartCoroutine("SecondAttack", secondAttackPositionsArray);
+                    Debug.Log("Second");
                 }
 
                 StartCoroutine("CanAttackAgain");
 
             }
         }
-          
     }
 
-     bool Attack()
+
+
+     bool Attack(Vector3 attack1Pos, Vector3 attack2Pos)
     {
         isShooting = true;
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position, attackRange1, enemyLayers);
-        Collider2D[] hitEnemiesPoint2 = Physics2D.OverlapCircleAll(attackPoint2.position, attackRange2, enemyLayers);
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attack1Pos, attackRange1, enemyLayers);
+        Collider2D[] hitEnemiesPoint2 = Physics2D.OverlapCircleAll(attack2Pos, attackRange2, enemyLayers);
+
+        SetSecondAttackPositions();
 
         canAttack = false;
 
@@ -84,12 +100,39 @@ public class PlayerMelee : MonoBehaviour
         
     }
 
+    void SetSecondAttackPositions()
+    {
+
+        secondAttackPositionsArray = new Vector3[2];
+
+        if (playerMovement.getPlayerFaceRight())
+        {
+            secondAttackPointPos = new Vector3(attackPoint1.position.x + secondAttackOffset, attackPoint1.position.y, attackPoint1.position.z);
+            secondAttackPoint2Pos = new Vector3(attackPoint2.position.x + secondAttackOffset, attackPoint2.position.y, attackPoint2.position.z);
+        }
+        else if (!playerMovement.getPlayerFaceRight())
+        {
+            secondAttackPointPos = new Vector3(attackPoint1.position.x + -secondAttackOffset, attackPoint1.position.y, attackPoint1.position.z);
+            secondAttackPoint2Pos = new Vector3(attackPoint2.position.x + -secondAttackOffset, attackPoint2.position.y, attackPoint2.position.z);
+        }
+
+        secondAttackPositionsArray[0] = secondAttackPointPos;
+        secondAttackPositionsArray[1] = secondAttackPoint2Pos;
+    }
+
+    IEnumerator SecondAttack(Vector3[] attack1and2)
+    {
+        yield return new WaitForSeconds(0.25f);
+
+        Attack(attack1and2[0], attack1and2[1]);
+    }
+
     private void OnDrawGizmosSelected()
     {
-        if (attackPoint == null)
+        if (attackPoint1 == null)
             return;
 
-        Gizmos.DrawWireSphere(attackPoint.position, attackRange1);
+        Gizmos.DrawWireSphere(attackPoint1.position, attackRange1);
         Gizmos.DrawWireSphere(attackPoint2.position, attackRange2);
     }
 
