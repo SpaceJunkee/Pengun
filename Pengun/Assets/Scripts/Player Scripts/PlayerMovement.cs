@@ -385,12 +385,17 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
 
-            if (dashTimeLeft <= 0 || isTouchingWall)
+            if ((dashTimeLeft <= 0 && !KillPlayer.isDead) || isTouchingWall)
             {
                 isDashing = false;
                 canMove = true;
                 rigidbody.constraints = originalConstraints;
                 readyToDashParticles.Play();
+            }
+           
+            if(dashTimeLeft <= 0 && KillPlayer.isDead)
+            {
+                rigidbody.velocity = Vector2.zero;
             }
 
         }

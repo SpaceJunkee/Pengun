@@ -44,7 +44,7 @@ public class CassetteTapes : MonoBehaviour
         PlayTapeChangeSound();
 
         audioSources[tapeNumber].mute = false;
-        StartCoroutine(AudioFadeIn.FadeIn(audioSources[tapeNumber], .4f));
+        StartCoroutine(AudioFadeIn.FadeIn(audioSources[tapeNumber], 0.5f));
     }
 
     void PlayTapeChangeSound()
