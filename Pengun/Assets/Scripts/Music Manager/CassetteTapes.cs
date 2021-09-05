@@ -35,8 +35,6 @@ public class CassetteTapes : MonoBehaviour
 
     void SwapTape(int tapeNumber)
     {
-        /*audioSources.clip = cassetteTapes[tapeNumber];
-        audioSources.Play();*/
 
         for (int i = 0; i < audioSources.Length; i++)
         {
@@ -46,6 +44,7 @@ public class CassetteTapes : MonoBehaviour
         PlayTapeChangeSound();
 
         audioSources[tapeNumber].mute = false;
+        StartCoroutine(AudioFadeIn.FadeIn(audioSources[tapeNumber], .4f));
     }
 
     void PlayTapeChangeSound()

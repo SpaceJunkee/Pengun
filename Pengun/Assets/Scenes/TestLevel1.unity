@@ -659,7 +659,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: db9a93fdb0f413c428c04aff1d7125cb, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -37099,7 +37099,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: f0421c2b68a49cc4d8f62cc5ad70c87e, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -48352,6 +48352,7 @@ MonoBehaviour:
     type: 3}
   playerMovement: {fileID: 1397586201}
   meshRenderer: {fileID: 1796584691}
+  timeManager: {fileID: 943055218}
 --- !u!61 &1397586209
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -53395,7 +53396,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 9ad765bacadeb7d42b12ae80aed5f8c6, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0
   m_Pitch: 1
   Loop: 1
   Mute: 0

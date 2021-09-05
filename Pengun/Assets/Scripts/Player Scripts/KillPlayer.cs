@@ -11,9 +11,11 @@ public class KillPlayer : MonoBehaviour
     public GameObject playerChunkParticle, playerBloodParticle;
     public PlayerMovement playerMovement;
     public MeshRenderer meshRenderer;
+    public TimeManager timeManager;
 
     public void InstantiateDeath()
     {
+        timeManager.StopSlowMotion();
         Destroy(GameObject.Find("Spine GameObject (skeleton)"));
         playerMovement.StopPlayer();
         Instantiate(playerChunkParticle, this.gameObject.transform.position, playerChunkParticle.transform.rotation);
