@@ -25,6 +25,9 @@ public class PlayerMelee : MonoBehaviour
 
     bool enemyHasBeenHit = false;
 
+    public Collider2D[] hitEnemies;
+    public Collider2D[] hitEnemiesPoint2;
+
 
 
     PlayerMovement playerMovement;
@@ -61,12 +64,15 @@ public class PlayerMelee : MonoBehaviour
      bool Attack(Vector3 attack1Pos, Vector3 attack2Pos)
     {
         isShooting = true;
-        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attack1Pos, attackRange1, enemyLayers);
-        Collider2D[] hitEnemiesPoint2 = Physics2D.OverlapCircleAll(attack2Pos, attackRange2, enemyLayers);
+        hitEnemies = Physics2D.OverlapCircleAll(attack1Pos, attackRange1, enemyLayers);
+        hitEnemiesPoint2 = Physics2D.OverlapCircleAll(attack2Pos, attackRange2, enemyLayers);
 
         SetSecondAttackPositions();
 
         canAttack = false;
+
+        //Set return true in foreach if wanting to only hit one enemy.
+        bool hasEnemyBeenHit = false;
 
         foreach (Collider2D enemy in hitEnemies)
         {
@@ -79,7 +85,7 @@ public class PlayerMelee : MonoBehaviour
             {
                     enemy.GetComponent<EnemyHealthManager>().DecreaseHealth(PlayerDamageController.damageOutput);
             }
-            return true;
+            hasEnemyBeenHit = true;
         }
 
         foreach (Collider2D enemy in hitEnemiesPoint2)
@@ -93,10 +99,10 @@ public class PlayerMelee : MonoBehaviour
             {
                     enemy.GetComponent<EnemyHealthManager>().DecreaseHealth(PlayerDamageController.damageOutput);
             }
-            return true;
+            hasEnemyBeenHit = true;
         }
         
-        return false;
+        return hasEnemyBeenHit;
         
     }
 

@@ -47,4 +47,9 @@ public class DumboAI : MonoBehaviour
         attackPoint.SetActive(true);
     }
 
+    private void OnDestroy()
+    {
+        DumboSpawner.RemoveADumbo();
+    }
+
 }
