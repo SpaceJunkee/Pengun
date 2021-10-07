@@ -14,6 +14,7 @@ TagManager:
   - GromPuddle
   - BloodWave
   - Grombie
+  - VCAM
   layers:
   - Default
   - TransparentFX
