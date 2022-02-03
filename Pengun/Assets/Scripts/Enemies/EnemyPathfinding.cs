@@ -29,6 +29,7 @@ public class EnemyPathfinding : MonoBehaviour
     {
         seeker = GetComponent<Seeker>();
         rigidBody = GetComponent<Rigidbody2D>();
+        target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
 
         //UpdatePath();
 

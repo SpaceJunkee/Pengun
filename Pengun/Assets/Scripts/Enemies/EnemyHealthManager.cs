@@ -20,6 +20,8 @@ public class EnemyHealthManager : MonoBehaviour
 
     private void Start()
     {
+        timemanager = GameObject.Find("TimeManager").GetComponent<TimeManager>();
+        deathSound = GameObject.Find("AudioManager").transform.GetChild(6).gameObject.GetComponent<AudioSource>();
         if (this.gameObject.CompareTag("Dumbo"))
         {
             maxHealth = 1;

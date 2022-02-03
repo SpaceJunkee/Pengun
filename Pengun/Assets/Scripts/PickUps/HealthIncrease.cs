@@ -6,6 +6,11 @@ public class HealthIncrease : MonoBehaviour
 {
     public HealthManager healthManager;
 
+    private void Start()
+    {
+        healthManager = GameObject.FindGameObjectWithTag("Player").GetComponent<HealthManager>();
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
