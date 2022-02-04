@@ -46897,7 +46897,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9db98c60740638449864eb028fbe7ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: f9076d573b71acb42bd74365bb2c47b4, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: ab70b8ca7aed61c40a1aa23e26b463a8, type: 2}
   initialSkinName: 
   initialFlipX: 0
   initialFlipY: 0
@@ -46943,7 +46943,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: eb6a95d54d72b4047832039fad8cbc23, type: 2}
+  - {fileID: 2100000, guid: 8bed1b663383caf4b9a1a794edc7f632, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -46961,9 +46961,9 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1612966747
-  m_SortingLayer: 3
-  m_SortingOrder: -111
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 3
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1796584692
 MeshFilter:
@@ -46981,8 +46981,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1796584688}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.23, y: -0.22, z: 0}
-  m_LocalScale: {x: 0.39873573, y: 0.23924144, z: 0.5981036}
+  m_LocalPosition: {x: -0.058, y: -0.49, z: 0}
+  m_LocalScale: {x: 0.1499739, y: 0.08998434, z: 0.22496083}
   m_Children: []
   m_Father: {fileID: 1397586205}
   m_RootOrder: 7

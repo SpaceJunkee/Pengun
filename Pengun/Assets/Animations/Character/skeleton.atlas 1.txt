@@ -1,0 +1,132 @@
+
+skeleton.png
+size: 789,227
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Bag straps
+  rotate: true
+  xy: 191, 5
+  size: 46, 91
+  orig: 46, 91
+  offset: 0, 0
+  index: -1
+Goggles
+  rotate: true
+  xy: 191, 53
+  size: 172, 66
+  orig: 172, 66
+  offset: 0, 0
+  index: -1
+Head
+  rotate: true
+  xy: 2, 7
+  size: 218, 187
+  orig: 218, 187
+  offset: 0, 0
+  index: -1
+Left Arm
+  rotate: false
+  xy: 548, 106
+  size: 75, 119
+  orig: 75, 119
+  offset: 0, 0
+  index: -1
+Left Thigh
+  rotate: false
+  xy: 553, 18
+  size: 62, 86
+  orig: 62, 86
+  offset: 0, 0
+  index: -1
+Left shin
+  rotate: false
+  xy: 259, 74
+  size: 91, 151
+  orig: 91, 151
+  offset: 0, 0
+  index: -1
+Left shoe bottom
+  rotate: false
+  xy: 703, 185
+  size: 83, 40
+  orig: 83, 40
+  offset: 0, 0
+  index: -1
+Low beak
+  rotate: false
+  xy: 726, 50
+  size: 61, 57
+  orig: 61, 57
+  offset: 0, 0
+  index: -1
+Mid
+  rotate: true
+  xy: 617, 20
+  size: 84, 55
+  orig: 84, 55
+  offset: 0, 0
+  index: -1
+Right Arm
+  rotate: true
+  xy: 460, 102
+  size: 123, 86
+  orig: 123, 86
+  offset: 0, 0
+  index: -1
+Right Shin
+  rotate: false
+  xy: 625, 122
+  size: 76, 103
+  orig: 76, 103
+  offset: 0, 0
+  index: -1
+Right Shoe bottom
+  rotate: false
+  xy: 726, 8
+  size: 59, 40
+  orig: 59, 40
+  offset: 0, 0
+  index: -1
+Right Thigh
+  rotate: false
+  xy: 674, 27
+  size: 50, 80
+  orig: 50, 80
+  offset: 0, 0
+  index: -1
+Right bionic hand
+  rotate: false
+  xy: 468, 9
+  size: 83, 91
+  orig: 83, 91
+  offset: 0, 0
+  index: -1
+Right hand
+  rotate: true
+  xy: 386, 2
+  size: 72, 80
+  orig: 72, 80
+  offset: 0, 0
+  index: -1
+Top beak
+  rotate: false
+  xy: 284, 9
+  size: 100, 63
+  orig: 100, 63
+  offset: 0, 0
+  index: -1
+chest clavical pattern
+  rotate: false
+  xy: 352, 76
+  size: 106, 149
+  orig: 106, 149
+  offset: 0, 0
+  index: -1
+left  forearmnhand
+  rotate: false
+  xy: 703, 109
+  size: 81, 74
+  orig: 81, 74
+  offset: 0, 0
+  index: -1
