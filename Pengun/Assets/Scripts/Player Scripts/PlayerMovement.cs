@@ -156,6 +156,8 @@ public class PlayerMovement : MonoBehaviour
 
         //Check if player is standing on the ground
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, groundObjects);
+
+        animator.SetBool("Grounded", isGrounded);
         isStandingOnLava = hurtKnockBack.getIsStandingOnLava();
 
         //Check if player is touching a wall
@@ -199,6 +201,10 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("Running", true);
         }
         else if (isGrounded && movementDirection == 0 || isStandingOnLava && movementDirection == 0)
+        {
+            animator.SetBool("Running", false);
+        }
+        else if (!isGrounded)
         {
             animator.SetBool("Running", false);
         }

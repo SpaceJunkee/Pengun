@@ -119,7 +119,7 @@ JETPACK
 Layer 1
   rotate: true
   xy: 2, 10
-  size: 1610, 2092
+  size: 0, 0
   orig: 1612, 2094
   offset: 1, 1
   index: -1
