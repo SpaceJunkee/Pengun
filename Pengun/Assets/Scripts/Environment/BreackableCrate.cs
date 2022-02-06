@@ -21,7 +21,7 @@ public class BreackableCrate : MonoBehaviour
             if (collision.collider.name == "Player" && PlayerMovement.isDashing || 
                 collision.collider.name == "Player" && PlayerMovement.isfalling)
             {
-                CameraShake.Instance.ShakeCamera(4f, 0.2f);
+                CameraShake.Instance.ShakeCamera(4f, 5f, 0.2f);
                 BreakCrate();
             }
         }
@@ -34,7 +34,7 @@ public class BreackableCrate : MonoBehaviour
         {
             if (collision.collider.name == "Player" && PlayerMovement.isDashing || collision.collider.name == "Player" && PlayerMovement.isfalling)
             {
-                CameraShake.Instance.ShakeCamera(4f, 0.2f);
+                CameraShake.Instance.ShakeCamera(4f, 5f, 0.2f);
                 BreakCrate();
             }
         }
@@ -45,7 +45,7 @@ public class BreackableCrate : MonoBehaviour
     //Enemy to take damage
     public void TakeDamage(int damage)
     {
-        CameraShake.Instance.ShakeCamera(4f, 0.2f);
+        CameraShake.Instance.ShakeCamera(4f, 5f, 0.2f);
         health -= damage;
 
         if (health <= 0)

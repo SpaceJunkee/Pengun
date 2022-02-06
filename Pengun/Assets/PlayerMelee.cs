@@ -43,7 +43,7 @@ public class PlayerMelee : MonoBehaviour
             if (Input.GetButtonDown("Melee"))
             {
                 shotGunBlastParticles.Play();
-                CameraShake.Instance.ShakeCamera(8f, 0.25f);
+                CameraShake.Instance.ShakeCamera(8f, 5f, 0.25f);
                 shotGunBlastSound.Play();
 
                 //If attack does not hit an enemy, fire a second attack to give some leeway.

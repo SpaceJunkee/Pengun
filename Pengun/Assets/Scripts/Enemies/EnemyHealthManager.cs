@@ -118,7 +118,7 @@ public class EnemyHealthManager : MonoBehaviour
 
     IEnumerator HurtFlashEffect()
     {
-        CameraShake.Instance.ShakeCamera(6f, 0.2f);
+        CameraShake.Instance.ShakeCamera(6f, 5f, 0.2f);
 
         if (currentHealth >= 1)
         {

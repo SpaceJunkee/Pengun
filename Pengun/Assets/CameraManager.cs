@@ -7,6 +7,7 @@ public class CameraManager : MonoBehaviour
 {
     CinemachineVirtualCamera vcam;
 
+
     float originalOrthographicSize = 10f;
 
     private void Start()
@@ -22,6 +23,5 @@ public class CameraManager : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         vcam.Priority = 1;
-        
     }
 }

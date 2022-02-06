@@ -8,11 +8,13 @@ public class PostProcessingController : MonoBehaviour
 {
 
     public VolumeProfile profile;
-    public ChromaticAberration myChromaticAberration;
+    public static ChromaticAberration myChromaticAberration;
+    public static Vignette myVignette;
 
     private void Start()
     {
         profile.TryGet(out myChromaticAberration);
+        profile.TryGet(out myVignette);
     }
 
 

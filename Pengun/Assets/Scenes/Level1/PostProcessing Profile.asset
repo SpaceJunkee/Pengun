@@ -19,7 +19,7 @@ MonoBehaviour:
     m_Value: 0.22
   contrast:
     m_OverrideState: 1
-    m_Value: 5
+    m_Value: 9
     min: -100
     max: 100
   colorFilter:
@@ -35,7 +35,7 @@ MonoBehaviour:
     max: 180
   saturation:
     m_OverrideState: 1
-    m_Value: 100
+    m_Value: 75
     min: -100
     max: 100
 --- !u!114 &11400000
@@ -54,6 +54,7 @@ MonoBehaviour:
   - {fileID: 5603597497201137262}
   - {fileID: 4663223567860047087}
   - {fileID: -6030531856589263957}
+  - {fileID: 7623618652904712120}
 --- !u!114 &4663223567860047087
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -74,7 +75,7 @@ MonoBehaviour:
     min: 0
   intensity:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0.5
     min: 0
   scatter:
     m_OverrideState: 0
@@ -93,7 +94,7 @@ MonoBehaviour:
     showEyeDropper: 1
   highQualityFiltering:
     m_OverrideState: 0
-    m_Value: 0
+    m_Value: 1
   dirtTexture:
     m_OverrideState: 0
     m_Value: {fileID: 0}
@@ -120,3 +121,39 @@ MonoBehaviour:
     m_Value: 1
     min: 0
     max: 1
+--- !u!114 &7623618652904712120
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 899c54efeace73346a0a16faa3afe726, type: 3}
+  m_Name: Vignette
+  m_EditorClassIdentifier: 
+  active: 0
+  m_AdvancedMode: 0
+  color:
+    m_OverrideState: 1
+    m_Value: {r: 0, g: 0, b: 0, a: 1}
+    hdr: 0
+    showAlpha: 0
+    showEyeDropper: 1
+  center:
+    m_OverrideState: 1
+    m_Value: {x: 0.5, y: 0.5}
+  intensity:
+    m_OverrideState: 1
+    m_Value: 0.4
+    min: 0
+    max: 1
+  smoothness:
+    m_OverrideState: 0
+    m_Value: 0.01
+    min: 0.01
+    max: 1
+  rounded:
+    m_OverrideState: 0
+    m_Value: 0

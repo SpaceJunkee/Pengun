@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     public PlayerDamageController playerDamageController;
     public TimeManager timemanager;
     public ParticleSystem readyToDashParticles;
+    public ParticleSystem dustParticles;
     public AudioSource dashAudio;
     public AudioSource bloodWaveAudio;
     public GameObject BloodSlamBlast;
@@ -240,9 +241,10 @@ public class PlayerMovement : MonoBehaviour
                 pressedJumpRemember = pressedJumpTime;
                 isJumping = true;
 
-                if (isGrounded || isStandingOnLava)
+                if (isGrounded || isStandingOnLava )
                 {
                     animator.SetTrigger("Jump");
+                    CreateDustParticles();
                 }
 
             }
@@ -251,7 +253,13 @@ public class PlayerMovement : MonoBehaviour
 
         if ((pressedJumpRemember > 0) && jumpCount > 0)
         {
-            animator.SetTrigger("Jump");
+            
+            if (isGrounded || isStandingOnLava)
+            {
+                animator.SetTrigger("Jump");
+                CreateDustParticles();
+            }
+                
             pressedJumpRemember = 0;
             rigidbody.velocity = Vector2.up * jumpForce;
             isJumping = true;
@@ -326,6 +334,8 @@ public class PlayerMovement : MonoBehaviour
     private void AttemptDash()
     {
         animator.SetTrigger("Dash");
+        CameraShake.Instance.ShakeCamera(3f, 0.075f, 0.3f);
+        PostProcessingController.myVignette.active = true;
         dashAudio.Play();
 
         if (!isGrounded && dashCount != 0)
@@ -394,6 +404,7 @@ public class PlayerMovement : MonoBehaviour
             if ((dashTimeLeft <= 0 && !KillPlayer.isDead) || isTouchingWall)
             {
                 isDashing = false;
+                PostProcessingController.myVignette.active = false;
                 canMove = true;
                 rigidbody.constraints = originalConstraints;
                 readyToDashParticles.Play();
@@ -504,7 +515,7 @@ public class PlayerMovement : MonoBehaviour
         if (canFastRun && (movementDirection > 0 || movementDirection < 0))
         {
             movementSpeed = 18f;
-
+            animator.SetFloat("SpeedMultiplier", 1.5f);
             if (isGrounded)
             {
                 speedTrail.emitting = true;
@@ -514,6 +525,7 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             movementSpeed = 13f;
+            animator.SetFloat("SpeedMultiplier", 1f);
             if (isGrounded)
             {
                 speedTrail.emitting = false;
@@ -571,6 +583,12 @@ public class PlayerMovement : MonoBehaviour
     {
         playerFaceRight = !playerFaceRight; //Opposite direction
         transform.Rotate(0f, 180f, 0f);
+
+        if (isGrounded)
+        {
+            CreateDustParticles();
+        }
+        
     }
     
     bool hasTrackedChanged1, hasTrackedChanged2, hasTrackedChanged3 = false;
@@ -632,13 +650,24 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+
     private void ActivateBloodWave()
     {
         bloodWaveAudio.Play();
-        canMove = false;
-        CameraShake.Instance.ShakeCamera(4f, 1.5f);
+        if (!isJumping && isGrounded)
+        {
+            rigidbody.velocity = Vector2.up * jumpForce * 1.3f;
+            Invoke("StopPlayer", 0.2f);
+        }
+        else
+        {
+            StopPlayer();
+        }
+        
+       // canMove = false;
+        CameraShake.Instance.ShakeCamera(4f, 2f, 1.5f);
         Instantiate(BloodSlamBlast, this.transform.position, Quaternion.identity);
-        StopPlayer();
+        
         Invoke("EnableMovement", 1.5f);
         Debug.Log("Strength");
     }
@@ -722,6 +751,11 @@ public class PlayerMovement : MonoBehaviour
     {
     
     }
-   
+
+    public void CreateDustParticles()
+    {
+        dustParticles.Play();
+    }
+
 }
 
