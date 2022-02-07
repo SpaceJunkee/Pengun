@@ -658,18 +658,25 @@ public class PlayerMovement : MonoBehaviour
         {
             rigidbody.velocity = Vector2.up * jumpForce * 1.3f;
             Invoke("StopPlayer", 0.2f);
+            Invoke("BloodBlast", 0.2f);
         }
         else
         {
             StopPlayer();
+            BloodBlast();
         }
         
        // canMove = false;
         CameraShake.Instance.ShakeCamera(4f, 2f, 1.5f);
-        Instantiate(BloodSlamBlast, this.transform.position, Quaternion.identity);
+        
         
         Invoke("EnableMovement", 1.5f);
         Debug.Log("Strength");
+    }
+
+    void BloodBlast()
+    {
+        Instantiate(BloodSlamBlast, this.transform.position, Quaternion.identity);
     }
 
 
