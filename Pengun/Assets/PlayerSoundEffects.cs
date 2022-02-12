@@ -8,13 +8,7 @@ public class PlayerSoundEffects : MonoBehaviour
     public AudioClip[] footStepClips;
     public AudioSource foorStepAudioSource;
     
-   void PlayFootStep1()
-    {
-        foorStepAudioSource.clip = footStepClips[Random.Range(0, footStepClips.Length)];
-        foorStepAudioSource.Play();
-    }
-
-    void PlayFootStep2()
+   void PlayFootStep()
     {
         foorStepAudioSource.clip = footStepClips[Random.Range(0, footStepClips.Length)];
         foorStepAudioSource.Play();
