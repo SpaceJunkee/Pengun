@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "com.esotericsoftware.spine.timeline": {
-      "version": "file:D:/Reviews/com.esotericsoftware.spine.timeline-3.8-2021-03-19/com.esotericsoftware.spine.timeline-3.8",
+      "version": "file:../SpineTimeLine/com.esotericsoftware.spine.timeline-3.8-2021-03-19/com.esotericsoftware.spine.timeline-3.8",
       "depth": 0,
       "source": "local",
       "dependencies": {
