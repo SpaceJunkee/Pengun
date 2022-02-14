@@ -435,7 +435,7 @@ public class PlayerMovement : MonoBehaviour
 
         /*This will create a bigger gravity spike when falling from the peak of a jump meaning you fall faster than you normally would
         It also allows for a quick button press to small jump and a big jump when button is held for longer.*/
-        if (rigidbody.velocity.y < 0)
+        if (rigidbody.velocity.y < 0 && isGrounded)
         {
             rigidbody.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
         }
@@ -524,22 +524,22 @@ public class PlayerMovement : MonoBehaviour
         if (isFastRunning && isFacingRight)
         {
             rigidbody.AddForce(Vector2.left * 40, ForceMode2D.Impulse);
-            rigidbody.AddForce(Vector2.up * 7, ForceMode2D.Impulse);
+            rigidbody.AddForce(Vector2.up * 5, ForceMode2D.Impulse);
         }
         else if(!isFastRunning && isFacingRight)
         {
-            rigidbody.AddForce(Vector2.left * 40, ForceMode2D.Impulse);
-            rigidbody.AddForce(Vector2.up * 7, ForceMode2D.Impulse);
+            rigidbody.AddForce(Vector2.left * 48, ForceMode2D.Impulse);
+            rigidbody.AddForce(Vector2.up * 5, ForceMode2D.Impulse);
         }
         else if(isFastRunning && !isFacingRight)
         {
             rigidbody.AddForce(Vector2.right * 40, ForceMode2D.Impulse);
-            rigidbody.AddForce(Vector2.up * 7, ForceMode2D.Impulse);
+            rigidbody.AddForce(Vector2.up * 5, ForceMode2D.Impulse);
         }
         else if(!isFastRunning && !isFacingRight)
         {
-            rigidbody.AddForce(Vector2.right * 40, ForceMode2D.Impulse);
-            rigidbody.AddForce(Vector2.up * 7, ForceMode2D.Impulse);
+            rigidbody.AddForce(Vector2.right * 48, ForceMode2D.Impulse);
+            rigidbody.AddForce(Vector2.up * 5, ForceMode2D.Impulse);
         }
     }
 

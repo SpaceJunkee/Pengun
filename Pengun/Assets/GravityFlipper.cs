@@ -11,7 +11,6 @@ public class GravityFlipper : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             collision.gameObject.GetComponent<Rigidbody2D>().gravityScale *= -gravitySpeed;
-            PlayerMovement.canUseInput = false;
         }
     }
 
@@ -20,7 +19,6 @@ public class GravityFlipper : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             collision.gameObject.GetComponent<Rigidbody2D>().gravityScale = 4;
-            PlayerMovement.canUseInput = true;
 
         }
     }
