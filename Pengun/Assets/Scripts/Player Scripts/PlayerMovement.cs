@@ -97,6 +97,7 @@ public class PlayerMovement : MonoBehaviour
 
     //Music Abilities
     private bool canFastRun = false;
+    private bool isFastRunning = false;
     private bool hasArmour;
     private bool isBerzerkModeActivated = false;
     private bool isInArmourMode = false;
@@ -140,6 +141,7 @@ public class PlayerMovement : MonoBehaviour
         CheckIfWallSliding();
 
         WallHop();
+        
 
         if (isBerzerkModeActivated)
         {
@@ -301,8 +303,8 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
 
-            //Jumping
-            Jump();
+        //Jumping
+        Jump();
     }
 
     private void CheckIfFalling()
@@ -467,7 +469,6 @@ public class PlayerMovement : MonoBehaviour
             isWallSliding = true;
             wallSlidingSpeed = -2f;
             wallClimbStamina -= Time.deltaTime;
-
         }
         else
         {
@@ -476,12 +477,20 @@ public class PlayerMovement : MonoBehaviour
         }
      
 
-        if (isWallSliding && (movementDirection < 0 || movementDirection > 0) && Input.GetButtonDown("Jump"))
+        if (isWallSliding && movementDirection < 0 && Input.GetButtonDown("Jump"))
         {
             isWallSliding = false;
+
+            AddWallJumpForce(isFastRunning, true);
+        }
+        else if(isWallSliding && movementDirection > 0 && Input.GetButtonDown("Jump"))
+        {
+            isWallSliding = false;
+
+            AddWallJumpForce(isFastRunning, false);
         }
 
-        if(isTouchingWall && Input.GetButtonDown("Jump"))
+        if (isTouchingWall && Input.GetButtonDown("Jump"))
         {
             wallClimbStamina = originalWallClimbStamina;
         }
@@ -510,10 +519,35 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    void AddWallJumpForce(bool isFastRunning, bool isFacingRight)
+    {
+        if (isFastRunning && isFacingRight)
+        {
+            rigidbody.AddForce(Vector2.left * 40, ForceMode2D.Impulse);
+            rigidbody.AddForce(Vector2.up * 7, ForceMode2D.Impulse);
+        }
+        else if(!isFastRunning && isFacingRight)
+        {
+            rigidbody.AddForce(Vector2.left * 40, ForceMode2D.Impulse);
+            rigidbody.AddForce(Vector2.up * 7, ForceMode2D.Impulse);
+        }
+        else if(isFastRunning && !isFacingRight)
+        {
+            rigidbody.AddForce(Vector2.right * 40, ForceMode2D.Impulse);
+            rigidbody.AddForce(Vector2.up * 7, ForceMode2D.Impulse);
+        }
+        else if(!isFastRunning && !isFacingRight)
+        {
+            rigidbody.AddForce(Vector2.right * 40, ForceMode2D.Impulse);
+            rigidbody.AddForce(Vector2.up * 7, ForceMode2D.Impulse);
+        }
+    }
+
     private void FastRun()
     {
         if (canFastRun && (movementDirection > 0 || movementDirection < 0))
         {
+            isFastRunning = true;
             movementSpeed = 18f;
             animator.SetFloat("SpeedMultiplier", 1.5f);
             if (isGrounded)
@@ -524,6 +558,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
+            isFastRunning = false;
             movementSpeed = 13f;
             animator.SetFloat("SpeedMultiplier", 1f);
             if (isGrounded)
@@ -539,7 +574,7 @@ public class PlayerMovement : MonoBehaviour
         if(isWallSliding && Input.GetButtonDown("Dash") && playerFaceRight && movementDirection < 0)
         {
             rigidbody.AddForce(Vector2.left * hopSpeed, 0.0f);
-            
+
         }
         else if(isWallSliding && Input.GetButtonDown("Dash") && !playerFaceRight && movementDirection > 0)
         {
