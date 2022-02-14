@@ -21,8 +21,7 @@ public class SlidingSlope : MonoBehaviour
         if (collision.gameObject.tag.Equals("Player"))
         {
             PlayerMovement.canMove = true;
-           
-            
+                       
         }
     }
     

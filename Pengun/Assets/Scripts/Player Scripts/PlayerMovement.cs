@@ -348,7 +348,7 @@ public class PlayerMovement : MonoBehaviour
             AfterImagePool.Instance.GetFromPool();
             lastImageXpos = transform.position.x;
 
-            dashCount = 0;
+            dashCount--;
         }
         else if(isGrounded && !isTouchingWall)
         {
@@ -367,7 +367,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if(isGrounded || isWallSliding)
         {
-            dashCount = 1;
+            dashCount = 2;
         }
 
         if (isDashing)
