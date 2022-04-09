@@ -25,8 +25,11 @@ public class PlayerMovement : MonoBehaviour
     public HealthManager healthManager;
     public PlayerDamageController playerDamageController;
     public TimeManager timemanager;
-    public ParticleSystem readyToDashParticles;
     public ParticleSystem dustParticles;
+    public ParticleSystem dashBubblesParticles;
+    public ParticleSystem dashLinesParticles;
+    public ParticleSystem dashPopParticles;
+    public ParticleSystem speedTrailParticles;
     public AudioSource dashAudio;
     public AudioSource bloodWaveAudio;
     public GameObject BloodSlamBlast;
@@ -88,9 +91,6 @@ public class PlayerMovement : MonoBehaviour
     private float lastImageXpos;
     private float lastDash = -100f;//Check when last dash was
 
-    //Fast run
-    public TrailRenderer speedTrail;
-
     //Falling
     public static bool isfalling = false;
     public float fallingTime = 1;
@@ -151,6 +151,7 @@ public class PlayerMovement : MonoBehaviour
         {
             playerDamageController.setDamageOutput(originalDamageMultiplier);
         }
+
     }
 
     //Better than update for physics handling like movement or gravity, can be called multiple times per update frame.
@@ -313,9 +314,10 @@ public class PlayerMovement : MonoBehaviour
         {
             fallingTime -= Time.deltaTime;
 
-            if (fallingTime <= 0.1)
+            if (fallingTime <= -0.2f)
             {
                 isfalling = true;
+                animator.SetBool("isFalling", true);
             }
         }
 
@@ -327,6 +329,7 @@ public class PlayerMovement : MonoBehaviour
             if (fallingTime >= 0.5)
             {
                 isfalling = false;
+                animator.SetBool("isFalling", false);
                 fallingTime = 1;
             }
 
@@ -336,6 +339,9 @@ public class PlayerMovement : MonoBehaviour
     private void AttemptDash()
     {
         animator.SetTrigger("Dash");
+        dashBubblesParticles.Play();
+        dashLinesParticles.Play();
+        dashPopParticles.Play();
         CameraShake.Instance.ShakeCamera(3f, 0.075f, 0.3f);
         PostProcessingController.myVignette.active = true;
         dashAudio.Play();
@@ -343,6 +349,7 @@ public class PlayerMovement : MonoBehaviour
         if (!isGrounded && dashCount != 0)
         {
             isDashing = true;
+            animator.SetBool("isDashFinished", false);
             dashTimeLeft = dashTime;
             lastDash = Time.time;
             
@@ -355,6 +362,7 @@ public class PlayerMovement : MonoBehaviour
         else if(isGrounded && !isTouchingWall)
         {
             isDashing = true;
+            animator.SetBool("isDashFinished", false);
             dashTimeLeft = dashTime;
             lastDash = Time.time;
 
@@ -406,10 +414,10 @@ public class PlayerMovement : MonoBehaviour
             if ((dashTimeLeft <= 0 && !KillPlayer.isDead) || isTouchingWall)
             {
                 isDashing = false;
+                animator.SetBool("isDashFinished", true);
                 PostProcessingController.myVignette.active = false;
                 canMove = true;
                 rigidbody.constraints = originalConstraints;
-                readyToDashParticles.Play();
             }
            
             if(dashTimeLeft <= 0 && KillPlayer.isDead)
@@ -435,6 +443,7 @@ public class PlayerMovement : MonoBehaviour
 
         /*This will create a bigger gravity spike when falling from the peak of a jump meaning you fall faster than you normally would
         It also allows for a quick button press to small jump and a big jump when button is held for longer.*/
+
         if (rigidbody.velocity.y < 0 && isGrounded)
         {
             rigidbody.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
@@ -473,7 +482,6 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             isWallSliding = false;
-
         }
      
 
@@ -488,6 +496,13 @@ public class PlayerMovement : MonoBehaviour
             isWallSliding = false;
 
             AddWallJumpForce(isFastRunning, false);
+        }
+
+        if(isWallSliding && movementDirection == 0 && Input.GetButtonDown("Jump"))
+        {
+            isWallSliding = false;
+            animator.SetBool("isWallSliding", false);
+            animator.SetTrigger("WallClimb");
         }
 
         if (isTouchingWall && Input.GetButtonDown("Jump"))
@@ -549,10 +564,11 @@ public class PlayerMovement : MonoBehaviour
         {
             isFastRunning = true;
             movementSpeed = 18f;
-            animator.SetFloat("SpeedMultiplier", 1.5f);
+            animator.SetBool("isSprinting", true);
+            animator.SetBool("Running", false);
             if (isGrounded)
             {
-                speedTrail.emitting = true;
+                speedTrailParticles.Play();
             }
             
         }
@@ -561,10 +577,10 @@ public class PlayerMovement : MonoBehaviour
             isFastRunning = false;
             movementSpeed = 13f;
             animator.SetFloat("SpeedMultiplier", 1f);
-            if (isGrounded)
-            {
-                speedTrail.emitting = false;
-            }
+            animator.SetBool("Running", true);
+            animator.SetBool("isSprinting", false);
+            speedTrailParticles.Stop();
+            
         }
     }
 
@@ -618,7 +634,7 @@ public class PlayerMovement : MonoBehaviour
     {
         playerFaceRight = !playerFaceRight; //Opposite direction
         transform.Rotate(0f, 180f, 0f);
-
+        this.transform.Find("AbilityWheel").transform.Rotate(0f, 180f, 0f);
         if (isGrounded)
         {
             CreateDustParticles();
@@ -779,7 +795,13 @@ public class PlayerMovement : MonoBehaviour
 
     public float getMovementDirection()
     {
-        return movementDirection;    }
+        return movementDirection;    
+    }
+
+    public Rigidbody2D getRigidbody2D()
+    {
+        return rigidbody;
+    }
 
     //Animation methods
 
