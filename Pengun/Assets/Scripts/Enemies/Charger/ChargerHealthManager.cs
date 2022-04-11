@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ChargerHealthManager : MonoBehaviour
 {
-    public int maxHealth = 6;
-    public int minHealth = 0;
+    public float maxHealth = 6;
+    public float minHealth = 0;
 
     public GameObject chargerChunkParticle, chargerBloodParticle;
     GameObject parentObject;
@@ -13,7 +13,7 @@ public class ChargerHealthManager : MonoBehaviour
     public TimeManager timemanager;
     public Rigidbody2D rigidbody;
 
-    public int currentHealth;
+    public float currentHealth;
     private bool canBeHurt = true;
 
     private bool isDashing;
@@ -29,7 +29,7 @@ public class ChargerHealthManager : MonoBehaviour
         isDashing = PlayerMovement.isDashing;
     }
 
-    public void DecreaseHealth(int damageAmount)
+    public void DecreaseHealth(float damageAmount)
     {
         if (canBeHurt)
         {
@@ -57,12 +57,17 @@ public class ChargerHealthManager : MonoBehaviour
        
         if ((collision.gameObject.CompareTag("Player") && isDashing))
         {
-            DecreaseHealth(PlayerDamageController.damageOutput);
+            DecreaseHealth(PlayerDamageController.dashDamageOutput);
+        }
+
+        if (collision.gameObject.CompareTag("Bullet"))
+        {
+            DecreaseHealth(PlayerDamageController.gunDamageOutput);
         }
 
         if (collision.gameObject.CompareTag("BloodWave"))
         {
-            DecreaseHealth(PlayerDamageController.damageOutput *2);
+            DecreaseHealth(PlayerDamageController.meleeDamageOutput *2);
         }
 
     }
@@ -71,7 +76,7 @@ public class ChargerHealthManager : MonoBehaviour
     {      
         if ((collision.gameObject.CompareTag("Player") && isDashing))
         {
-            DecreaseHealth(PlayerDamageController.damageOutput);
+            DecreaseHealth(PlayerDamageController.dashDamageOutput);
         }
     }
 

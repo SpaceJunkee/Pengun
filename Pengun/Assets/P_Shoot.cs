@@ -4,157 +4,67 @@ using UnityEngine;
 
 public class P_Shoot : MonoBehaviour
 {
-    public ParticleSystem shotGunBlastParticles;
-    public ParticleSystem readyToShootParticles;
-    public AudioSource shotGunBlastSound;
-    public AudioSource shotGunReadySound;
-    public Transform attackPoint1;
-    public Transform attackPoint2;
     public Animator animator;
-
-    Vector3 secondAttackPointPos;
-    Vector3 secondAttackPoint2Pos;
-    float secondAttackOffset = 2.5f;
-    Vector3[] secondAttackPositionsArray;
-
-    public float attackRange1 = 0.5f;
-    public float attackRange2 = 0.5f;
-    public LayerMask enemyLayers;
 
     bool canAttack = true;
     public static bool isShooting = false;
 
-    bool enemyHasBeenHit = false;
-
-    public Collider2D[] hitEnemies;
-    public Collider2D[] hitEnemiesPoint2;
-
-
-
-    PlayerMovement playerMovement;
+    public float shootSpeed, shootTimer;
+    public Transform shootPos;
+    public GameObject bullet;
+    public PlayerMovement playerMovement;
+    public float pushBackForce;
 
     private void Start()
     {
-        playerMovement = this.GetComponent<PlayerMovement>();
-    }
-    void Update()
-    {
-        if (canAttack && !P_Melee.isMelee && !PlayerMovement.isDashing && PlayerMovement.canMove && PlayerMovement.canUseInput)
-        {
-            if (Input.GetButtonDown("Shoot"))
-            {
-                shotGunBlastParticles.Play();
-                CameraShake.Instance.ShakeCamera(8f, 5f, 0.25f);
-                shotGunBlastSound.Play();
-
-                animator.SetTrigger("Shoot");
-
-                //If attack does not hit an enemy, fire a second attack to give some leeway.
-                if (!Attack(attackPoint1.position, attackPoint2.position))
-                {
-                    StartCoroutine("SecondAttack", secondAttackPositionsArray);
-                    Debug.Log("Second");
-                }
-
-                
-                
-                StartCoroutine("CanAttackAgain");
-
-            }
-        }
-    }
-
-
-
-     bool Attack(Vector3 attack1Pos, Vector3 attack2Pos)
-    {
-        isShooting = true;
-        hitEnemies = Physics2D.OverlapCircleAll(attack1Pos, attackRange1, enemyLayers);
-        hitEnemiesPoint2 = Physics2D.OverlapCircleAll(attack2Pos, attackRange2, enemyLayers);
-
-        SetSecondAttackPositions();
-
-        canAttack = false;
-
-        //Set return true in foreach if wanting to only hit one enemy.
-        bool hasEnemyBeenHit = false;
-
-        foreach (Collider2D enemy in hitEnemies)
-        {
-            if(enemy.GetComponent<ChargerHealthManager>() != null)
-            {
-                if(ChargerCanAttackZone.isInAttackZone)
-                enemy.GetComponent<ChargerHealthManager>().DecreaseHealth(PlayerDamageController.damageOutput);
-            }
-            else
-            {
-                    enemy.GetComponent<EnemyHealthManager>().DecreaseHealth(PlayerDamageController.damageOutput);
-            }
-            hasEnemyBeenHit = true;
-        }
-
-        foreach (Collider2D enemy in hitEnemiesPoint2)
-        {
-            if (enemy.GetComponent<ChargerHealthManager>() != null)
-            {
-                if (ChargerCanAttackZone.isInAttackZone)
-                    enemy.GetComponent<ChargerHealthManager>().DecreaseHealth(PlayerDamageController.damageOutput);
-            }
-            else
-            {
-                    enemy.GetComponent<EnemyHealthManager>().DecreaseHealth(PlayerDamageController.damageOutput);
-            }
-            hasEnemyBeenHit = true;
-        }
-        
-        return hasEnemyBeenHit;
-        
-    }
-
-    void SetSecondAttackPositions()
-    {
-
-        secondAttackPositionsArray = new Vector3[2];
-
-        if (playerMovement.getPlayerFaceRight())
-        {
-            secondAttackPointPos = new Vector3(attackPoint1.position.x + secondAttackOffset, attackPoint1.position.y, attackPoint1.position.z);
-            secondAttackPoint2Pos = new Vector3(attackPoint2.position.x + secondAttackOffset, attackPoint2.position.y, attackPoint2.position.z);
-        }
-        else if (!playerMovement.getPlayerFaceRight())
-        {
-            secondAttackPointPos = new Vector3(attackPoint1.position.x + -secondAttackOffset, attackPoint1.position.y, attackPoint1.position.z);
-            secondAttackPoint2Pos = new Vector3(attackPoint2.position.x + -secondAttackOffset, attackPoint2.position.y, attackPoint2.position.z);
-        }
-
-        secondAttackPositionsArray[0] = secondAttackPointPos;
-        secondAttackPositionsArray[1] = secondAttackPoint2Pos;
-    }
-
-    IEnumerator SecondAttack(Vector3[] attack1and2)
-    {
-        yield return new WaitForSeconds(0.25f);
-
-        Attack(attack1and2[0], attack1and2[1]);
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        if (attackPoint1 == null)
-            return;
-
-        Gizmos.DrawWireSphere(attackPoint1.position, attackRange1);
-        Gizmos.DrawWireSphere(attackPoint2.position, attackRange2);
-    }
-
-    IEnumerator CanAttackAgain()
-    {
-        yield return new WaitForSeconds(0.75f);
-        shotGunReadySound.Play();
-        readyToShootParticles.Play();
         isShooting = false;
-        yield return new WaitForSeconds(0.2f);
-        canAttack = true;
-        
+        playerMovement = GetComponentInParent<PlayerMovement>();
     }
+
+    private void Update()
+    {
+        if (Input.GetButtonDown("Shoot") && !isShooting && P_Melee.isMelee)
+        {
+            P_Melee.doesPlayerWantToShoot = true;
+        }
+
+        if (Input.GetButtonDown("Shoot") && !isShooting && !P_Melee.isMelee)
+        {
+            StartCoroutine(Shoot());
+        }
+    }
+
+    public IEnumerator Shoot()
+    {
+        int direction()
+        {
+            if(!playerMovement.getPlayerFaceRight())
+            {
+                playerMovement.getRigidbody2D().transform.Translate(transform.right * pushBackForce);
+                return -1;
+            }
+            else
+            {
+                playerMovement.getRigidbody2D().transform.Translate(-transform.right * pushBackForce);
+                return +1;
+            }
+        }
+
+        playerMovement.StopPlayer();
+
+        isShooting = true;
+        GameObject newBullet = Instantiate(bullet, shootPos.position, Quaternion.identity);
+        newBullet.GetComponent<Rigidbody2D>().velocity = new Vector2(shootSpeed * direction() * Time.fixedDeltaTime, 0f);
+        newBullet.transform.localScale = new Vector2(newBullet.transform.localScale.x * direction(), newBullet.transform.localScale.y);
+
+        animator.SetTrigger("Shoot");
+        
+        CameraShake.Instance.ShakeCamera(2f, 2f, 0.3f);
+        yield return new WaitForSeconds(shootTimer);
+        isShooting = false;
+        P_Melee.doesPlayerWantToShoot = false;
+        playerMovement.EnableMovement();
+    }
+
+
 }

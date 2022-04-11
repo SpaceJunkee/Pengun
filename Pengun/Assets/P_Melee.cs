@@ -4,51 +4,62 @@ using UnityEngine;
 
 public class P_Melee : MonoBehaviour
 {
-    //public AudioSource shotGunBlastSound;
-    //public AudioSource shotGunReadySound;
-    public Transform meleeAttackPoint;
+    public Transform attackPoint1;
+    public Transform attackPoint2;
     public Animator animator;
 
+    Vector3 secondAttackPointPos;
+    Vector3 secondAttackPoint2Pos;
+    float secondAttackOffset = 2.5f;
     Vector3[] secondAttackPositionsArray;
 
     public float attackRange1 = 0.5f;
-    public float attackCooldown = 0.5f;
+    public float attackRange2 = 0.5f;
     public LayerMask enemyLayers;
 
     bool canAttack = true;
     public static bool isMelee = false;
 
+    bool enemyHasBeenHit = false;
 
     public Collider2D[] hitEnemies;
+    public Collider2D[] hitEnemiesPoint2;
 
+    public float pushBackForce;
+    bool isFacingRight;
+
+    public static bool doesPlayerWantToShoot;
 
 
     PlayerMovement playerMovement;
+    P_Shoot pShoot;
 
     private void Start()
     {
         playerMovement = this.GetComponent<PlayerMovement>();
+        pShoot = this.GetComponent<P_Shoot>();
     }
     void Update()
     {
+
+        isFacingRight = playerMovement.getPlayerFaceRight();
+        //Store input to remember if shoot was pressed while meleeing
+        //Make pushback on hit?
+
         if (canAttack && !P_Shoot.isShooting && !PlayerMovement.isDashing && PlayerMovement.canMove && PlayerMovement.canUseInput)
         {
             if (Input.GetButtonDown("Melee"))
             {
-                CameraShake.Instance.ShakeCamera(1f, 10f, 0.3f);
-                //shotGunBlastSound.Play();
 
                 animator.SetTrigger("Melee");
 
                 //If attack does not hit an enemy, fire a second attack to give some leeway.
-                if (!Attack(meleeAttackPoint.position))
+                if (!Attack(attackPoint1.position, attackPoint2.position))
                 {
                     StartCoroutine("SecondAttack", secondAttackPositionsArray);
                     Debug.Log("Second");
-                }
-
-
-
+                }            
+                
                 StartCoroutine("CanAttackAgain");
 
             }
@@ -57,10 +68,13 @@ public class P_Melee : MonoBehaviour
 
 
 
-    bool Attack(Vector3 attack1Pos)
+     bool Attack(Vector3 attack1Pos, Vector3 attack2Pos)
     {
         isMelee = true;
         hitEnemies = Physics2D.OverlapCircleAll(attack1Pos, attackRange1, enemyLayers);
+        hitEnemiesPoint2 = Physics2D.OverlapCircleAll(attack2Pos, attackRange2, enemyLayers);
+
+        SetSecondAttackPositions();
 
         canAttack = false;
 
@@ -69,37 +83,90 @@ public class P_Melee : MonoBehaviour
 
         foreach (Collider2D enemy in hitEnemies)
         {
-            if (enemy.GetComponent<ChargerHealthManager>() != null)
+            if(enemy.GetComponent<ChargerHealthManager>() != null)
             {
                 if (ChargerCanAttackZone.isInAttackZone)
-                    enemy.GetComponent<ChargerHealthManager>().DecreaseHealth(PlayerDamageController.damageOutput);
+                {
+                    enemy.GetComponent<ChargerHealthManager>().DecreaseHealth(PlayerDamageController.meleeDamageOutput);
+                }
+                
             }
             else
             {
-                enemy.GetComponent<EnemyHealthManager>().DecreaseHealth(PlayerDamageController.damageOutput);
+                enemy.GetComponent<EnemyHealthManager>().DecreaseHealth(PlayerDamageController.meleeDamageOutput);
             }
             hasEnemyBeenHit = true;
         }
 
-        return hasEnemyBeenHit;
+        foreach (Collider2D enemy in hitEnemiesPoint2)
+        {
+            if (enemy.GetComponent<ChargerHealthManager>() != null)
+            {
+                if (ChargerCanAttackZone.isInAttackZone)
+                {
+                    enemy.GetComponent<ChargerHealthManager>().DecreaseHealth(PlayerDamageController.meleeDamageOutput);
+                }
 
+
+            }
+            else
+            {
+                enemy.GetComponent<EnemyHealthManager>().DecreaseHealth(PlayerDamageController.meleeDamageOutput);
+            }
+            hasEnemyBeenHit = true;
+        }
+        
+        return hasEnemyBeenHit;
+        
     }
 
+    void SetSecondAttackPositions()
+    {
+
+        secondAttackPositionsArray = new Vector3[2];
+
+        if (playerMovement.getPlayerFaceRight())
+        {
+            secondAttackPointPos = new Vector3(attackPoint1.position.x + secondAttackOffset, attackPoint1.position.y, attackPoint1.position.z);
+            secondAttackPoint2Pos = new Vector3(attackPoint2.position.x + secondAttackOffset, attackPoint2.position.y, attackPoint2.position.z);
+        }
+        else if (!playerMovement.getPlayerFaceRight())
+        {
+            secondAttackPointPos = new Vector3(attackPoint1.position.x + -secondAttackOffset, attackPoint1.position.y, attackPoint1.position.z);
+            secondAttackPoint2Pos = new Vector3(attackPoint2.position.x + -secondAttackOffset, attackPoint2.position.y, attackPoint2.position.z);
+        }
+
+        secondAttackPositionsArray[0] = secondAttackPointPos;
+        secondAttackPositionsArray[1] = secondAttackPoint2Pos;
+    }
+
+    IEnumerator SecondAttack(Vector3[] attack1and2)
+    {
+        yield return new WaitForSeconds(0.25f);
+
+        Attack(attack1and2[0], attack1and2[1]);
+    }
 
     private void OnDrawGizmosSelected()
     {
-        if (meleeAttackPoint == null)
+        if (attackPoint1 == null)
             return;
 
-        Gizmos.DrawWireSphere(meleeAttackPoint.position, attackRange1);
+        Gizmos.DrawWireSphere(attackPoint1.position, attackRange1);
+        Gizmos.DrawWireSphere(attackPoint2.position, attackRange2);
     }
 
     IEnumerator CanAttackAgain()
     {
-        yield return new WaitForSeconds(attackCooldown);
-        //shotGunReadySound.Play();
-        //readyToShootParticles.Play();
-        canAttack = true;
+        yield return new WaitForSeconds(0.35f);
         isMelee = false;
+        canAttack = true;
+
+        if (doesPlayerWantToShoot)
+        {
+            StartCoroutine(pShoot.Shoot());
+        }
+        
+        doesPlayerWantToShoot = false;
     }
 }

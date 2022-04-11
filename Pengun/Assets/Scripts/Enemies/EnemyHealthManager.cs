@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class EnemyHealthManager : MonoBehaviour
 {
-    public int maxHealth;
-    public int minHealth = 0;
+    public float maxHealth;
+    public float minHealth = 0;
 
     public GameObject chargerChunkParticle, chargerBloodParticle;
     public SpriteRenderer[] spriteRenderer;
@@ -13,7 +13,7 @@ public class EnemyHealthManager : MonoBehaviour
     public Rigidbody2D rigidbody;
     public AudioSource deathSound;
 
-    public int currentHealth;
+    public float currentHealth;
     private bool canBeHurt = true;
     public bool isDead = false;
     private bool isDashing;
@@ -22,10 +22,6 @@ public class EnemyHealthManager : MonoBehaviour
     {
         timemanager = GameObject.Find("TimeManager").GetComponent<TimeManager>();
         deathSound = GameObject.Find("AudioManager").transform.GetChild(6).gameObject.GetComponent<AudioSource>();
-        if (this.gameObject.CompareTag("Dumbo"))
-        {
-            maxHealth = 1;
-        }
 
         currentHealth = maxHealth;
     }
@@ -35,12 +31,12 @@ public class EnemyHealthManager : MonoBehaviour
         isDashing = PlayerMovement.isDashing;
     }
 
-    public void DecreaseHealth(int damageAmount)
+    public void DecreaseHealth(float damageAmount)
     {
         if (canBeHurt)
         {
-            timemanager.StartSlowMotion(0.1f);
-            timemanager.InvokeStopSlowMotion(0.02f);
+            //timemanager.StartSlowMotion(0.1f);
+            //timemanager.InvokeStopSlowMotion(0.02f);
             StartCoroutine("HurtFlashEffect");
             StartCoroutine("CanBeHurtAgain");
             rigidbody.AddForce(transform.up * 100, ForceMode2D.Impulse);
@@ -77,7 +73,11 @@ public class EnemyHealthManager : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Player") && isDashing)
         {
-            DecreaseHealth(PlayerDamageController.damageOutput);
+            DecreaseHealth(PlayerDamageController.dashDamageOutput);
+        }
+        else if (collision.gameObject.CompareTag("Bullet"))
+        {
+            DecreaseHealth(PlayerDamageController.gunDamageOutput);
         }
 
     }
@@ -86,10 +86,11 @@ public class EnemyHealthManager : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player") && isDashing)
         {
-            DecreaseHealth(PlayerDamageController.damageOutput);
+            DecreaseHealth(PlayerDamageController.dashDamageOutput);
         }
 
     }
+
 
     IEnumerator CanBeHurtAgain()
     {

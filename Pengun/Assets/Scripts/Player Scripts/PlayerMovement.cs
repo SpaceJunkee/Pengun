@@ -33,6 +33,9 @@ public class PlayerMovement : MonoBehaviour
     public AudioSource dashAudio;
     public AudioSource bloodWaveAudio;
     public GameObject BloodSlamBlast;
+    public SkeletonMecanim skeletonMec;
+    Color mecanimColor;
+    Color dashBlackColor;
 
     //Timer
     private IEnumerator coroutine;
@@ -121,6 +124,10 @@ public class PlayerMovement : MonoBehaviour
         canMove = true;
         jumpCount = maxJumpCount;
         dashCount = maxDashInAir;
+
+        mecanimColor = skeletonMec.skeleton.GetColor();
+        dashBlackColor = Color.blue;
+        dashBlackColor.a = Mathf.Clamp(0.55f, 0, 1);
     }
 
     // Update is called once per frame(updates every frame so if 60fps update runs 60 times per second)
@@ -145,11 +152,11 @@ public class PlayerMovement : MonoBehaviour
 
         if (isBerzerkModeActivated)
         {
-            playerDamageController.setDamageOutput(damageMultiplier);
+            playerDamageController.setMeleeDamageOutput(damageMultiplier);
         }
         else
         {
-            playerDamageController.setDamageOutput(originalDamageMultiplier);
+            playerDamageController.setMeleeDamageOutput(originalDamageMultiplier);
         }
 
     }
@@ -200,7 +207,7 @@ public class PlayerMovement : MonoBehaviour
 
         movementDirection = Input.GetAxis("Horizontal");
 
-        if (isGrounded && movementDirection != 0 || isStandingOnLava && movementDirection != 0)
+        if (isGrounded && movementDirection != 0 || isStandingOnLava && movementDirection != 0 || !isGrounded && movementDirection != 0)
         {
             animator.SetBool("Running", true);
         }
@@ -336,23 +343,27 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void AttemptDash()
+    private void PerformDashEffectsAndAnims()
     {
         animator.SetTrigger("Dash");
         dashBubblesParticles.Play();
         dashLinesParticles.Play();
         dashPopParticles.Play();
+        skeletonMec.skeleton.SetColor(dashBlackColor);
         CameraShake.Instance.ShakeCamera(3f, 0.075f, 0.3f);
         PostProcessingController.myVignette.active = true;
         dashAudio.Play();
+    }
 
+    private void AttemptDash()
+    {
         if (!isGrounded && dashCount != 0)
         {
             isDashing = true;
             animator.SetBool("isDashFinished", false);
             dashTimeLeft = dashTime;
             lastDash = Time.time;
-            
+            PerformDashEffectsAndAnims();
 
             AfterImagePool.Instance.GetFromPool();
             lastImageXpos = transform.position.x;
@@ -365,7 +376,7 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("isDashFinished", false);
             dashTimeLeft = dashTime;
             lastDash = Time.time;
-
+            PerformDashEffectsAndAnims();
             AfterImagePool.Instance.GetFromPool();
             lastImageXpos = transform.position.x;
 
@@ -415,6 +426,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 isDashing = false;
                 animator.SetBool("isDashFinished", true);
+                skeletonMec.skeleton.SetColor(mecanimColor);
                 PostProcessingController.myVignette.active = false;
                 canMove = true;
                 rigidbody.constraints = originalConstraints;

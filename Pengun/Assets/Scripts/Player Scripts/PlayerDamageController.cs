@@ -4,15 +4,38 @@ using UnityEngine;
 
 public class PlayerDamageController : MonoBehaviour
 {
-    public static int damageOutput = 1;
+    public static float meleeDamageOutput = 1f;
+    public static float gunDamageOutput = 2f;
+    public static float dashDamageOutput = 2f;
 
-    public void setDamageOutput(int damageMultiplier)
+
+    public void setMeleeDamageOutput(float damageMultiplier)
     {
-        damageOutput = damageMultiplier;
+        meleeDamageOutput = damageMultiplier;
     }
 
-    public int getDamageOutput()
+    public void setGunDamageOutput(float damageMultiplier)
     {
-        return damageOutput;
+        gunDamageOutput = damageMultiplier;
+    }
+
+    public void setDashDamageOutput(float damageMultiplier)
+    {
+        dashDamageOutput = damageMultiplier;
+    }
+
+    public float getMeleeDamageOutput()
+    {
+        return meleeDamageOutput;
+    }
+
+    public float getGunDamageOutput()
+    {
+        return gunDamageOutput;
+    }
+
+    public float getDashDamageOutput()
+    {
+        return dashDamageOutput;
     }
 }
