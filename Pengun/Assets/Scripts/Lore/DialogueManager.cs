@@ -26,7 +26,7 @@ public class DialogueManager : MonoBehaviour
    public void StartDialogue(Dialogue dialogue)
     {
         PlayerMovement.canMove = false;
-        pm.StopPlayer();
+        pm.StopPlayer(true, true, true);
 
         animator.SetBool("IsOpen", true);
 

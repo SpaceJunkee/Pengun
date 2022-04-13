@@ -46,7 +46,7 @@ public class P_Melee : MonoBehaviour
         //Store input to remember if shoot was pressed while meleeing
         //Make pushback on hit?
 
-        if (canAttack && !P_Shoot.isShooting && !PlayerMovement.isDashing && PlayerMovement.canMove && PlayerMovement.canUseInput)
+        if (canAttack && !P_Shoot.isShooting && !PlayerMovement.isDashing && PlayerMovement.canMove && PlayerMovement.canUseButtonInput)
         {
             if (Input.GetButtonDown("Melee"))
             {

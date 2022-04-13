@@ -73,7 +73,8 @@ public class PlayerMovement : MonoBehaviour
     private bool isWallSliding;
     public static bool isDashing;
     public static bool canMove;
-    public static bool canUseInput = true;
+    public static bool canUseButtonInput = true;
+    public static bool canUseMovementInput = true;
 
     //Wall sliding and jumping
     public float wallCheckDistance;
@@ -230,7 +231,7 @@ public class PlayerMovement : MonoBehaviour
             movementDirection = Math.Max(movementDirection, 1);
         }
 
-        if (canUseInput)
+        if (canUseButtonInput)
         {
             //Dashing inputs
             if (Input.GetButtonDown("Dash") && !isWallSliding)
@@ -357,7 +358,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void AttemptDash()
     {
-        if (!isGrounded && dashCount != 0)
+        if (!isGrounded && dashCount != 0 && !P_Melee.isMelee)
         {
             isDashing = true;
             animator.SetBool("isDashFinished", false);
@@ -370,7 +371,7 @@ public class PlayerMovement : MonoBehaviour
 
             dashCount--;
         }
-        else if(isGrounded && !isTouchingWall)
+        else if(isGrounded && !isTouchingWall && !P_Melee.isMelee)
         {
             isDashing = true;
             animator.SetBool("isDashFinished", false);
@@ -501,13 +502,13 @@ public class PlayerMovement : MonoBehaviour
         {
             isWallSliding = false;
 
-            AddWallJumpForce(isFastRunning, true);
+            
         }
         else if(isWallSliding && movementDirection > 0 && Input.GetButtonDown("Jump"))
         {
             isWallSliding = false;
 
-            AddWallJumpForce(isFastRunning, false);
+            
         }
 
         if(isWallSliding && movementDirection == 0 && Input.GetButtonDown("Jump"))
@@ -626,12 +627,29 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
-    public void StopPlayer()
+    public void StopPlayer(bool freezeY, bool freezeX, bool stopVelocity)
     {
         canMove = false;
         animator.SetBool("Running", false);
-        rigidbody.velocity = Vector2.zero;
-        rigidbody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
+
+        if (stopVelocity)
+        {
+            rigidbody.velocity = Vector2.zero;
+        }
+        
+        if(freezeY && freezeX)
+        {
+            rigidbody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
+        }
+        else if(!freezeY && freezeX)
+        {
+            rigidbody.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+        }
+        else if(freezeY && !freezeX)
+        {
+            rigidbody.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
+        }
+        
     }
 
     public void EnableMovement()
@@ -705,7 +723,7 @@ public class PlayerMovement : MonoBehaviour
         else if (Input.GetButtonDown("SpecialAbility") && isInStrengthMode)
         {
             //Play animation
-            if (!isWallSliding && canUseInput)
+            if (!isWallSliding && canUseButtonInput)
             {
                 ActivateBloodWave();
             }
@@ -725,7 +743,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            StopPlayer();
+            StopPlayer(true, true, true);
             BloodBlast();
         }
         
@@ -752,14 +770,14 @@ public class PlayerMovement : MonoBehaviour
             timemanager.StartSlowMotion(0.1f);
             RadialMenuScript.isActive = true;
             isNotInMenu = false;
-            canUseInput = false;
+            canUseButtonInput = false;
         }
         else if(isNotInMenu == false)
         {
             timemanager.StopSlowMotion();
             RadialMenuScript.isActive = false;
             isNotInMenu = true;
-            canUseInput = true;
+            canUseButtonInput = true;
         }
         else
         {
