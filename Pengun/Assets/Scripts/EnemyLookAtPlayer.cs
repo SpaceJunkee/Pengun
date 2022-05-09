@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyLookAtPlayer : MonoBehaviour
 {
 
-    bool isFacingRight = false;
+    public static bool isFacingRight = false;
     bool isFlipped = false;
     public Transform player;
     EnemyPathfinding enemyPathfinding;

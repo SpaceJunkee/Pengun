@@ -9,6 +9,7 @@ public class EnemyHealthManager : MonoBehaviour
 
     public GameObject chargerChunkParticle, chargerBloodParticle;
     public SpriteRenderer[] spriteRenderer;
+    public MeshRenderer meshRenderer;
     public TimeManager timemanager;
     public Rigidbody2D rigidbody;
     public AudioSource deathSound;
@@ -17,6 +18,8 @@ public class EnemyHealthManager : MonoBehaviour
     private bool canBeHurt = true;
     public bool isDead = false;
     private bool isDashing;
+
+    public float knockBackForce = 30;
 
     private void Start()
     {
@@ -39,7 +42,16 @@ public class EnemyHealthManager : MonoBehaviour
             //timemanager.InvokeStopSlowMotion(0.02f);
             StartCoroutine("HurtFlashEffect");
             StartCoroutine("CanBeHurtAgain");
-            rigidbody.AddForce(transform.up * 100, ForceMode2D.Impulse);
+
+            if (EnemyLookAtPlayer.isFacingRight)
+            {
+                rigidbody.AddForce(transform.right * knockBackForce, ForceMode2D.Impulse);
+            }
+            else if (!EnemyLookAtPlayer.isFacingRight)
+            {
+                rigidbody.AddForce(transform.right * knockBackForce, ForceMode2D.Impulse);
+            }
+
 
             currentHealth -= damageAmount;
 
@@ -124,12 +136,12 @@ public class EnemyHealthManager : MonoBehaviour
         if (currentHealth >= 1)
         {
 
-            for (int x = 0; x < spriteRenderer.Length; x++)
+            for (int i = 0; i < 5; i++)
             {
-                spriteRenderer[x].enabled = false;
-                yield return new WaitForSeconds(0.02f);
-                spriteRenderer[x].enabled = true;
-                yield return new WaitForSeconds(0.02f);
+                meshRenderer.enabled = false;
+                yield return new WaitForSeconds(0.03f);
+                meshRenderer.enabled = true;
+                yield return new WaitForSeconds(0.03f);
             }
 
         }

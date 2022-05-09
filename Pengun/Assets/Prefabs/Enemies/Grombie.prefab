@@ -476,6 +476,8 @@ MonoBehaviour:
   attackRange: 5
   gromPuddle: {fileID: 9118414987998529981, guid: 035b71c15a9733546b81f1232878c46d,
     type: 3}
+  animator: {fileID: 0}
+  dragTimer: 0
 --- !u!114 &1983544730941030772
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,0 +1,153 @@
+
+Infected Rig_1.png
+size: 589, 1031
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+Head
+  rotate: false
+  xy: 2, 58
+  size: 174, 224
+  orig: 190, 231
+  offset: 6, 7
+  index: -1
+Hips
+  rotate: true
+  xy: 504, 585
+  size: 112, 65
+  orig: 114, 67
+  offset: 1, 1
+  index: -1
+Left Foot_0
+  rotate: true
+  xy: 504, 524
+  size: 59, 67
+  orig: 61, 69
+  offset: 1, 1
+  index: -1
+Left Forearm
+  rotate: true
+  xy: 458, 94
+  size: 170, 81
+  orig: 172, 83
+  offset: 1, 1
+  index: -1
+Left Hand_open
+  rotate: false
+  xy: 252, 94
+  size: 204, 123
+  orig: 206, 125
+  offset: 1, 1
+  index: -1
+Left Thigh
+  rotate: true
+  xy: 458, 390
+  size: 132, 109
+  orig: 134, 111
+  offset: 1, 1
+  index: -1
+Left arm
+  rotate: false
+  xy: 326, 9
+  size: 159, 83
+  orig: 161, 85
+  offset: 1, 1
+  index: -1
+Left foot_1
+  rotate: true
+  xy: 546, 3
+  size: 54, 39
+  orig: 56, 41
+  offset: 1, 1
+  index: -1
+Left hand
+  rotate: true
+  xy: 178, 98
+  size: 105, 66
+  orig: 107, 68
+  offset: 1, 1
+  index: -1
+Left shin
+  rotate: true
+  xy: 2, 7
+  size: 49, 136
+  orig: 51, 138
+  offset: 1, 1
+  index: -1
+Let foot_2
+  rotate: false
+  xy: 487, 59
+  size: 72, 33
+  orig: 74, 36
+  offset: 1, 1
+  index: -1
+Peng
+  rotate: false
+  xy: 255, 219
+  size: 201, 303
+  orig: 255, 349
+  offset: 24, 25
+  index: -1
+Right Arm
+  rotate: false
+  xy: 504, 871
+  size: 83, 158
+  orig: 85, 160
+  offset: 1, 1
+  index: -1
+Right Forearm
+  rotate: false
+  xy: 504, 699
+  size: 80, 170
+  orig: 82, 172
+  offset: 1, 1
+  index: -1
+Right Hand
+  rotate: false
+  xy: 178, 205
+  size: 72, 77
+  orig: 74, 79
+  offset: 1, 1
+  index: -1
+Right Thigh
+  rotate: true
+  xy: 178, 2
+  size: 90, 146
+  orig: 92, 149
+  offset: 1, 1
+  index: -1
+Right foot_dead_0
+  rotate: false
+  xy: 487, 17
+  size: 57, 40
+  orig: 59, 42
+  offset: 1, 1
+  index: -1
+Right foot_dead_1
+  rotate: true
+  xy: 541, 202
+  size: 62, 22
+  orig: 74, 24
+  offset: 11, 1
+  index: -1
+Right shin
+  rotate: false
+  xy: 458, 266
+  size: 97, 122
+  orig: 100, 124
+  offset: 2, 1
+  index: -1
+Torso
+  rotate: true
+  xy: 2, 284
+  size: 238, 251
+  orig: 300, 296
+  offset: 31, 23
+  index: -1
+vom
+  rotate: true
+  xy: 2, 524
+  size: 505, 500
+  orig: 521, 514
+  offset: 16, 0
+  index: -1

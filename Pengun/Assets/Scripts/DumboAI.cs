@@ -11,6 +11,9 @@ public class DumboAI : MonoBehaviour
     public float attackRange;
     bool isInAttackMode = false;
     GameObject attackPoint;
+    public Animator animator;
+
+    public bool isPlayerInRange;
 
 
     private void Start()
@@ -21,14 +24,19 @@ public class DumboAI : MonoBehaviour
 
     private void Update()
     {
+        isPlayerInRange = enemyPathFinding.playerIsInRange;
+
+        ManageAnimationLogic();
 
         if (enemyPathFinding.distanceToPlayer < attackRange)
         {
             isInAttackRange = true;
+            animator.SetBool("isInAttackRange", true);
         }
         else
         {
             isInAttackRange = false;
+            animator.SetBool("isInAttackRange", false);
         }
 
         if (isInAttackRange)
@@ -50,6 +58,18 @@ public class DumboAI : MonoBehaviour
     private void OnDestroy()
     {
         DumboSpawner.RemoveADumbo();
+    }
+
+    void ManageAnimationLogic()
+    {
+        if (isPlayerInRange)
+        {
+            animator.SetBool("isPlayerInRange", true);
+        }
+        else
+        {
+            animator.SetBool("isPlayerInRange", false);
+        }
     }
 
 }

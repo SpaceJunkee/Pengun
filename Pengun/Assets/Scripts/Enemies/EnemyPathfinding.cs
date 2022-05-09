@@ -45,6 +45,10 @@ public class EnemyPathfinding : MonoBehaviour
         {
             playerIsInRange = true;
         }
+        else
+        {
+            playerIsInRange = false;
+        }
     }
 
     public void UpdatePath()

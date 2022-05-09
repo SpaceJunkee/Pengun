@@ -17,6 +17,12 @@ public class P_Melee : MonoBehaviour
     public float attackRange2 = 0.5f;
     public LayerMask enemyLayers;
 
+    public float meleeCooldown;
+    int meleeCount = 1;
+    int meleeReset = 1;
+    int maxMeleeCount = 3;
+
+
     bool canAttack = true;
     public static bool isMelee = false;
 
@@ -42,6 +48,8 @@ public class P_Melee : MonoBehaviour
     void Update()
     {
 
+      //Reset melee combo timer
+
         isFacingRight = playerMovement.getPlayerFaceRight();
         //Store input to remember if shoot was pressed while meleeing
         //Make pushback on hit?
@@ -50,8 +58,10 @@ public class P_Melee : MonoBehaviour
         {
             if (Input.GetButtonDown("Melee"))
             {
-
-                animator.SetTrigger("Melee");
+                CheckMeleeCount();
+                animator.SetInteger("MeleeCount", meleeCount);
+                meleeCount++;
+                animator.SetTrigger("Melee");               
 
                 //If attack does not hit an enemy, fire a second attack to give some leeway.
                 if (!Attack(attackPoint1.position, attackPoint2.position))
@@ -158,7 +168,7 @@ public class P_Melee : MonoBehaviour
 
     IEnumerator CanAttackAgain()
     {
-        yield return new WaitForSeconds(0.35f);
+        yield return new WaitForSeconds(meleeCooldown);
         isMelee = false;
         canAttack = true;
 
@@ -168,5 +178,13 @@ public class P_Melee : MonoBehaviour
         }
         
         doesPlayerWantToShoot = false;
+    }
+
+    void CheckMeleeCount()
+    {
+        if(meleeCount > maxMeleeCount)
+        {
+            meleeCount = meleeReset;
+        }
     }
 }

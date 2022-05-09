@@ -81,8 +81,9 @@ public class PlayerMovement : MonoBehaviour
     public float wallSlidingSpeed;
     public float maxWallSlideSpeed;
     public float hopSpeed;
-    public float wallClimbStamina;
-    public float originalWallClimbStamina = 30f;
+    public float wallJumpForce = 18f;
+    public float wallJumpDirection = -1;
+    public Vector2 wallJumpAngle;
 
     //Dashing
     public int dashCount;
@@ -146,8 +147,6 @@ public class PlayerMovement : MonoBehaviour
 
         CheckIfFalling();
 
-        CheckIfWallSliding();
-
         WallHop();
         
 
@@ -165,6 +164,9 @@ public class PlayerMovement : MonoBehaviour
     //Better than update for physics handling like movement or gravity, can be called multiple times per update frame.
     private void FixedUpdate()
     {
+
+        CheckIfWallSliding();
+        WallJump();
 
         //Check if player is standing on the ground
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, groundObjects);
@@ -484,91 +486,30 @@ public class PlayerMovement : MonoBehaviour
         {
             isWallSliding = true;
             wallSlidingSpeed = -2f;
-            wallClimbStamina -= Time.deltaTime;
         }
         else if(isTouchingWall && !isGrounded && rigidbody.velocity.y > 0)
         {
             isWallSliding = true;
             wallSlidingSpeed = -2f;
-            wallClimbStamina -= Time.deltaTime;
         }
         else
         {
             isWallSliding = false;
         }
-     
-
-        if (isWallSliding && movementDirection < 0 && Input.GetButtonDown("Jump"))
-        {
-            isWallSliding = false;
-
-            
-        }
-        else if(isWallSliding && movementDirection > 0 && Input.GetButtonDown("Jump"))
-        {
-            isWallSliding = false;
-
-            
-        }
-
-        if(isWallSliding && movementDirection == 0 && Input.GetButtonDown("Jump"))
-        {
-            isWallSliding = false;
-            animator.SetBool("isWallSliding", false);
-            animator.SetTrigger("WallClimb");
-        }
-
-        if (isTouchingWall && Input.GetButtonDown("Jump"))
-        {
-            wallClimbStamina = originalWallClimbStamina;
-        }
-
-        if (wallClimbStamina <= 0)
-        {
-            //Fast wall slide
-            if (isWallSliding && Input.GetAxis("Vertical") < 0)
-            {
-                wallSlidingSpeed = maxWallSlideSpeed;
-            }
-            else
-            {
-                wallSlidingSpeed = 3.5f;
-            }
-                
-        }else if(wallClimbStamina >= 0 && Input.GetAxis("Vertical") < 0)
-        {
-            wallSlidingSpeed = maxWallSlideSpeed;
-        }
-
-        if (isGrounded || !isWallSliding)
-        {
-            wallClimbStamina = originalWallClimbStamina;
-        }
 
     }
 
-    void AddWallJumpForce(bool isFastRunning, bool isFacingRight)
+    void WallJump()
     {
-        if (isFastRunning && isFacingRight)
+
+        if (isWallSliding && isTouchingWall && Input.GetButtonDown("Jump"))
         {
-            rigidbody.AddForce(Vector2.left * 40, ForceMode2D.Impulse);
-            rigidbody.AddForce(Vector2.up * 5, ForceMode2D.Impulse);
+            rigidbody.AddForce(new Vector2(wallJumpForce * wallJumpDirection * wallJumpAngle.x, wallJumpForce * wallJumpAngle.y), ForceMode2D.Impulse);
+
+            //animator.SetBool("isWallSliding", false);
+            //animator.SetTrigger("WallClimb");            
         }
-        else if(!isFastRunning && isFacingRight)
-        {
-            rigidbody.AddForce(Vector2.left * 48, ForceMode2D.Impulse);
-            rigidbody.AddForce(Vector2.up * 5, ForceMode2D.Impulse);
-        }
-        else if(isFastRunning && !isFacingRight)
-        {
-            rigidbody.AddForce(Vector2.right * 40, ForceMode2D.Impulse);
-            rigidbody.AddForce(Vector2.up * 5, ForceMode2D.Impulse);
-        }
-        else if(!isFastRunning && !isFacingRight)
-        {
-            rigidbody.AddForce(Vector2.right * 48, ForceMode2D.Impulse);
-            rigidbody.AddForce(Vector2.up * 5, ForceMode2D.Impulse);
-        }
+
     }
 
     private void FastRun()
@@ -665,6 +606,7 @@ public class PlayerMovement : MonoBehaviour
         playerFaceRight = !playerFaceRight; //Opposite direction
         transform.Rotate(0f, 180f, 0f);
         this.transform.Find("AbilityWheel").transform.Rotate(0f, 180f, 0f);
+        wallJumpDirection *= -1;
         if (isGrounded)
         {
             CreateDustParticles();
