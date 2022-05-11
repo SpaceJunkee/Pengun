@@ -201,10 +201,17 @@ public class PlayerMovement : MonoBehaviour
     private void ProcessInputs()
     {
         ManageSpecialAbilities();
-
         ManageCassetteTapes();
-
         OpenRadialMenu();
+
+        if (Input.GetAxis("LeftTrigger") == 1)
+        {
+            canFastRun = true;
+        }
+        else
+        {
+            canFastRun = false;
+        }
 
         //Left and right movement
 
