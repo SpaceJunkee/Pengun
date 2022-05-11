@@ -13,6 +13,7 @@ public class GrombieAI : MonoBehaviour
     bool isCurrentlyVomitting = false;
     public float attackRange;
     public float chaseRange;
+    public float chaseSpeed;
     bool hasPuddleDropped = false;
 
     public GameObject gromPuddle;
@@ -68,7 +69,7 @@ public class GrombieAI : MonoBehaviour
         if (enemyPathFinding.distanceToPlayer < chaseRange && enemyPathFinding.distanceToPlayer > attackRange && !isCurrentlyVomitting)
         {
             isInChaseRange = true;
-            enemyPathFinding.speed = grombieOriginalSpeed * 2f;
+            enemyPathFinding.speed = grombieOriginalSpeed * chaseSpeed;
             animator.SetBool("isInChaseRange", true);
         }
         else

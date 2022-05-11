@@ -5,6 +5,7 @@ using UnityEngine;
 public class P_Shoot : MonoBehaviour
 {
     public Animator animator;
+    GromEnergyBarController gromEnergyBarController;
 
     bool canAttack = true;
     public static bool isShooting = false;
@@ -19,11 +20,14 @@ public class P_Shoot : MonoBehaviour
     bool isFacingRight;
     bool canShootAgain = true;
 
+    int gromEnergyCost = 33;
+
     private void Start()
     {
         isShooting = false;
         playerMovement = GetComponentInParent<PlayerMovement>();
         playerRigidBody = playerMovement.getRigidbody2D();
+        gromEnergyBarController = GameObject.Find("GromEnergyBarController").GetComponent<GromEnergyBarController>();
     }
 
     void ShootKnockBack()
@@ -40,12 +44,12 @@ public class P_Shoot : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Shoot") && !isShooting && P_Melee.isMelee && canShootAgain)
+        if (Input.GetButtonDown("Shoot") && !isShooting && P_Melee.isMelee && canShootAgain && gromEnergyBarController.currentGromEnergy >= gromEnergyCost)
         {
             P_Melee.doesPlayerWantToShoot = true;
         }
 
-        if (Input.GetButtonDown("Shoot") && !isShooting && !P_Melee.isMelee && !PlayerMovement.isDashing && canShootAgain)
+        if (Input.GetButtonDown("Shoot") && !isShooting && !P_Melee.isMelee && !PlayerMovement.isDashing && canShootAgain && gromEnergyBarController.currentGromEnergy >= gromEnergyCost)
         {
             StartCoroutine(Shoot());
         }
@@ -53,6 +57,8 @@ public class P_Shoot : MonoBehaviour
 
     public IEnumerator Shoot()
     {
+        gromEnergyBarController.DecreaseGromEnergy(gromEnergyCost);
+
         int direction()
         {
             if(!playerMovement.getPlayerFaceRight())
