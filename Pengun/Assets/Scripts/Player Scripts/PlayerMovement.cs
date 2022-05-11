@@ -58,6 +58,7 @@ public class PlayerMovement : MonoBehaviour
     float pressedJumpTime = 0.2f;
     public float inAirTime = 0.1f;
 
+
     //Checks
     public Transform ceilingCheck;
     public Transform groundCheck;
@@ -146,10 +147,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         CheckIfFalling();
-
-        WallHop();
         
-
         if (isBerzerkModeActivated)
         {
             playerDamageController.setMeleeDamageOutput(damageMultiplier);
@@ -261,7 +259,7 @@ public class PlayerMovement : MonoBehaviour
                 pressedJumpRemember = pressedJumpTime;
                 isJumping = true;
 
-                if (isGrounded || isStandingOnLava )
+                if ((isGrounded || isStandingOnLava) || (inAirTime > 0 && !isGrounded && !isStandingOnLava))
                 {
                     animator.SetTrigger("Jump");
                     CreateDustParticles();
@@ -273,13 +271,13 @@ public class PlayerMovement : MonoBehaviour
 
         if ((pressedJumpRemember > 0) && jumpCount > 0)
         {
-            
-            if (isGrounded || isStandingOnLava)
+            //Still plays jump animation when remembering jump.
+            if ((isGrounded || isStandingOnLava) || (inAirTime > 0 && !isGrounded && !isStandingOnLava))
             {
                 animator.SetTrigger("Jump");
                 CreateDustParticles();
             }
-                
+
             pressedJumpRemember = 0;
             rigidbody.velocity = Vector2.up * jumpForce;
             isJumping = true;
@@ -480,7 +478,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void checkIfCanJump()
     {
-        if (isGrounded || isStandingOnLava)
+        if (isGrounded || isStandingOnLava )
         {
             jumpCount = maxJumpCount;
         }
@@ -544,23 +542,7 @@ public class PlayerMovement : MonoBehaviour
             
         }
     }
-
-    //Wall hop lets the player jump off the wall without jumping 
-    private void WallHop()
-    {
-        if(isWallSliding && Input.GetButtonDown("Dash") && playerFaceRight && movementDirection < 0)
-        {
-            rigidbody.AddForce(Vector2.left * hopSpeed, 0.0f);
-
-        }
-        else if(isWallSliding && Input.GetButtonDown("Dash") && !playerFaceRight && movementDirection > 0)
-        {
-            rigidbody.AddForce(Vector2.right * hopSpeed, 0.0f);
-          
-        }
-    }
-
-   
+ 
     //Flips character rotation depending on which way the character is facing
     public void FlipCharDirection()
     {
