@@ -368,6 +368,7 @@ public class PlayerMovement : MonoBehaviour
         if (!isGrounded && dashCount != 0 && !P_Melee.isMelee)
         {
             isDashing = true;
+            dashCount--;
             animator.SetBool("isDashFinished", false);
             dashTimeLeft = dashTime;
             lastDash = Time.time;
@@ -375,8 +376,7 @@ public class PlayerMovement : MonoBehaviour
 
             AfterImagePool.Instance.GetFromPool();
             lastImageXpos = transform.position.x;
-
-            dashCount--;
+         
         }
         else if(isGrounded && !isTouchingWall && !P_Melee.isMelee)
         {
@@ -523,7 +523,11 @@ public class PlayerMovement : MonoBehaviour
         {
             isFastRunning = true;
             movementSpeed = 18f;
-            animator.SetBool("isSprinting", true);
+            if (isGrounded)
+            {
+                animator.SetBool("isSprinting", true);
+            }
+
             animator.SetBool("Running", false);
             if (isGrounded)
             {
