@@ -6,9 +6,12 @@ public class HealthManager : MonoBehaviour
 {
 
     public KillPlayer killPlayer;
+
+    //Upgrade health here
     public GameObject maxHealthImage;
     public GameObject mediumHealthImage;
     public GameObject lowHealthImage;
+    public GameObject minHealthImage;
     public MeshRenderer meshRenderer;
     public ParticleSystem healthIncreaseParticles;
 

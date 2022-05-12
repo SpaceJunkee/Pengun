@@ -34,8 +34,10 @@ public class PlayerMovement : MonoBehaviour
     public AudioSource bloodWaveAudio;
     public GameObject BloodSlamBlast;
     public SkeletonMecanim skeletonMec;
+    GromEnergyBarController gromEnergyBarController;
     Color mecanimColor;
     Color dashBlackColor;
+    bool isRightTriggerInUse = false;
 
     //Timer
     private IEnumerator coroutine;
@@ -106,9 +108,9 @@ public class PlayerMovement : MonoBehaviour
     private bool isFastRunning = false;
     private bool hasArmour;
     private bool isBerzerkModeActivated = false;
-    private bool isInArmourMode = false;
-    private bool isInStrengthMode = false;
-    private bool isInSpeedMode = false;
+    private bool hasSelectedTimedTape = false;
+    private bool hasSelectedSpecialTape = false;
+    private bool hasSelectedConsumableTape = false;
 
     //Music Ability variables
     int damageMultiplier = 2;
@@ -124,6 +126,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        gromEnergyBarController = GameObject.Find("GromEnergyBarController").GetComponent<GromEnergyBarController>();
         canMove = true;
         jumpCount = maxJumpCount;
         dashCount = maxDashInAir;
@@ -145,6 +148,7 @@ public class PlayerMovement : MonoBehaviour
             RunAnim();
             FastRunAnim();
         }
+
 
         CheckIfFalling();
         
@@ -205,6 +209,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetAxis("LeftTrigger") == 1)
         {
             canFastRun = true;
+
         }
         else
         {
@@ -517,12 +522,17 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    float fastRunGromDecreaseTime = 0.0f;
+    float fastRunGromTimer = 0.2f;
+
     private void FastRun()
     {
-        if (canFastRun && (movementDirection > 0 || movementDirection < 0))
+        if (canFastRun && (movementDirection > 0 || movementDirection < 0) && gromEnergyBarController.currentGromEnergy > gromEnergyBarController.minGromEnergy)
         {
+            fastRunGromDecreaseTime += Time.deltaTime;
             isFastRunning = true;
             movementSpeed = 18f;
+
             if (isGrounded)
             {
                 animator.SetBool("isSprinting", true);
@@ -533,6 +543,13 @@ public class PlayerMovement : MonoBehaviour
             {
                 speedTrailParticles.Play();
             }
+
+            if(fastRunGromDecreaseTime >= fastRunGromTimer)
+            {
+                fastRunGromDecreaseTime = fastRunGromDecreaseTime - fastRunGromTimer;
+                gromEnergyBarController.DecreaseGromEnergy(1);
+            }
+            
             
         }
         else
@@ -546,7 +563,7 @@ public class PlayerMovement : MonoBehaviour
             
         }
     }
- 
+
     //Flips character rotation depending on which way the character is facing
     public void FlipCharDirection()
     {
@@ -607,24 +624,24 @@ public class PlayerMovement : MonoBehaviour
         
     }
     
-    bool hasTrackedChanged1, hasTrackedChanged2, hasTrackedChanged3 = false;
+    bool hasTapeChanged1, hasTapeChanged2, hasTapeChanged3 = false;
 
     private void ManageCassetteTapes()
     {
-        if (RadialMenuScript.selection == 2 && !hasTrackedChanged1)
+        if (RadialMenuScript.selection == 2 && !hasTapeChanged1)
         {
             cassetteTapes.ChangeToBaseTrackUp();
             ManageMusicAbilities(false, true, false);
             ResetHasTrackedChanged(true, false, false);
         }
-        else if (RadialMenuScript.selection == 1 && !hasTrackedChanged2)
+        else if (RadialMenuScript.selection == 1 && !hasTapeChanged2)
         {
             cassetteTapes.ChangeToTrackRight();
             ManageMusicAbilities(true, false, false);
             FastRun();
             ResetHasTrackedChanged(false, true, false);
         }
-        else if (RadialMenuScript.selection == 0 && !hasTrackedChanged3)
+        else if (RadialMenuScript.selection == 0 && !hasTapeChanged3)
         {
             cassetteTapes.ChangeToTrackLeft();
             ManageMusicAbilities(false, false, true);
@@ -633,43 +650,59 @@ public class PlayerMovement : MonoBehaviour
         
     }
 
-    void ManageMusicAbilities(bool toggleCanFastRun, bool toggleHasArmour, bool toggleBerzerkMode)
+    void ManageMusicAbilities(bool isTimedTapes, bool isConsumableTapes, bool isSpecialTapes)
     {
-        canFastRun = toggleCanFastRun;
-        healthManager.setHasArmour(toggleHasArmour);
-        isBerzerkModeActivated = toggleBerzerkMode;
+        canFastRun = isTimedTapes;
+        healthManager.setHasArmour(isConsumableTapes);
+        isBerzerkModeActivated = isSpecialTapes;
 
-        isInArmourMode = toggleHasArmour;
-        isInSpeedMode = toggleCanFastRun;
-        isInStrengthMode = toggleBerzerkMode;
-
+        hasSelectedConsumableTape = isConsumableTapes;
+        hasSelectedTimedTape = isTimedTapes;
+        hasSelectedSpecialTape = isSpecialTapes;
     }
 
     void ManageSpecialAbilities()
     {
-        if (Input.GetButtonDown("SpecialAbility") && isInArmourMode)
+        if (Input.GetAxisRaw("RightTrigger") == 1 && hasSelectedConsumableTape)
         {
-            Debug.Log("Armour");
+            if (!isRightTriggerInUse)
+            {
+                isRightTriggerInUse = true;
+                Debug.Log("Armour");
+            }
+            
         }
-        else if (Input.GetButtonDown("SpecialAbility") && isInSpeedMode)
+        else if (Input.GetAxisRaw("RightTrigger") == 1 && hasSelectedTimedTape)
         {
-            Debug.Log("Speed");
+            if (!isRightTriggerInUse)
+            {
+                isRightTriggerInUse = true;
+                Debug.Log("Speed");
+            }
         }
-        else if (Input.GetButtonDown("SpecialAbility") && isInStrengthMode)
+        else if (Input.GetAxisRaw("RightTrigger") == 1 && hasSelectedSpecialTape)
         {
             //Play animation
-            if (!isWallSliding && canUseButtonInput)
+            if (!isWallSliding && canUseButtonInput && !isRightTriggerInUse)
             {
+                isRightTriggerInUse = true;
                 ActivateBloodWave();
             }
-                
+        }
+        
+        if(Input.GetAxisRaw("RightTrigger") == 0)
+        {
+            if (isRightTriggerInUse)
+            {
+                isRightTriggerInUse = false;
+            }
         }
     }
 
 
     private void ActivateBloodWave()
     {
-        bloodWaveAudio.Play();
+        //bloodWaveAudio.Play();
         if (!isJumping && isGrounded)
         {
             rigidbody.velocity = Vector2.up * jumpForce * 1.3f;
@@ -722,9 +755,9 @@ public class PlayerMovement : MonoBehaviour
 
     void ResetHasTrackedChanged(bool track1, bool track2, bool track3)
     {
-        hasTrackedChanged1 = track1;
-        hasTrackedChanged2 = track2;
-        hasTrackedChanged3 = track3;
+        hasTapeChanged1 = track1;
+        hasTapeChanged2 = track2;
+        hasTapeChanged3 = track3;
     }
 
     //Getters

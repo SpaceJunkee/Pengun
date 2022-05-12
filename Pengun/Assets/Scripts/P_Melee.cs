@@ -91,6 +91,7 @@ public class P_Melee : MonoBehaviour
         //Set return true in foreach if wanting to only hit one enemy.
         bool hasEnemyBeenHit = false;
 
+
         foreach (Collider2D enemy in hitEnemies)
         {
             if(enemy.GetComponent<ChargerHealthManager>() != null)
@@ -101,11 +102,18 @@ public class P_Melee : MonoBehaviour
                 }
                 
             }
-            else
+            else if(enemy.GetComponent<EnemyHealthManager>() != null)
             {
                 enemy.GetComponent<EnemyHealthManager>().DecreaseHealth(PlayerDamageController.meleeDamageOutput);
             }
+
+            if (enemy.CompareTag("Destructable"))
+            {
+                enemy.GetComponent<BreackableObject>().TakeDamage(10);
+            }
+
             hasEnemyBeenHit = true;
+
         }
 
         foreach (Collider2D enemy in hitEnemiesPoint2)
@@ -119,12 +127,20 @@ public class P_Melee : MonoBehaviour
 
 
             }
-            else
+            else if(enemy.GetComponent<EnemyHealthManager>() != null)
             {
                 enemy.GetComponent<EnemyHealthManager>().DecreaseHealth(PlayerDamageController.meleeDamageOutput);
             }
+
+            if (enemy.CompareTag("Destructable"))
+            {
+                enemy.GetComponent<BreackableObject>().TakeDamage(10);
+            }
+
             hasEnemyBeenHit = true;
         }
+
+
         
         return hasEnemyBeenHit;
         

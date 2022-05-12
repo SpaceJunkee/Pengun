@@ -44,12 +44,12 @@ public class P_Shoot : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Shoot") && !isShooting && P_Melee.isMelee && canShootAgain && gromEnergyBarController.currentGromEnergy >= gromEnergyCost)
+        if (Input.GetButtonDown("Shoot") && !isShooting && P_Melee.isMelee && canShootAgain && gromEnergyBarController.currentGromEnergy >= gromEnergyCost && PlayerMovement.canUseButtonInput)
         {
             P_Melee.doesPlayerWantToShoot = true;
         }
 
-        if (Input.GetButtonDown("Shoot") && !isShooting && !P_Melee.isMelee && !PlayerMovement.isDashing && canShootAgain && gromEnergyBarController.currentGromEnergy >= gromEnergyCost)
+        if (Input.GetButtonDown("Shoot") && !isShooting && !P_Melee.isMelee && !PlayerMovement.isDashing && canShootAgain && gromEnergyBarController.currentGromEnergy >= gromEnergyCost && PlayerMovement.canUseButtonInput)
         {
             StartCoroutine(Shoot());
         }

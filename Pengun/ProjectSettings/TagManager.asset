@@ -17,6 +17,7 @@ TagManager:
   - VCAM
   - GravityPlus
   - GravityMinus
+  - Destructable
   layers:
   - Default
   - TransparentFX
@@ -42,7 +43,7 @@ TagManager:
   - InvisibleWall
   - OnDestroyObject
   - UnkillableEnemy
-  - 
+  - Melee
   - 
   - 
   - 

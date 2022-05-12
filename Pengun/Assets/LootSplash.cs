@@ -5,10 +5,25 @@ using UnityEngine;
 public class LootSplash : MonoBehaviour
 {
     public GameObject droplet;
-    public int dropCount;
-    float spread = 2.5f;
+    int dropCount;
+    public int minDropCount;
+    public int maxDropCount;
+    int originalDropCount;
+    public float spread = 2.5f;
+    public bool containsLoot = false;
 
-    private void OnDestroy()
+    private void Start()
+    {
+        originalDropCount = Random.Range(minDropCount, maxDropCount);
+        dropCount = originalDropCount;
+
+        if (!containsLoot)
+        {
+            droplet = null;
+        }
+    }
+
+    public void summonDrop()
     {
         while(dropCount > 0)
         {
@@ -19,5 +34,13 @@ public class LootSplash : MonoBehaviour
             GameObject go = Instantiate(droplet, this.gameObject.transform.position, Quaternion.identity);
             go.transform.position = pos;
         }
+
+        ResetDropCount();
+    }
+
+    void ResetDropCount()
+    {
+        originalDropCount = Random.Range(minDropCount, maxDropCount);
+        dropCount = originalDropCount;
     }
 }
