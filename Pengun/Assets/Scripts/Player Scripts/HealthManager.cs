@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HealthManager : MonoBehaviour
 {
@@ -8,57 +9,51 @@ public class HealthManager : MonoBehaviour
     public KillPlayer killPlayer;
 
     //Upgrade health here
-    public GameObject maxHealthImage;
-    public GameObject mediumHealthImage;
-    public GameObject lowHealthImage;
-    public GameObject minHealthImage;
+    public Image maxHealthImage;
+    public Image mediumHealthImage;
+    public Image lowHealthImage;
+    public Image minHealthImage;
     public MeshRenderer meshRenderer;
     public ParticleSystem healthIncreaseParticles;
 
-    public int maxHealth = 3;
-    private int mediumHealth = 2;
-    private int lowHealth = 1;
-    public int minHealth = 0;
-    public int currentHealth;
-    public int armouredHealth;
+    public float maxHealth = 100f;
+    private float mediumHealth = 75;
+    private float lowHealth = 50;
+    private float minHealth = 25;
+    public float noHealth = 0;
+    public float currentHealth;
 
     public bool canBeHurt = true;
     bool hasArmour = true;
 
     private void Start()
     {
-        armouredHealth = maxHealth;
-        currentHealth = armouredHealth;
+        currentHealth = maxHealth;
     }
 
     private void Update()
     {
-        if (!hasArmour)
+
+        CheckIfCurrentHealthIsMax();
+
+        /*if (Input.GetButtonDown("Melee"))
         {
-            currentHealth = lowHealth;
-            maxHealthImage.SetActive(false);
-            mediumHealthImage.SetActive(false);
+            DecreaseHealth(3);
         }
-        else if (hasArmour && armouredHealth == maxHealth)
+
+        if (Input.GetButtonDown("Dash"))
         {
-            currentHealth = armouredHealth;
-            maxHealthImage.SetActive(true);
-            mediumHealthImage.SetActive(true);
-        }
-        else if(hasArmour && armouredHealth == mediumHealth)
-        {
-            currentHealth = armouredHealth;
-            maxHealthImage.SetActive(false);
-            mediumHealthImage.SetActive(true);
-        }
+            IncreaseHealth(5);
+        }*/
+
     }
 
-    public void HurtPlayer()
+    public void HurtPlayer(float damageAmount)
     {
         if (canBeHurt)
         {
             canBeHurt = false;
-            DecreaseHealth();
+            DecreaseHealth(damageAmount);
         }        
 
     }
@@ -68,30 +63,13 @@ public class HealthManager : MonoBehaviour
         canBeHurt = true;
     }
 
-    public void DecreaseHealth()
+    public void DecreaseHealth(float decreaseAmount)
     {
+        currentHealth -= decreaseAmount;
+        UpdateHealthBars();
+        StartCoroutine("HurtFlashEffect");   
 
-        StartCoroutine("HurtFlashEffect");
-
-        if (currentHealth == maxHealth && hasArmour)
-        {
-            armouredHealth = mediumHealth;
-            currentHealth = armouredHealth;
-            maxHealthImage.SetActive(false);
-        }
-        else if(currentHealth == mediumHealth && hasArmour)
-        {
-            armouredHealth = lowHealth;
-            currentHealth = armouredHealth;
-            mediumHealthImage.SetActive(false);
-        }
-        else if(currentHealth == lowHealth)
-        {
-            currentHealth = minHealth;
-            lowHealthImage.SetActive(false);
-        }
-
-        if (currentHealth == minHealth)
+        if (currentHealth <= noHealth)
         {
             killPlayer.InstantiateDeath();
         }
@@ -101,33 +79,17 @@ public class HealthManager : MonoBehaviour
         }   
     }
 
-    public void AddToCurrentHealth()
+    public void IncreaseHealth(float inceaseAmount)
     {
-        if (armouredHealth != maxHealth)
-        {
-            healthIncreaseParticles.Play();
-            armouredHealth = maxHealth;
-            maxHealthImage.SetActive(true);
-            mediumHealthImage.SetActive(true);
-        }
-
+        UpdateHealthBars();
+        currentHealth += inceaseAmount;
     }
 
-    public int getCurrentHealth()
+    public float getCurrentHealth()
     {
         return currentHealth;
     }
 
-    public int getArmouredHealth()
-    {
-        return armouredHealth;
-    }
-
-    public void setHasArmour(bool toggleHasArmour)
-    {
-        hasArmour = toggleHasArmour;
-
-    }
 
     IEnumerator HurtFlashEffect()
     {
@@ -142,6 +104,41 @@ public class HealthManager : MonoBehaviour
                 meshRenderer.enabled = true;
                 yield return new WaitForSeconds(0.07f);
             }
+        }
+    }
+
+    void CheckIfCurrentHealthIsMax()
+    {
+        if(currentHealth >= maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+        else if(currentHealth <= noHealth)
+        {
+            currentHealth = noHealth;
+        }
+    }
+
+    void UpdateHealthBars()
+    {
+        if (currentHealth > mediumHealth && currentHealth <= maxHealth)
+        {
+            maxHealthImage.fillAmount = currentHealth / maxHealth;
+        }
+        else if (currentHealth > lowHealth && currentHealth <= mediumHealth)
+        {
+            maxHealthImage.fillAmount = 0;
+            mediumHealthImage.fillAmount = currentHealth / maxHealth;
+        }
+        else if (currentHealth > minHealth && currentHealth <= lowHealth)
+        {
+            mediumHealthImage.fillAmount = 0;
+            lowHealthImage.fillAmount = currentHealth / maxHealth;
+        }
+        else if (currentHealth > noHealth && currentHealth <= minHealth)
+        {
+            lowHealthImage.fillAmount = 0;
+            minHealthImage.fillAmount = currentHealth / maxHealth;
         }
     }
 

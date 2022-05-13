@@ -18,7 +18,6 @@ public class GromEnergyBarController : MonoBehaviour
     private void Update()
     {
         CheckIfCurrentIsMinOrMax();
-
     }
 
     public void IncreaseGromEnergy(int amount)

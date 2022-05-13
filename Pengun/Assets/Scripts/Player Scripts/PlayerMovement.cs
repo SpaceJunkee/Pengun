@@ -522,14 +522,10 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    float fastRunGromDecreaseTime = 0.0f;
-    float fastRunGromTimer = 0.2f;
-
     private void FastRun()
     {
-        if (canFastRun && (movementDirection > 0 || movementDirection < 0) && gromEnergyBarController.currentGromEnergy > gromEnergyBarController.minGromEnergy)
+        if (canFastRun && (movementDirection > 0 || movementDirection < 0))
         {
-            fastRunGromDecreaseTime += Time.deltaTime;
             isFastRunning = true;
             movementSpeed = 18f;
 
@@ -542,14 +538,7 @@ public class PlayerMovement : MonoBehaviour
             if (isGrounded)
             {
                 speedTrailParticles.Play();
-            }
-
-            if(fastRunGromDecreaseTime >= fastRunGromTimer)
-            {
-                fastRunGromDecreaseTime = fastRunGromDecreaseTime - fastRunGromTimer;
-                gromEnergyBarController.DecreaseGromEnergy(1);
-            }
-            
+            } 
             
         }
         else
@@ -653,7 +642,6 @@ public class PlayerMovement : MonoBehaviour
     void ManageMusicAbilities(bool isTimedTapes, bool isConsumableTapes, bool isSpecialTapes)
     {
         canFastRun = isTimedTapes;
-        healthManager.setHasArmour(isConsumableTapes);
         isBerzerkModeActivated = isSpecialTapes;
 
         hasSelectedConsumableTape = isConsumableTapes;

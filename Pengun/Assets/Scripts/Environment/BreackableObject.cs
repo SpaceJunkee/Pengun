@@ -38,7 +38,7 @@ public class BreackableObject : MonoBehaviour
     {
         if (isBreakable)
         {
-            if (collision.collider.name == "Player" && PlayerMovement.isDashing || collision.collider.name == "Player" && PlayerMovement.isfalling)
+            if (collision.collider.name == "Player" && PlayerMovement.isDashing )
             {
                 CameraShake.Instance.ShakeCamera(4f, 5f, 0.2f);
                 BreakObject();

@@ -18,6 +18,7 @@ TagManager:
   - GravityPlus
   - GravityMinus
   - Destructable
+  - Ground
   layers:
   - Default
   - TransparentFX

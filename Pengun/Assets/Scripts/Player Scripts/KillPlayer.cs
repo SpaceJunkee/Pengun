@@ -24,7 +24,7 @@ public class KillPlayer : MonoBehaviour
         isDead = true;
         timeManager.StopSlowMotion();
         playerMovement.StopPlayer(true, true, true);
-        Destroy(GameObject.Find("Spine GameObject (skeleton)"));
+        Destroy(GameObject.Find("SPINEPENG"));
         Instantiate(playerChunkParticle, this.gameObject.transform.position, playerChunkParticle.transform.rotation);
         Instantiate(playerBloodParticle, this.gameObject.transform.position, playerBloodParticle.transform.rotation);
         Invoke("EndGame", 0.3f);

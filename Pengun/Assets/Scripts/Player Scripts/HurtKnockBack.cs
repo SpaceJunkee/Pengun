@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HurtKnockBack : MonoBehaviour
 {
-    public Rigidbody2D playerRB;
+    Rigidbody2D playerRB;
     public HealthManager healthManager;
     public MeshRenderer meshRenderer;
     public PlayerMovement playerMovement;
@@ -18,6 +18,13 @@ public class HurtKnockBack : MonoBehaviour
     private bool isStandingOnLava;
     public bool isPlayerFacingRight;
     private bool isMoving;
+
+    public int playerHurtDamage = 15;
+
+    private void Start()
+    {
+        playerRB = playerMovement.getRigidbody2D();
+    }
 
 
     void Update()
@@ -62,7 +69,7 @@ public class HurtKnockBack : MonoBehaviour
     public IEnumerator HurtPlayer(Collision2D collision)
     {
         Vector2 direction = (this.transform.position - collision.transform.position).normalized;
-        this.GetComponent<HealthManager>().HurtPlayer();
+        this.GetComponent<HealthManager>().HurtPlayer(playerHurtDamage);
 
         if (isPlayerFacingRight)
         {
@@ -86,9 +93,9 @@ public class HurtKnockBack : MonoBehaviour
     public IEnumerator HurtPlayerTrigger(Collider2D collision)
     {
         Vector2 direction = (this.transform.position - collision.transform.position).normalized;
-        this.GetComponent<HealthManager>().HurtPlayer();
+        this.GetComponent<HealthManager>().HurtPlayer(playerHurtDamage);
 
-        if (isPlayerFacingRight)
+       if (isPlayerFacingRight)
         {
             KnockBack(direction);
         }

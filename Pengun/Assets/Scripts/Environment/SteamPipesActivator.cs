@@ -6,6 +6,7 @@ public class SteamPipesActivator : MonoBehaviour
 {
 
     public ParticleSystem particleSystem;
+    public int damageAmount = 15;
 
     private void Start()
     {
@@ -27,7 +28,7 @@ public class SteamPipesActivator : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            other.GetComponent<HealthManager>().HurtPlayer();
+            other.GetComponent<HealthManager>().HurtPlayer(damageAmount);
         }
     }
 

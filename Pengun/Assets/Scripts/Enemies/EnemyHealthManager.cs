@@ -13,6 +13,7 @@ public class EnemyHealthManager : MonoBehaviour
     public TimeManager timemanager;
     public Rigidbody2D rigidbody;
     public AudioSource deathSound;
+    LootSplash lootSplash;
 
     public float currentHealth;
     private bool canBeHurt = true;
@@ -23,6 +24,7 @@ public class EnemyHealthManager : MonoBehaviour
 
     private void Start()
     {
+        lootSplash = this.GetComponent<LootSplash>();
         timemanager = GameObject.Find("TimeManager").GetComponent<TimeManager>();
         deathSound = GameObject.Find("AudioManager").transform.GetChild(6).gameObject.GetComponent<AudioSource>();
 
@@ -38,6 +40,7 @@ public class EnemyHealthManager : MonoBehaviour
     {
         if (canBeHurt)
         {
+            lootSplash.summonDrop();
             //timemanager.StartSlowMotion(0.1f);
             //timemanager.InvokeStopSlowMotion(0.02f);
             StartCoroutine("HurtFlashEffect");
@@ -115,7 +118,7 @@ public class EnemyHealthManager : MonoBehaviour
     {
         deathSound.Play();
         isDead = true;
-
+        lootSplash.summonDrop();
         if (this.CompareTag("Grombie"))
         {
             Destroy(this.gameObject, 0.05f);

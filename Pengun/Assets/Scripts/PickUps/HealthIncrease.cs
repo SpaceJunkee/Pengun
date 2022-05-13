@@ -5,6 +5,7 @@ using UnityEngine;
 public class HealthIncrease : MonoBehaviour
 {
     public HealthManager healthManager;
+    public int healthIncreaseAmount = 25;
 
     private void Start()
     {
@@ -14,9 +15,9 @@ public class HealthIncrease : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
-        if (collision.gameObject.CompareTag("Player") && healthManager.getArmouredHealth() != healthManager.maxHealth)
+        if (collision.gameObject.CompareTag("Player") && healthManager.currentHealth != healthManager.maxHealth)
         {
-            healthManager.AddToCurrentHealth();
+            healthManager.IncreaseHealth(healthIncreaseAmount);
 
             Destroy(this.gameObject, 0.1f);
         }
