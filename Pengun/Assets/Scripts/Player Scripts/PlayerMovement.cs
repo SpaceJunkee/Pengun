@@ -173,6 +173,11 @@ public class PlayerMovement : MonoBehaviour
         //Check if player is standing on the ground
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, groundObjects);
 
+        if (isGrounded)
+        {
+            isJumping = false;
+        }
+
         animator.SetBool("Grounded", isGrounded);
         isStandingOnLava = hurtKnockBack.getIsStandingOnLava();
 
@@ -205,6 +210,8 @@ public class PlayerMovement : MonoBehaviour
         ManageSpecialAbilities();
         ManageCassetteTapes();
         OpenRadialMenu();
+
+        animator.SetBool("IsJumping", isJumping);
 
         if (Input.GetAxis("LeftTrigger") == 1)
         {
@@ -262,7 +269,7 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetButtonDown("Jump"))
             {
                 pressedJumpRemember = pressedJumpTime;
-                isJumping = true;
+                StartCoroutine("ToggleIsJumping");
 
                 if ((isGrounded || isStandingOnLava) || (inAirTime > 0 && !isGrounded && !isStandingOnLava))
                 {
@@ -285,7 +292,7 @@ public class PlayerMovement : MonoBehaviour
 
             pressedJumpRemember = 0;
             rigidbody.velocity = Vector2.up * jumpForce;
-            isJumping = true;
+            StartCoroutine("ToggleIsJumping");
         }
 
         if (!isGrounded && !isTouchingWall && !isStandingOnLava)
@@ -295,7 +302,6 @@ public class PlayerMovement : MonoBehaviour
             if(inAirTime < 0)
             {
                 jumpCount = 0;
-                isJumping = false;
             }
             
         }
@@ -304,6 +310,12 @@ public class PlayerMovement : MonoBehaviour
             inAirTime = 0.1f;
         }
 
+    }
+
+    IEnumerator ToggleIsJumping()
+    {
+        yield return new WaitForSeconds(0.1f);
+        isJumping = true;
     }
 
     //Moves Character 
@@ -478,7 +490,6 @@ public class PlayerMovement : MonoBehaviour
             rigidbody.velocity += Vector2.up * Physics2D.gravity.y * (smallJumpMultiplier - 1) * Time.deltaTime;
         }
 
-        isJumping = false;
     }
 
     private void checkIfCanJump()
