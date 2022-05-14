@@ -19,11 +19,17 @@ public class HurtKnockBack : MonoBehaviour
     public bool isPlayerFacingRight;
     private bool isMoving;
 
-    public int playerHurtDamage = 15;
+    public int playerHurtDamage = 25;
+    public Animator animator;
+    public bool isCurrentlyKnockBacking = false;
+
+    TimeManager timeManager;
 
     private void Start()
     {
+        healthManager = this.GetComponent<HealthManager>();
         playerRB = playerMovement.getRigidbody2D();
+        timeManager = GameObject.Find("TimeManager").GetComponent<TimeManager>();
     }
 
 
@@ -46,7 +52,7 @@ public class HurtKnockBack : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy") && !hasBeenHurt)
         {
-            StartCoroutine(HurtPlayer(collision));          
+            StartCoroutine(HurtPlayer(collision.transform));          
         }
     }
 
@@ -54,7 +60,7 @@ public class HurtKnockBack : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy") && !hasBeenHurt)
         {
-            StartCoroutine(HurtPlayerTrigger(collision));
+            StartCoroutine(HurtPlayerTrigger(collision.transform));
         }
     }
 
@@ -62,69 +68,71 @@ public class HurtKnockBack : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy") && !hasBeenHurt)
         {
-            StartCoroutine(HurtPlayerTrigger(collision));
+            StartCoroutine(HurtPlayerTrigger(collision.transform));
         }
     }
 
-    public IEnumerator HurtPlayer(Collision2D collision)
+    public IEnumerator HurtPlayer(Transform other)
     {
-        Vector2 direction = (this.transform.position - collision.transform.position).normalized;
-        this.GetComponent<HealthManager>().HurtPlayer(playerHurtDamage);
+        healthManager.HurtPlayer(playerHurtDamage);
 
-        if (isPlayerFacingRight)
+        if (!isCurrentlyKnockBacking)
         {
-            KnockBack(direction);
+            KnockBack(other);
         }
-        else if(!isPlayerFacingRight && isStandingOnLava)
+
+
+        hasBeenHurt = true;
+        yield return new WaitForSeconds(0.5f);
+        hasBeenHurt = false;
+    }
+
+    public IEnumerator HurtPlayerTrigger(Transform other)
+    {
+        healthManager.HurtPlayer(playerHurtDamage);
+
+        if (!isCurrentlyKnockBacking)
         {
-            KnockBack(direction);
-        }
-        else
-        {
-            KnockBack(-direction);
+            KnockBack(other);
         }
         
 
+
         hasBeenHurt = true;
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.5f);
         hasBeenHurt = false;
     }
 
-    public IEnumerator HurtPlayerTrigger(Collider2D collision)
+    public void KnockBack(Transform otherPos)
     {
-        Vector2 direction = (this.transform.position - collision.transform.position).normalized;
-        this.GetComponent<HealthManager>().HurtPlayer(playerHurtDamage);
+        isCurrentlyKnockBacking = true;
 
-       if (isPlayerFacingRight)
-        {
-            KnockBack(direction);
-        }
-        else if (!isPlayerFacingRight && isStandingOnLava)
-        {
-            KnockBack(direction);
-        }
-        else
-        {
-            KnockBack(-direction);
-        }
-
-
-        hasBeenHurt = true;
-        yield return new WaitForSeconds(1.5f);
-        hasBeenHurt = false;
-    }
-
-    public void KnockBack(Vector2 direction)
-    {
-        if(healthManager.getCurrentHealth() >= 1 && playerMovement.getIsGrounded() == true)
+        animator.SetTrigger("KnockBack");
+        if (healthManager.getCurrentHealth() >= 1)
         {
             StopPlayerWithKnockBackConstraints();
-            Invoke("RemoveConstraints", 0.25f);
+            StartCoroutine("StopTimeForKnockBack");
+            timeManager.InvokeStopSlowMotion(0.005f);
+            Invoke("RemoveConstraints", 0.35f);
         }
-        
-        playerRB.AddForce(direction * knockBackAmount, ForceMode2D.Impulse);
-        this.transform.Translate(direction * knockBackdirectionForce);       
-        
+        Vector2 direction = (otherPos.transform.position - this.transform.position).normalized;
+
+        if (playerMovement.getIsGrounded())
+        {
+            playerRB.AddForce(-direction * knockBackAmount, ForceMode2D.Impulse);
+        }
+        else
+        {
+            playerRB.AddForce(-direction * (knockBackAmount * 1.5f), ForceMode2D.Impulse);
+        }
+
+    }
+
+    IEnumerator StopTimeForKnockBack()
+    {
+        yield return new WaitForSeconds(0.1f);
+        timeManager.StartSlowMotion(0.011f);
+        timeManager.InvokeStopSlowMotion(0.005f);
     }
 
     public bool getIsStandingOnLava()
@@ -134,13 +142,25 @@ public class HurtKnockBack : MonoBehaviour
 
     public void StopPlayerWithKnockBackConstraints()
     {
-        playerRB.velocity = Vector2.zero;
-        playerRB.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+        PlayerMovement.canMove = false;
+        if (playerMovement.getIsGrounded())
+        {
+            playerMovement.StopPlayer(true, false, true);
+        }
+        else
+        {
+            playerMovement.StopPlayer(false, false, true);
+        }
+        
+        //playerRB.constraints = RigidbodyConstraints2D.FreezeRotation;
     }
 
     public void RemoveConstraints()
     {
-        playerRB.constraints = PlayerMovement.originalConstraints;
+        playerMovement.EnableMovement();
+        PlayerMovement.canMove = true;
+        //playerRB.constraints = PlayerMovement.originalConstraints;
+        isCurrentlyKnockBacking = false;
     }
 
 }

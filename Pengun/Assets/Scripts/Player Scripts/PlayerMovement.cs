@@ -765,6 +765,11 @@ public class PlayerMovement : MonoBehaviour
         return playerFaceRight;
     }
 
+    public bool getIsFastRunning()
+    {
+        return isFastRunning;
+    }
+
     public bool getIsGrounded()
     {
         return isGrounded;

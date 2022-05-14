@@ -19,6 +19,7 @@ TagManager:
   - GravityMinus
   - Destructable
   - Ground
+  - Spike
   layers:
   - Default
   - TransparentFX

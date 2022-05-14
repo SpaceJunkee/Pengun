@@ -15,6 +15,7 @@ public class HealthManager : MonoBehaviour
     public Image minHealthImage;
     public MeshRenderer meshRenderer;
     public ParticleSystem healthIncreaseParticles;
+    public ParticleSystem hitParticles;
 
     public float maxHealth = 100f;
     private float mediumHealth = 75;
@@ -52,6 +53,7 @@ public class HealthManager : MonoBehaviour
     {
         if (canBeHurt)
         {
+            PerformHitEffect();
             canBeHurt = false;
             DecreaseHealth(damageAmount);
         }        
@@ -67,7 +69,7 @@ public class HealthManager : MonoBehaviour
     {
         currentHealth -= decreaseAmount;
         UpdateHealthBars();
-        StartCoroutine("HurtFlashEffect");   
+         
 
         if (currentHealth <= noHealth)
         {
@@ -75,7 +77,7 @@ public class HealthManager : MonoBehaviour
         }
         else
         {
-            Invoke("CanBeHurtAgain", 1.5f);
+            Invoke("CanBeHurtAgain", 0.5f);
         }   
     }
 
@@ -90,6 +92,10 @@ public class HealthManager : MonoBehaviour
         return currentHealth;
     }
 
+    public void PerformHitEffect()
+    {
+        hitParticles.Play();
+    }
 
     IEnumerator HurtFlashEffect()
     {
