@@ -130,9 +130,9 @@ public class HurtKnockBack : MonoBehaviour
 
     IEnumerator StopTimeForKnockBack()
     {
-        yield return new WaitForSeconds(0.1f);
-        timeManager.StartSlowMotion(0.011f);
-        timeManager.InvokeStopSlowMotion(0.005f);
+        timeManager.StartSlowMotion(0.001f);
+        yield return new WaitForSeconds(0.0001f);
+        timeManager.InvokeStopSlowMotion(0.0001f);
     }
 
     public bool getIsStandingOnLava()
