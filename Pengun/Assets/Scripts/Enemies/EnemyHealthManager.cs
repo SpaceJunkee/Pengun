@@ -7,7 +7,7 @@ public class EnemyHealthManager : MonoBehaviour
     public float maxHealth;
     public float minHealth = 0;
 
-    public GameObject chargerChunkParticle, chargerBloodParticle;
+    public GameObject chargerChunkParticle, chargerBloodParticle, hitChunckParticle, gromDroplet;
     public SpriteRenderer[] spriteRenderer;
     public MeshRenderer meshRenderer;
     public TimeManager timemanager;
@@ -21,6 +21,7 @@ public class EnemyHealthManager : MonoBehaviour
     private bool isDashing;
 
     public float knockBackForce = 30;
+    public float upknockBackForce = 30;
 
     private void Start()
     {
@@ -40,19 +41,21 @@ public class EnemyHealthManager : MonoBehaviour
     {
         if (canBeHurt)
         {
-            lootSplash.summonDrop();
-            //timemanager.StartSlowMotion(0.1f);
-            //timemanager.InvokeStopSlowMotion(0.02f);
-            StartCoroutine("HurtFlashEffect");
             StartCoroutine("CanBeHurtAgain");
+            CameraShake.Instance.ShakeCamera(4f, 1f, 0.15f);
+            //Summon hit chunck
+            Instantiate(hitChunckParticle, this.gameObject.transform.position, hitChunckParticle.transform.rotation);
+            Instantiate(gromDroplet, this.gameObject.transform.position, gromDroplet.transform.rotation);
 
             if (EnemyLookAtPlayer.isFacingRight)
             {
                 rigidbody.AddForce(transform.right * knockBackForce, ForceMode2D.Impulse);
+                rigidbody.AddForce(transform.up * upknockBackForce, ForceMode2D.Impulse);
             }
             else if (!EnemyLookAtPlayer.isFacingRight)
             {
                 rigidbody.AddForce(transform.right * knockBackForce, ForceMode2D.Impulse);
+                rigidbody.AddForce(transform.up * upknockBackForce, ForceMode2D.Impulse);
             }
 
 
@@ -132,21 +135,5 @@ public class EnemyHealthManager : MonoBehaviour
         Instantiate(chargerBloodParticle, this.gameObject.transform.position, chargerBloodParticle.transform.rotation);
     }
 
-    IEnumerator HurtFlashEffect()
-    {
-        CameraShake.Instance.ShakeCamera(6f, 5f, 0.2f);
-
-        if (currentHealth >= 1)
-        {
-
-            for (int i = 0; i < 5; i++)
-            {
-                meshRenderer.enabled = false;
-                yield return new WaitForSeconds(0.03f);
-                meshRenderer.enabled = true;
-                yield return new WaitForSeconds(0.03f);
-            }
-
-        }
-    }
 }
+  

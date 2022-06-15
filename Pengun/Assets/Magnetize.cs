@@ -9,6 +9,8 @@ public class Magnetize : MonoBehaviour
     Vector3 velocity = Vector3.zero;
     public float minModifier = 7;
     public float maxModifier = 11;
+    public float followTimer1 = 2;
+    public float followTimer2 = 10;
 
     TrailRenderer trailRenderer;
     Animator animator;
@@ -40,7 +42,7 @@ public class Magnetize : MonoBehaviour
     IEnumerator StartFollowing()
     {
         
-        yield return new WaitForSeconds(Random.Range(2, 10));
+        yield return new WaitForSeconds(Random.Range(followTimer1, followTimer2));
         trailRenderer.enabled = true;
         isFollowing = true;
 
