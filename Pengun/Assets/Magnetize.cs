@@ -23,9 +23,10 @@ public class Magnetize : MonoBehaviour
         trailRenderer = this.GetComponent<TrailRenderer>();
         animator = this.GetComponent<Animator>();
         target = GameObject.Find("Player").GetComponent<Transform>();
+        InvokeRepeating("ReduceMaxMod", 0f, 0.25f);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
 
         if (!isFollowing)
@@ -37,6 +38,11 @@ public class Magnetize : MonoBehaviour
         {
             transform.position = Vector3.SmoothDamp(transform.position, target.position, ref velocity, Time.deltaTime * Random.Range(minModifier, maxModifier));
         }
+    }
+
+    void ReduceMaxMod()
+    {
+        maxModifier -= 1f;
     }
 
     IEnumerator StartFollowing()

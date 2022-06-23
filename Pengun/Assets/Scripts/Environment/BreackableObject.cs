@@ -12,6 +12,11 @@ public class BreackableObject : MonoBehaviour
 
     public int health = 10;
     public bool isBreakable = true;
+    bool canBeHurt = true;
+
+    //Handle force applied when player melee attacks them
+    public bool canApplyDownWardForceOnHit;
+    public bool canApplyUpWardForceOnHit;
 
     private void Start()
     {
@@ -53,18 +58,30 @@ public class BreackableObject : MonoBehaviour
     //Enemy to take damage
     public void TakeDamage(int damage)
     {
-        CameraShake.Instance.ShakeCamera(4f, 5f, 0.2f);
-        health -= damage;
-
-        if (health <= 0)
+        if (canBeHurt)
         {
-            BreakObject();
-        }
+            StartCoroutine("CanBeHurtAgain");
+            CameraShake.Instance.ShakeCamera(4f, 5f, 0.2f);
+            health -= damage;
 
-        if (lootSplash.containsLoot)
-        {
-            lootSplash.summonDrop();
+            if (health <= 0)
+            {
+                BreakObject();
+            }
+
+            if (lootSplash.containsLoot)
+            {
+                lootSplash.summonDrop();
+            }
         }
+        
+    }
+
+    IEnumerator CanBeHurtAgain()
+    {
+        canBeHurt = false;
+        yield return new WaitForSeconds(0.25f);
+        canBeHurt = true;
     }
 
     public void BreakObject()

@@ -23,8 +23,19 @@ public class EnemyHealthManager : MonoBehaviour
     public float knockBackForce = 30;
     public float upknockBackForce = 30;
 
+    //Handle force applied when player melee attacks them
+    public bool canApplyDownWardForceOnHit;
+    public bool canApplyUpWardForceOnHit;
+
+    public bool isMovePointEnemy = false;
+
+    public EnemyGroundCheck enemyGroundCheck;
+
+    Rigidbody2D player;
+
     private void Start()
     {
+        player = GameObject.Find("Player").GetComponent<Rigidbody2D>();
         lootSplash = this.GetComponent<LootSplash>();
         timemanager = GameObject.Find("TimeManager").GetComponent<TimeManager>();
         deathSound = GameObject.Find("AudioManager").transform.GetChild(6).gameObject.GetComponent<AudioSource>();
@@ -47,17 +58,30 @@ public class EnemyHealthManager : MonoBehaviour
             Instantiate(hitChunckParticle, this.gameObject.transform.position, hitChunckParticle.transform.rotation);
             Instantiate(gromDroplet, this.gameObject.transform.position, gromDroplet.transform.rotation);
 
-            if (EnemyLookAtPlayer.isFacingRight)
+            if (!isMovePointEnemy)
             {
-                rigidbody.AddForce(transform.right * knockBackForce, ForceMode2D.Impulse);
-                rigidbody.AddForce(transform.up * upknockBackForce, ForceMode2D.Impulse);
+                if (EnemyLookAtPlayer.isFacingRight)
+                {
+                    rigidbody.AddForce(transform.right * knockBackForce, ForceMode2D.Impulse);
+                    rigidbody.AddForce(transform.up * upknockBackForce, ForceMode2D.Impulse);
+                }
+                else if (!EnemyLookAtPlayer.isFacingRight)
+                {
+                    rigidbody.AddForce(transform.right * knockBackForce, ForceMode2D.Impulse);
+                    rigidbody.AddForce(transform.up * upknockBackForce, ForceMode2D.Impulse);
+                }
             }
-            else if (!EnemyLookAtPlayer.isFacingRight)
+            else
             {
-                rigidbody.AddForce(transform.right * knockBackForce, ForceMode2D.Impulse);
-                rigidbody.AddForce(transform.up * upknockBackForce, ForceMode2D.Impulse);
-            }
+                this.GetComponent<MoveEnemyOnPoints>().isMoving = false;
 
+                if (enemyGroundCheck.isGrounded)
+                {
+                    rigidbody.AddForce(transform.up * upknockBackForce, ForceMode2D.Impulse);
+                }
+                
+                StartCoroutine("MovePointEnemyAfterHit");
+            }
 
             currentHealth -= damageAmount;
 
@@ -67,7 +91,12 @@ public class EnemyHealthManager : MonoBehaviour
             }
         }
 
+    }
 
+    IEnumerator MovePointEnemyAfterHit()
+    {
+        yield return new WaitForSeconds(0.2f);
+        this.GetComponent<MoveEnemyOnPoints>().isMoving = true;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -133,6 +162,11 @@ public class EnemyHealthManager : MonoBehaviour
 
         Instantiate(chargerChunkParticle, this.gameObject.transform.position, chargerChunkParticle.transform.rotation);
         Instantiate(chargerBloodParticle, this.gameObject.transform.position, chargerBloodParticle.transform.rotation);
+    }
+
+    public void SetKnockBackForce(float knockBack)
+    {
+        knockBackForce = knockBack;
     }
 
 }

@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class P_Melee : MonoBehaviour
 {
-    public Transform attackPoint1;
+    public Transform attackPoint1, attackPointUp, attackPointDown;
     public Animator animator;
+    HurtKnockBack hurtKnock;
+
+    //Delete when animations are in for up and down attack
+    public SpriteRenderer up, down, idle;
 
     public float attackRange1 = 0.5f;
     public LayerMask enemyLayers;
@@ -14,6 +18,9 @@ public class P_Melee : MonoBehaviour
     int meleeCount = 1;
     int meleeReset = 1;
     int maxMeleeCount = 3;
+    public float upHitForce = 10;
+    public float downHitForce = 10;
+    public float forwardBackHitForce = 10;
 
     public float originalAttackTime;
 
@@ -30,18 +37,51 @@ public class P_Melee : MonoBehaviour
 
     public static bool doesPlayerWantToShoot;
 
+    bool isLookingUp;
+    bool isLookingDown;
+
+    bool isApplyingUpforce = false;
+
+    public float currentYVelocity;
+
 
     PlayerMovement playerMovement;
     P_Shoot pShoot;
 
     private void Start()
     {
+        hurtKnock = this.GetComponent<HurtKnockBack>();
         playerMovement = this.GetComponent<PlayerMovement>();
         pShoot = this.GetComponent<P_Shoot>();
     }
     void Update()
     {
+        currentYVelocity = playerMovement.getRigidbody2D().velocity.y;
 
+        if (Input.GetAxis("Vertical") >= 0.75)
+        {
+            isLookingUp = true;
+            isLookingDown = false;
+            up.enabled = true;
+            down.enabled = false;
+            idle.enabled = false;
+        } else if (Input.GetAxis("Vertical") <= -0.75 && !playerMovement.getIsGrounded())
+        {
+            isLookingUp = false;
+            isLookingDown = true;
+            up.enabled = false;
+            down.enabled = true;
+            idle.enabled = false;
+        }
+        else
+        {
+            isLookingUp = false;
+            isLookingDown = false;
+            up.enabled = false;
+            down.enabled = false;
+            idle.enabled = true;
+
+        }
         isFacingRight = playerMovement.getPlayerFaceRight();
         //Store input to remember if shoot was pressed while meleeing
         //Make pushback on hit?
@@ -54,12 +94,12 @@ public class P_Melee : MonoBehaviour
                 animator.SetInteger("MeleeCount", meleeCount);
                 meleeCount++;
                 animator.SetTrigger("Melee");
-                
-                for(int i = 0; i < 5; i++)
+
+                for (int i = 0; i < 5; i++)
                 {
                     Invoke("InvokeAttack", i * 0.05f);
                 }
-       
+
                 StartCoroutine("CanAttackAgain");
 
             }
@@ -68,10 +108,22 @@ public class P_Melee : MonoBehaviour
 
     void InvokeAttack()
     {
-        Attack(attackPoint1.position);
+        if (isLookingUp)
+        {
+            Attack(attackPointUp.position, false);
+        }
+        else if (isLookingDown && !playerMovement.getIsGrounded())
+        {
+            Attack(attackPointDown.position, true);
+        }
+        else
+        {
+            Attack(attackPoint1.position, false);
+        }
+
     }
 
-    void Attack(Vector3 attack1Pos)
+    void Attack(Vector3 attack1Pos, bool isLookingDown)
     {
         hitEnemies = Physics2D.OverlapCircleAll(attack1Pos, attackRange1, enemyLayers);
         canAttack = false;
@@ -82,15 +134,16 @@ public class P_Melee : MonoBehaviour
 
         foreach (Collider2D enemy in hitEnemies)
         {
-            if(enemy.GetComponent<ChargerHealthManager>() != null)
+            Debug.Log(hitEnemies.Length);
+            if (enemy.GetComponent<ChargerHealthManager>() != null)
             {
                 if (ChargerCanAttackZone.isInAttackZone)
                 {
                     enemy.GetComponent<ChargerHealthManager>().DecreaseHealth(PlayerDamageController.meleeDamageOutput);
                 }
-                
+
             }
-            else if(enemy.GetComponent<EnemyHealthManager>() != null)
+            else if (enemy.GetComponent<EnemyHealthManager>() != null)
             {
                 enemy.GetComponent<EnemyHealthManager>().DecreaseHealth(PlayerDamageController.meleeDamageOutput);
             }
@@ -100,11 +153,95 @@ public class P_Melee : MonoBehaviour
                 hasHitDestructable = true;
             }
 
-            hasEnemyBeenHit = true;          
+            hasEnemyBeenHit = true;
         }
 
-        Debug.Log(attack1Pos);
+        ManageDownwardStriking(hasEnemyBeenHit);
+        ManageUpwardStriking(hasEnemyBeenHit);
     }
+
+    void ManageDownwardStriking(bool hasEnemyBeenHit)
+    {
+        if (isLookingDown && !hurtKnock.isCurrentlyKnockBacking && hasEnemyBeenHit && !PlayerMovement.hasJustLeftTheGroundAfterJumping && !playerMovement.getIsGrounded())
+        {
+            if (!isApplyingUpforce)
+            {
+                if (hitEnemies[0].GetComponent<EnemyHealthManager>() == null)
+                {
+                    if (hitEnemies[0].GetComponent<BreackableObject>().canApplyUpWardForceOnHit)
+                    {
+                        ApplyUpwardForce();
+                    }
+                }
+                else if (hitEnemies[0].GetComponent<EnemyHealthManager>() != null)
+                {
+                    if (hitEnemies[0].GetComponent<EnemyHealthManager>().canApplyUpWardForceOnHit)
+                        ApplyUpwardForce();
+                }
+            }
+        }
+    }
+
+    void ManageUpwardStriking(bool hasEnemyBeenHit)
+    {
+        if (isLookingUp && !hurtKnock.isCurrentlyKnockBacking && hasEnemyBeenHit && !playerMovement.getIsGrounded())
+        {
+            if (hitEnemies[0].GetComponent<EnemyHealthManager>() == null)
+            {
+                if (hitEnemies[0].GetComponent<BreackableObject>().canApplyDownWardForceOnHit)
+                {
+                    ApplyDownWardForce();
+                }
+            }
+            else if (hitEnemies[0].GetComponent<EnemyHealthManager>() != null)
+            {
+                if (hitEnemies[0].GetComponent<EnemyHealthManager>().canApplyDownWardForceOnHit)
+                    ApplyDownWardForce();
+            }
+        }
+    }
+
+    //For hitting enemies above the player
+    void ApplyDownWardForce()
+    {
+        if (currentYVelocity > 0 && playerMovement.isJumping)
+        {
+            isApplyingUpforce = true;
+            playerMovement.getRigidbody2D().AddForce(Vector2.down * (downHitForce), ForceMode2D.Impulse);
+        }
+        else
+        {
+            isApplyingUpforce = true;
+            playerMovement.getRigidbody2D().AddForce(Vector2.down * (downHitForce), ForceMode2D.Impulse);
+        }
+
+        StartCoroutine("ResetApplyUpForce");
+    }
+
+
+    //For hitting enemies below the player
+    void ApplyUpwardForce()
+    {
+        if (currentYVelocity < 0 && !playerMovement.isJumping)
+        {
+            isApplyingUpforce = true;         
+            playerMovement.getRigidbody2D().AddForce(Vector2.up * (upHitForce - currentYVelocity), ForceMode2D.Impulse);
+        }
+        else
+        {
+            isApplyingUpforce = true;
+            playerMovement.getRigidbody2D().AddForce(Vector2.up * (upHitForce - (currentYVelocity * 2f)), ForceMode2D.Impulse);
+        }
+
+        StartCoroutine("ResetApplyUpForce");
+    }
+
+    IEnumerator ResetApplyUpForce()
+    {
+        yield return new WaitForSeconds(0.5f);
+        isApplyingUpforce = false;
+    }
+
 
     private void OnDrawGizmosSelected()
     {
@@ -112,6 +249,8 @@ public class P_Melee : MonoBehaviour
             return;
 
         Gizmos.DrawWireSphere(attackPoint1.position, attackRange1);
+        Gizmos.DrawWireSphere(attackPointUp.position, attackRange1);
+        Gizmos.DrawWireSphere(attackPointDown.position, attackRange1);
     }
 
     IEnumerator CanAttackAgain()
@@ -119,7 +258,6 @@ public class P_Melee : MonoBehaviour
         yield return new WaitForSeconds(meleeCooldown);
         isMelee = false;
         canAttack = true;
-
         if (doesPlayerWantToShoot)
         {
             StartCoroutine(pShoot.Shoot());

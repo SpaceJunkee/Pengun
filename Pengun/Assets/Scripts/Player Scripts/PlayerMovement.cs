@@ -69,7 +69,8 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask wallObjects;
     public float checkRadius;
     private bool playerFaceRight = true;
-    private bool isJumping = false;
+    public bool isJumping = false;
+    public static bool hasJustLeftTheGroundAfterJumping = false;
     private bool isGrounded;
     private bool isStandingOnLava;
     private bool isTouchingWall;
@@ -133,12 +134,17 @@ public class PlayerMovement : MonoBehaviour
 
         mecanimColor = skeletonMec.skeleton.GetColor();
         dashBlackColor = Color.blue;
-        dashBlackColor.a = Mathf.Clamp(0.55f, 0, 1);
+        dashBlackColor.a = Mathf.Clamp(0.3f, 0, 1);
     }
 
     // Update is called once per frame(updates every frame so if 60fps update runs 60 times per second)
     void Update()
     {
+        if(rigidbody.velocity.y < -7|| isGrounded)
+        {
+            isJumping = false;
+        }
+
         if (canMove)
         {
             ProcessInputs();
@@ -270,6 +276,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 pressedJumpRemember = pressedJumpTime;
                 StartCoroutine("ToggleIsJumping");
+                StartCoroutine("ToggleHasJustLeftGround");
 
                 if ((isGrounded || isStandingOnLava) || (inAirTime > 0 && !isGrounded && !isStandingOnLava))
                 {
@@ -293,6 +300,7 @@ public class PlayerMovement : MonoBehaviour
             pressedJumpRemember = 0;
             rigidbody.velocity = Vector2.up * jumpForce;
             StartCoroutine("ToggleIsJumping");
+            StartCoroutine("ToggleHasJustLeftGround");
         }
 
         if (!isGrounded && !isTouchingWall && !isStandingOnLava)
@@ -312,10 +320,17 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    IEnumerator ToggleIsJumping()
+    IEnumerator ToggleHasJustLeftGround()
     {
+        hasJustLeftTheGroundAfterJumping = true;
+        yield return new WaitForSeconds(0.3f);
+        hasJustLeftTheGroundAfterJumping = false;
+    }
+
+    IEnumerator ToggleIsJumping()
+    {       
         yield return new WaitForSeconds(0.1f);
-        isJumping = true;
+        isJumping = true;       
     }
 
     //Moves Character 

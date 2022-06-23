@@ -255,3 +255,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minModifier: 7
   maxModifier: 15
+  followTimer1: 2
+  followTimer2: 10
