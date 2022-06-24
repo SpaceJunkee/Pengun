@@ -21,6 +21,7 @@ TagManager:
   - Ground
   - Spike
   - PlayerDetector
+  - DashColliderChecker
   layers:
   - Default
   - TransparentFX
