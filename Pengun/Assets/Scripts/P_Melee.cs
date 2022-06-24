@@ -62,24 +62,24 @@ public class P_Melee : MonoBehaviour
         {
             isLookingUp = true;
             isLookingDown = false;
-            up.enabled = true;
+/*            up.enabled = true;
             down.enabled = false;
-            idle.enabled = false;
+            idle.enabled = false;*/
         } else if (Input.GetAxis("Vertical") <= -0.75 && !playerMovement.getIsGrounded())
         {
             isLookingUp = false;
             isLookingDown = true;
-            up.enabled = false;
+/*            up.enabled = false;
             down.enabled = true;
-            idle.enabled = false;
+            idle.enabled = false;*/
         }
         else
         {
             isLookingUp = false;
             isLookingDown = false;
-            up.enabled = false;
+          /*  up.enabled = false;
             down.enabled = false;
-            idle.enabled = true;
+            idle.enabled = true;*/
 
         }
         isFacingRight = playerMovement.getPlayerFaceRight();

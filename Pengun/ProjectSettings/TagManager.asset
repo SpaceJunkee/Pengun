@@ -20,6 +20,7 @@ TagManager:
   - Destructable
   - Ground
   - Spike
+  - PlayerDetector
   layers:
   - Default
   - TransparentFX

@@ -118,26 +118,12 @@ public class EnemyHealthManager : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
 
-        if (collision.gameObject.CompareTag("Player") && isDashing)
-        {
-            DecreaseHealth(PlayerDamageController.dashDamageOutput);
-        }
-        else if (collision.gameObject.CompareTag("Bullet"))
+        if (collision.gameObject.CompareTag("Bullet"))
         {
             DecreaseHealth(PlayerDamageController.gunDamageOutput);
         }
 
     }
-
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player") && isDashing)
-        {
-            DecreaseHealth(PlayerDamageController.dashDamageOutput);
-        }
-
-    }
-
 
     IEnumerator CanBeHurtAgain()
     {

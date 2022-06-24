@@ -8,18 +8,21 @@ public class MoveEnemyOnPoints : MonoBehaviour
     public float Speed = 200f;
     public Transform startPosition;
     Rigidbody2D rigidbody;
-    SpriteRenderer spriteRenderer;
-    public BoxCollider2D boxCollider2D;
+    Transform meshTransform;
+    public float targetOffset = 0;
+    //public BoxCollider2D boxCollider2D;
 
     public Vector3 nextTarget;
 
     public bool isFlipped;
 
     public bool isMoving = true;
+    public bool hasReachedTargetA = false;
+    public bool hasReachedTargetB = false;
 
     private void Start()
     {
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        meshTransform = gameObject.transform.GetChild(0);
         nextTarget = startPosition.position;
         rigidbody = this.GetComponent<Rigidbody2D>();
     }
@@ -27,31 +30,33 @@ public class MoveEnemyOnPoints : MonoBehaviour
     private void FixedUpdate()
     {
 
-        if (transform.position.x <= targetA.position.x)
+        if (transform.position.x -targetOffset <= targetA.position.x)
         {
-            //FlipMeshRenderer
-            spriteRenderer.flipX = false;
+            hasReachedTargetA = true;
+            hasReachedTargetB = false;
             if (isFlipped)
             {
-                FlipSlugCollider();
+                //FlipMeshRenderer();
+                //FlipSlugCollider();
                 isFlipped = false;
             }
 
             nextTarget = targetB.position;
         }
-        else if (transform.position.x >= targetB.position.x)
+        else if (transform.position.x + targetOffset >= targetB.position.x)
         {
-            //FlipMeshRenderer
-            spriteRenderer.flipX = true;
-            
-            nextTarget = targetA.position;
+            hasReachedTargetA = false;
+            hasReachedTargetB = true;
 
             if (!isFlipped)
             {
-                FlipSlugCollider();
+                //FlipMeshRenderer();
+                //FlipSlugCollider();
                 isFlipped = true;
             }
-            
+
+            nextTarget = targetA.position;
+
         }
 
         if (isMoving)
@@ -64,10 +69,15 @@ public class MoveEnemyOnPoints : MonoBehaviour
 
     }
 
-    void FlipSlugCollider()
+    public void FlipMeshRenderer()
+    {
+        meshTransform.Rotate(0, 180, 0);
+    }
+
+/*    void FlipSlugCollider()
     {
         boxCollider2D.transform.Rotate(0f, 180f, 0f);
-    }
+    }*/
 
     private void OnDrawGizmos()
     {
