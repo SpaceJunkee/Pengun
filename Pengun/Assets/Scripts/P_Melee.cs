@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class P_Melee : MonoBehaviour
 {
-    public Transform attackPoint1, attackPointUp, attackPointDown;
+    public Transform attackPoint1, attackPointUp, attackPointDown, meleeParticleTransform;
     public Animator animator;
     HurtKnockBack hurtKnock;
+    public ParticleSystem meleeParticleSwipe;
 
     //Delete when animations are in for up and down attack
     public SpriteRenderer up, down, idle;
@@ -94,6 +95,7 @@ public class P_Melee : MonoBehaviour
                 animator.SetInteger("MeleeCount", meleeCount);
                 meleeCount++;
                 animator.SetTrigger("Melee");
+                MeleeSwipeParticles(isLookingDown, isLookingUp);
 
                 for (int i = 0; i < 5; i++)
                 {
@@ -104,6 +106,27 @@ public class P_Melee : MonoBehaviour
 
             }
         }
+    }
+
+    void MeleeSwipeParticles(bool isLookingDown, bool isLookingUp)
+    {
+        if (isLookingDown)
+        {
+            meleeParticleTransform.localPosition = new Vector3(0, -0.5f, 0);
+            meleeParticleTransform.localRotation = Quaternion.Euler(0, 180, 75);
+        }
+        else if (isLookingUp)
+        {
+            meleeParticleTransform.localPosition = new Vector3(0, 0.5f, 0);
+            meleeParticleTransform.localRotation = Quaternion.Euler(0, 180, -75);
+        }
+        else
+        {
+            meleeParticleTransform.localPosition = new Vector3(0.95f, 0, 0);
+            meleeParticleTransform.localRotation = Quaternion.Euler(0, 180, 0);
+        }
+
+        meleeParticleSwipe.Play();
     }
 
     void InvokeAttack()
