@@ -28,11 +28,14 @@ public class BreackableObject : MonoBehaviour
     {
         if (isBreakable)
         {
-            if (collision.tag == "DashColliderChecker" && PlayerMovement.isDashing || 
-                collision.tag == "DashColliderChecker" && PlayerMovement.isfalling ||
+            if (collision.gameObject.CompareTag("DashColliderChecker") && PlayerMovement.isDashing ||
+                collision.tag == "Player" && PlayerMovement.isfalling ||
                 collision.gameObject.CompareTag("Bullet")
                 )
             {
+                if (collision.gameObject.CompareTag("DashColliderChecker")){
+                    Debug.Log("DashCol");
+                }
                 CameraShake.Instance.ShakeCamera(4f, 5f, 0.2f);
                 BreakObject();
             }
@@ -44,8 +47,12 @@ public class BreackableObject : MonoBehaviour
     {
         if (isBreakable)
         {
-            if (collision.tag == "DashColliderChecker" && PlayerMovement.isDashing )
+            if (collision.gameObject.CompareTag("DashColliderChecker") && PlayerMovement.isDashing)
             {
+                if (collision.gameObject.CompareTag("DashColliderChecker"))
+                {
+                    Debug.Log("DashCol");
+                }
                 CameraShake.Instance.ShakeCamera(4f, 5f, 0.2f);
                 BreakObject();
             }

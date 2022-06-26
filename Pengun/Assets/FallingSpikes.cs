@@ -47,7 +47,7 @@ public class FallingSpikes : MonoBehaviour
 
             if(hit.transform != null)
             {
-                if(hit.transform.tag == "Player")
+                if(hit.collider.tag == "Player")
                 {
                     rigidbody.gravityScale = fallSpeed;
                     isSpikeFalling = true;
@@ -58,7 +58,7 @@ public class FallingSpikes : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "Player")
+        if(collision.collider.tag == "Player")
         {
            Destroy(gameObject, 0.05f); ;
         }
