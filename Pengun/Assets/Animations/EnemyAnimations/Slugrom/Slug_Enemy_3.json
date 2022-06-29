@@ -1,11 +1,11 @@
 {
 "skeleton": {
-	"hash": "5fPfXnGfBnU",
+	"hash": "IdBVtBMr0X4",
 	"spine": "3.8",
-	"x": -137.58,
-	"y": -5.98,
-	"width": 274,
-	"height": 64,
+	"x": -137.08,
+	"y": -7.04,
+	"width": 274.5,
+	"height": 66.07,
 	"fps": 60,
 	"images": "./images/",
 	"audio": "E:/PROJECTS/3 (PENGRUN)/(2) Character Design/Infected/Slug"
@@ -39,31 +39,31 @@
 		"name": "default",
 		"attachments": {
 			"1": {
-				"1": { "x": 13.9, "y": -0.05, "rotation": -138.37, "width": 36, "height": 24 }
+				"1": { "x": 13.9, "y": -0.05, "rotation": -138.37, "width": 35, "height": 27 }
 			},
 			"2": {
 				"2": { "x": 13.18, "y": -1.18, "rotation": -102.09, "width": 46, "height": 35 }
 			},
 			"3": {
-				"3": { "x": 17.79, "y": 1.89, "rotation": -110.83, "width": 51, "height": 40 }
+				"3": { "x": 17.79, "y": 1.89, "rotation": -110.83, "width": 59, "height": 43 }
 			},
 			"4": {
-				"4": { "x": 21.53, "y": 0.07, "rotation": -93.18, "width": 59, "height": 51 }
+				"4": { "x": 21.04, "y": 0.07, "rotation": -89.43, "width": 65, "height": 52 }
 			},
 			"5": {
-				"5": { "x": 26.24, "y": 0.34, "rotation": -93.2, "width": 74, "height": 63 }
+				"5": { "x": 25.24, "y": 0.34, "rotation": -93.2, "width": 79, "height": 63 }
 			},
 			"6": {
-				"6": { "x": 27.95, "y": -4.23, "rotation": -73.91, "width": 97, "height": 64 }
+				"6": { "x": 27.95, "y": -4.23, "rotation": -73.91, "width": 98, "height": 66 }
 			},
 			"7": {
-				"7": { "x": 26.9, "y": -5.76, "rotation": -58.29, "width": 73, "height": 51 }
+				"7": { "x": 26.9, "y": -5.76, "rotation": -58.29, "width": 80, "height": 53 }
 			},
 			"8": {
-				"8": { "x": 20.71, "y": -5.09, "rotation": -56.48, "width": 49, "height": 37 }
+				"8": { "x": 20.71, "y": -5.09, "rotation": -56.48, "width": 49, "height": 38 }
 			},
 			"9": {
-				"9": { "x": 11.59, "y": -3.86, "rotation": -49.03, "width": 30, "height": 23 }
+				"9": { "x": 11.59, "y": -3.86, "rotation": -49.03, "width": 32, "height": 24 }
 			}
 		}
 	}

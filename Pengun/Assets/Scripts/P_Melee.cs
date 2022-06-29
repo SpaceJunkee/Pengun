@@ -59,14 +59,14 @@ public class P_Melee : MonoBehaviour
     {
         currentYVelocity = playerMovement.getRigidbody2D().velocity.y;
 
-        if (Input.GetAxis("Vertical") >= 0.75)
+        if (Input.GetAxis("Vertical") >= 0.7)
         {
             isLookingUp = true;
             isLookingDown = false;
 /*            up.enabled = true;
             down.enabled = false;
             idle.enabled = false;*/
-        } else if (Input.GetAxis("Vertical") <= -0.75 && !playerMovement.getIsGrounded())
+        } else if (Input.GetAxis("Vertical") <= -0.7 && !playerMovement.getIsGrounded())
         {
             isLookingUp = false;
             isLookingDown = true;
@@ -97,7 +97,7 @@ public class P_Melee : MonoBehaviour
                 animator.SetTrigger("Melee");
                 MeleeSwipeParticles(isLookingDown, isLookingUp);
 
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < 6; i++)
                 {
                     Invoke("InvokeAttack", i * 0.05f);
                 }
@@ -261,7 +261,7 @@ public class P_Melee : MonoBehaviour
 
     IEnumerator ResetApplyUpForce()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(meleeCooldown);
         isApplyingUpforce = false;
     }
 

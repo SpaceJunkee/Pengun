@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Wall
-  m_Shader: {fileID: -6465566751694194690, guid: a09026f8efebee844b3bae173c327968,
+  m_Name: SlashShaderMat
+  m_Shader: {fileID: -6465566751694194690, guid: 1de10cbbe5b01874ca65051d5823fe47,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -28,18 +28,33 @@ Material:
         m_Texture: {fileID: 2800000, guid: e27734d5323d8c64b8b5c44d7f3799f7, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _MaskTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_2EE4B823: 1
-    - Vector1_AEA96D97: 5
-    - Vector1_EF1FF37E: 2
+    - Vector1_13F30C0F: 10
+    - Vector1_1CB9822F: 1
+    - Vector1_2EE4B823: 10
+    - Vector1_AEA96D97: 6
+    - Vector1_D2277E36: 2
+    - Vector1_EF1FF37E: 0.3
+    - _EnableExternalAlpha: 0
     m_Colors:
-    - Color_B0D3A2D: {r: 2, g: 2, b: 2, a: 0}
-    - _Color: {r: 1, g: 0.8405771, b: 0.70520175, a: 1}
+    - Color_B0D3A2D: {r: 0.59460664, g: 0.9622642, b: 0.75049347, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
---- !u!1002 &2100001
-EditorExtensionImpl:
-  serializedVersion: 6
