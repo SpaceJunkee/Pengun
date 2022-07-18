@@ -16,6 +16,7 @@ public class P_Melee : MonoBehaviour
     public LayerMask enemyLayers;
 
     public float meleeCooldown;
+    private float nextMeleeTime = 0;
     int meleeCount = 1;
     int meleeReset = 1;
     int maxMeleeCount = 3;
@@ -87,14 +88,19 @@ public class P_Melee : MonoBehaviour
         //Store input to remember if shoot was pressed while meleeing
         //Make pushback on hit?
 
+        if (Time.time > nextMeleeTime)
+        {
+            canAttack = true;
+        }
+
         if (canAttack && !P_Shoot.isShooting && !PlayerMovement.isDashing && PlayerMovement.canMove && PlayerMovement.canUseButtonInput)
         {
             if (Input.GetButtonDown("Melee"))
             {
                 CheckMeleeCount();
-                animator.SetInteger("MeleeCount", meleeCount);
-                meleeCount++;
-                animator.SetTrigger("Melee");
+                //animator.SetInteger("MeleeCount", meleeCount);
+                //meleeCount++;
+                PerformMeleeAnimations(isLookingUp, isLookingDown);
                 MeleeSwipeParticles(isLookingDown, isLookingUp);
 
                 for (int i = 0; i < 6; i++)
@@ -102,9 +108,27 @@ public class P_Melee : MonoBehaviour
                     Invoke("InvokeAttack", i * 0.05f);
                 }
 
+                nextMeleeTime = Time.time + meleeCooldown;
+
                 StartCoroutine("CanAttackAgain");
 
             }
+        }
+    }
+
+    void PerformMeleeAnimations(bool isLookUp, bool isLookDown)
+    {
+        if (isLookUp)
+        {
+            animator.SetTrigger("MeleeUp");
+        }
+        else if (isLookDown)
+        {
+            animator.SetTrigger("MeleeDown");
+        }
+        else
+        {
+            animator.SetTrigger("Melee");
         }
     }
 
@@ -118,7 +142,7 @@ public class P_Melee : MonoBehaviour
         else if (isLookingUp)
         {
             meleeParticleTransform.localPosition = new Vector3(0, 0.5f, 0);
-            meleeParticleTransform.localRotation = Quaternion.Euler(0, 180, -75);
+            meleeParticleTransform.localRotation = Quaternion.Euler(0, 0, -75);
         }
         else
         {
@@ -280,7 +304,7 @@ public class P_Melee : MonoBehaviour
     {
         yield return new WaitForSeconds(meleeCooldown);
         isMelee = false;
-        canAttack = true;
+        
         if (doesPlayerWantToShoot)
         {
             StartCoroutine(pShoot.Shoot());

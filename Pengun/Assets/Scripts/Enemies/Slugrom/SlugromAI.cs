@@ -25,6 +25,7 @@ public class SlugromAI : MonoBehaviour
     public float capColliderLength;
     public float capColliderHeight;
     Vector3 originalColliderSize;
+    public ParticleSystem slugStink, slugStinkJump, slugStinkJumpSlime;
 
     private void Start()
     {
@@ -105,6 +106,9 @@ public class SlugromAI : MonoBehaviour
 
     void AttackLeap()
     {
+        slugStink.Pause();
+        slugStinkJump.Play();
+        slugStinkJumpSlime.Play();
         Vector2 dir = (transform.position - playerTarget.position).normalized;
         rigidbody.AddForce(-dir * leapForceForward, ForceMode2D.Impulse);
         rigidbody.AddForce(transform.up * leapForce, ForceMode2D.Impulse);
@@ -112,6 +116,7 @@ public class SlugromAI : MonoBehaviour
     }
     void ResetAttack()
     {
+        slugStink.Play();
         currentlyAttacking = false;
     }
 

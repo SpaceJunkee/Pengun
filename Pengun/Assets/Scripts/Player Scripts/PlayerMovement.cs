@@ -35,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
     public GameObject BloodSlamBlast;
     public SkeletonMecanim skeletonMec;
     GromEnergyBarController gromEnergyBarController;
+    public BoxCollider2D boxcollider;
     Color mecanimColor;
     Color dashBlackColor;
     bool isRightTriggerInUse = false;
@@ -176,8 +177,7 @@ public class PlayerMovement : MonoBehaviour
         CheckIfWallSliding();
         WallJump();
 
-        //Check if player is standing on the ground
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, checkRadius, groundObjects);
+        isGrounded = IsGrounded();
 
         if (isGrounded)
         {
@@ -202,11 +202,30 @@ public class PlayerMovement : MonoBehaviour
         }
         
     }
-    void OnDrawGizmosSelected()
+
+    private bool IsGrounded()
     {
-        // Draw a yellow sphere at the transform's position
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(groundCheck.position, checkRadius);
+            float extraHeight = 0.1f;
+        //Check if player is standing on the ground
+        Color rayColor = Color.red;
+        RaycastHit2D rayCastHit = Physics2D.BoxCast(boxcollider.bounds.center, boxcollider.bounds.size,0f, Vector2.down, extraHeight, groundObjects);
+        
+        if(rayCastHit.collider != null)
+        {
+            rayColor = Color.green;
+        }
+        else
+        {
+            rayColor = Color.red;
+        }
+
+        Debug.DrawRay(boxcollider.bounds.center + new Vector3(boxcollider.bounds.extents.x, 0), Vector2.down * (boxcollider.bounds.extents.y + extraHeight), rayColor);
+        Debug.DrawRay(boxcollider.bounds.center - new Vector3(boxcollider.bounds.extents.x, 0), Vector2.down * (boxcollider.bounds.extents.y + extraHeight), rayColor);
+        Debug.DrawRay(boxcollider.bounds.center - new Vector3(boxcollider.bounds.extents.x, boxcollider.bounds.extents.y + extraHeight), Vector2.right * (boxcollider.bounds.extents.y), rayColor);
+       
+
+        Debug.Log(rayCastHit.collider);
+        return rayCastHit.collider != null;
     }
 
 
