@@ -244,7 +244,7 @@ public class PlayerMovement : MonoBehaviour
         Debug.DrawRay(boxcollider.bounds.center - new Vector3(boxcollider.bounds.extents.x, boxcollider.bounds.extents.y + extraHeight), Vector2.right * (boxcollider.bounds.extents.y), rayColor);
        
 
-        Debug.Log(rayCastHit.collider);
+        //Debug.Log(rayCastHit.collider);
         return rayCastHit.collider != null;
     }
 

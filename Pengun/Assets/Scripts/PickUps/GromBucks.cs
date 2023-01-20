@@ -2,22 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class GromBucks : MonoBehaviour
 {
 
     /*Need to incorporate some way of saving grom currecny when exiting game*/
 
-    Text gromBucksText;
+    TextMeshProUGUI gromBucksText;
     int numberOfGromBucks;
 
     private void Start()
     {
-        gromBucksText = GetComponentInChildren<Text>();
+        gromBucksText = GetComponentInChildren<TextMeshProUGUI>();
     }
 
     private void Update()
     {
+        
         gromBucksText.text = numberOfGromBucks.ToString();
     }
 
