@@ -42,12 +42,13 @@ public class P_Melee : MonoBehaviour
     bool isLookingUp;
     bool isLookingDown;
 
-    bool isApplyingUpforce = false;
+    public bool isApplyingUpforce = false;
 
     public float currentYVelocity;
 
 
     PlayerMovement playerMovement;
+    Rigidbody2D playerRB;
     P_Shoot pShoot;
 
     private void Start()
@@ -55,6 +56,7 @@ public class P_Melee : MonoBehaviour
         hurtKnock = this.GetComponent<HurtKnockBack>();
         playerMovement = this.GetComponent<PlayerMovement>();
         pShoot = this.GetComponent<P_Shoot>();
+        playerRB = this.GetComponent<Rigidbody2D>();
     }
     void Update()
     {
@@ -251,17 +253,9 @@ public class P_Melee : MonoBehaviour
     //For hitting enemies above the player
     void ApplyDownWardForce()
     {
-        if (currentYVelocity > 0 && playerMovement.isJumping)
-        {
-            isApplyingUpforce = true;
-            playerMovement.getRigidbody2D().AddForce(Vector2.down * (downHitForce), ForceMode2D.Impulse);
-        }
-        else
-        {
-            isApplyingUpforce = true;
-            playerMovement.getRigidbody2D().AddForce(Vector2.down * (downHitForce), ForceMode2D.Impulse);
-        }
-
+        Vector2 meleeForce = new Vector2(0, -downHitForce);
+        playerRB.velocity = new Vector2(playerRB.velocity.x, 0); // Zero out vertical velocity
+        playerRB.AddForce(meleeForce, ForceMode2D.Impulse);
         StartCoroutine("ResetApplyUpForce");
     }
 
@@ -269,17 +263,10 @@ public class P_Melee : MonoBehaviour
     //For hitting enemies below the player
     void ApplyUpwardForce()
     {
-        if (currentYVelocity < 0 && !playerMovement.isJumping)
-        {
-            isApplyingUpforce = true;         
-            playerMovement.getRigidbody2D().AddForce(Vector2.up * (upHitForce - currentYVelocity), ForceMode2D.Impulse);
-        }
-        else
-        {
-            isApplyingUpforce = true;
-            playerMovement.getRigidbody2D().AddForce(Vector2.up * (upHitForce - (currentYVelocity * 2f)), ForceMode2D.Impulse);
-        }
-
+        isApplyingUpforce = true;
+        Vector2 meleeForce = new Vector2(0, upHitForce);
+        playerRB.velocity = new Vector2(playerRB.velocity.x, 0); // Zero out vertical velocity
+        playerRB.AddForce(meleeForce, ForceMode2D.Impulse);
         StartCoroutine("ResetApplyUpForce");
     }
 

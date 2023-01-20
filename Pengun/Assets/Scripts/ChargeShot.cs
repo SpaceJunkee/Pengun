@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChargeShot : MonoBehaviour
+public class P_Shoot : MonoBehaviour
 {
     public Animator animator;
     GromEnergyBarController gromEnergyBarController;

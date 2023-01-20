@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rigidbody;
     private float movementDirection;
     public static RigidbodyConstraints2D originalConstraints;
+    Shooting shooting;
     public HurtKnockBack hurtKnockBack;
     public HealthManager healthManager;
     public PlayerDamageController playerDamageController;
@@ -35,6 +36,7 @@ public class PlayerMovement : MonoBehaviour
     public GameObject BloodSlamBlast;
     public SkeletonMecanim skeletonMec;
     GromEnergyBarController gromEnergyBarController;
+    P_Melee pMelee;
     public BoxCollider2D boxcollider;
     Color mecanimColor;
     Color dashBlackColor;
@@ -50,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
     public float movementSpeed = 8f;
     
     //Jumping
-    public float jumpForce;
+    public float jumpForce = 26;
     public int maxJumpCount;
     public float fallMultiplier = 2.5f;
     public float smallJumpMultiplier = 2f;
@@ -104,6 +106,8 @@ public class PlayerMovement : MonoBehaviour
     //Falling
     public static bool isfalling = false;
     public float fallingTime = 1;
+    public float shootingFallAmount = 6.1f;
+    public float meleeFallAmount = 6.1f;
 
     //Music Abilities
     private bool canFastRun = false;
@@ -123,7 +127,9 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         rigidbody = GetComponent<Rigidbody2D>();
+        shooting = GetComponent<Shooting>();
         originalConstraints = rigidbody.constraints;
+        pMelee = GetComponent<P_Melee>();
     }
 
     private void Start()
@@ -144,6 +150,20 @@ public class PlayerMovement : MonoBehaviour
         if(rigidbody.velocity.y < -7|| isGrounded)
         {
             isJumping = false;
+        }
+
+        if (shooting.isShootingDown && Input.GetButton("Jump"))
+        {
+            rigidbody.velocity -= Vector2.up * Physics2D.gravity.y * (smallJumpMultiplier - shootingFallAmount) * Time.deltaTime;
+        }
+        else if (shooting.isShootingDown && rigidbody.velocity.y < 0)
+        {
+            rigidbody.velocity += Vector2.up * Physics2D.gravity.y * (smallJumpMultiplier - shootingFallAmount) * Time.deltaTime;
+        }
+
+        if (pMelee.isApplyingUpforce && Input.GetButton("Jump"))
+        {
+            rigidbody.velocity -= Vector2.up * Physics2D.gravity.y * (smallJumpMultiplier - meleeFallAmount) * Time.deltaTime;
         }
 
         if (canMove)
@@ -293,6 +313,7 @@ public class PlayerMovement : MonoBehaviour
 
             if (Input.GetButtonDown("Jump"))
             {
+
                 pressedJumpRemember = pressedJumpTime;
                 StartCoroutine("ToggleIsJumping");
                 StartCoroutine("ToggleHasJustLeftGround");

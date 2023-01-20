@@ -166,7 +166,7 @@ Transform:
   m_GameObject: {fileID: 81355375102890434}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 45.51, y: 31.53, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.3, y: 1.3, z: 1}
   m_Children:
   - {fileID: 81355375469459169}
   - {fileID: 81355374130734418}
@@ -227,6 +227,7 @@ MonoBehaviour:
   targetB: {fileID: 0}
   Speed: 2400
   startPosition: {fileID: 0}
+  targetOffset: 0
   nextTarget: {x: 0, y: 0, z: 0}
   isFlipped: 0
   isMoving: 1
@@ -252,6 +253,12 @@ MonoBehaviour:
   animator: {fileID: 81355375469459173}
   slugGroundCheck: {fileID: 81355374422939573}
   slugPlayerDetector: {fileID: 81355374130734419}
+  isTouchingTarget: 0
+  capColliderLength: 0
+  capColliderHeight: 0
+  slugStink: {fileID: 0}
+  slugStinkJump: {fileID: 0}
+  slugStinkJumpSlime: {fileID: 0}
 --- !u!114 &81355375102890463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,8 +282,7 @@ MonoBehaviour:
   gromDroplet: {fileID: 1342137598096017218, guid: c136a891cd5e7574684b51a6b6038351,
     type: 3}
   spriteRenderer: []
-  meshRenderer: {fileID: 4071726189779173241, guid: 065f8886a950cfe4383f67f31cc044bb,
-    type: 3}
+  meshRenderer: {fileID: 0}
   timemanager: {fileID: 0}
   rigidbody: {fileID: 81355375102890459}
   deathSound: {fileID: 0}

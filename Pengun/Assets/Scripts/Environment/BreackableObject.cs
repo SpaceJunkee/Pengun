@@ -23,13 +23,12 @@ public class BreackableObject : MonoBehaviour
         lootSplash = GetComponent<LootSplash>();
     }
 
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         if (isBreakable)
         {
             if (collision.gameObject.CompareTag("DashColliderChecker") && PlayerMovement.isDashing ||
-                collision.tag == "Player" && PlayerMovement.isfalling ||
+                collision.gameObject.CompareTag("Player") && PlayerMovement.isfalling ||
                 collision.gameObject.CompareTag("Bullet")
                 )
             {
