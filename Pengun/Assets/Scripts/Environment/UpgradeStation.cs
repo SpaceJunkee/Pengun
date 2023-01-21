@@ -123,24 +123,35 @@ public float interactDistance = 2f;
 
     private void NavigateUpgradeMenu()
     {
-
         ResetNavImageIfOutOfIndex();
 
         if (isInMenuNavigation)
         {
-            if (Input.GetAxis("HorizontalNav") != 0)
+            float horizontalValue = Input.GetAxis("HorizontalAnalog");
+            if (Mathf.Abs(horizontalValue) < 0.5f)
             {
-                int horizontalValue = (int)Input.GetAxis("HorizontalNav");
+                horizontalValue = Input.GetAxis("HorizontalNav");
+            }
+            if (Mathf.Abs(horizontalValue) > 0.5f)
+            {
                 if (!inputProcessedHorizontal)
                 {
-                    currentImageIndex += horizontalValue;
+                    currentImageIndex += (int)Mathf.Sign(horizontalValue);
                     inputProcessedHorizontal = true;
                 }
             }
-
-            if (Input.GetAxis("VerticalNav") !=0)
+            else
             {
-                int verticalValue = (int)Input.GetAxis("VerticalNav");
+                inputProcessedHorizontal = false;
+            }
+
+            float verticalValue = Input.GetAxis("VerticalAnalog");
+            if (Mathf.Abs(verticalValue) < 0.5f)
+            {
+                verticalValue = Input.GetAxis("VerticalNav");
+            }
+            if (Mathf.Abs(verticalValue) > 0.5f)
+            {
                 if (!inputProcessedVertical)
                 {
                     if (verticalValue > 0)
@@ -154,13 +165,7 @@ public float interactDistance = 2f;
                     inputProcessedVertical = true;
                 }
             }
-
-            if (Input.GetAxis("HorizontalNav") == 0)
-            {
-                inputProcessedHorizontal = false;
-            }
-
-            if (Input.GetAxis("VerticalNav") == 0)
+            else
             {
                 inputProcessedVertical = false;
             }
