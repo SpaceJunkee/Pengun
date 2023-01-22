@@ -23,6 +23,9 @@ public float interactDistance = 2f;
     public bool inputProcessedHorizontal = false;
     public bool inputProcessedVertical = false;
 
+    bool isInTopRow = false;
+    bool isInBottomRow = false;
+
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -32,8 +35,10 @@ public float interactDistance = 2f;
 
     void Update()
     {
-        Debug.Log(currentImageIndex);
-        Debug.Log(Input.GetAxis("HorizontalNav") + " " + Input.GetAxis("VerticalNav"));
+        //Debug.Log(currentImageIndex);
+        //Debug.Log(Input.GetAxis("HorizontalNav") + " " + Input.GetAxis("VerticalNav"));
+        //Debug.Log(Input.GetAxis("HorizontalAnalog"));
+
         distance = Vector2.Distance(transform.position, player.transform.position);
         rangeRadius = interactDistance;
 
@@ -121,46 +126,52 @@ public float interactDistance = 2f;
         Gizmos.DrawWireSphere(transform.position, rangeRadius);
     }
 
-    private void NavigateUpgradeMenu()
+int itemsPerRow = 5;
+
+private void NavigateUpgradeMenu()
+{
+    ResetNavImageIfOutOfIndex();
+
+    if (isInMenuNavigation)
     {
-        ResetNavImageIfOutOfIndex();
-
-        if (isInMenuNavigation)
+        float horizontalValue = Input.GetAxisRaw("HorizontalAnalog");
+        if (Mathf.Abs(horizontalValue) < 0.5f)
         {
-            float horizontalValue = Input.GetAxis("HorizontalAnalog");
-            if (Mathf.Abs(horizontalValue) < 0.5f)
+            horizontalValue = Input.GetAxis("HorizontalNav");
+        }
+        if (Mathf.Abs(horizontalValue) > 0.5f)
+        {
+            if (!inputProcessedHorizontal)
             {
-                horizontalValue = Input.GetAxis("HorizontalNav");
+                currentImageIndex += (int)Mathf.Sign(horizontalValue);
+                inputProcessedHorizontal = true;
             }
-            if (Mathf.Abs(horizontalValue) > 0.5f)
-            {
-                if (!inputProcessedHorizontal)
-                {
-                    currentImageIndex += (int)Mathf.Sign(horizontalValue);
-                    inputProcessedHorizontal = true;
-                }
-            }
-            else
-            {
-                inputProcessedHorizontal = false;
-            }
+        }
+        else
+        {
+            inputProcessedHorizontal = false;
+        }
 
-            float verticalValue = Input.GetAxis("VerticalAnalog");
-            if (Mathf.Abs(verticalValue) < 0.5f)
+        float verticalValue = Input.GetAxisRaw("VerticalAnalog");
+        if (Mathf.Abs(verticalValue) < 0.5f)
+        {
+            verticalValue = Input.GetAxis("VerticalNav");
+        }
+        if (Mathf.Abs(verticalValue) > 0.5f)
+        {
+            if (!inputProcessedVertical)
             {
-                verticalValue = Input.GetAxis("VerticalNav");
-            }
-            if (Mathf.Abs(verticalValue) > 0.5f)
-            {
-                if (!inputProcessedVertical)
-                {
-                    if (verticalValue > 0)
+                    if (isInTopRow && verticalValue < 0) // check if user is in top row and trying to move down
                     {
-                        currentImageIndex -= 5; // move to the previous row
+                        currentImageIndex += 5;
                     }
-                    else if (verticalValue < 0)
+                    else if (isInBottomRow && verticalValue > 0) // check if user is in bottom row and trying to move up
                     {
-                        currentImageIndex += 5; // move to the next row
+                        currentImageIndex -= 5;
+                    }
+                    else
+                    {
+                        currentImageIndex += (int)Mathf.Sign(verticalValue) * 5;
                     }
                     inputProcessedVertical = true;
                 }
@@ -171,22 +182,35 @@ public float interactDistance = 2f;
             }
         }
 
-        for (int i = 0; i < upgradeImages.Length; i++)
+    for (int i = 0; i < upgradeImages.Length; i++)
+    {
+        if (i == currentImageIndex)
         {
-            if (i == currentImageIndex)
-            {
-                upgradeImages[i].color = new Color(1, 1, 1, 1);
-            }
-            else
-            {
-                upgradeImages[i].color = new Color(0.5f, 0.5f, 0.5f, 1);
-            }
+            upgradeImages[i].color = new Color(1, 1, 1, 1);
         }
-
+        else
+        {
+            upgradeImages[i].color = new Color(0.5f, 0.5f, 0.5f, 1);
+        }
     }
+}
 
     private void ResetNavImageIfOutOfIndex()
     {
+        Debug.Log(isInTopRow);
+        Debug.Log(isInBottomRow);
+
+        if (currentImageIndex >= 0 && currentImageIndex <= 4)
+        {
+            isInTopRow = true;
+            isInBottomRow = false;
+        }
+        else if(currentImageIndex >= 5 && currentImageIndex <= 9)
+        {
+            isInTopRow = false;
+            isInBottomRow = true;
+        }
+
         if (currentImageIndex < 0)
             currentImageIndex = 9;
         if (currentImageIndex >= 10)
