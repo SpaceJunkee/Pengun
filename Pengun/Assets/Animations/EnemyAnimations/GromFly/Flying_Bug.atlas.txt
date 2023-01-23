@@ -1,0 +1,153 @@
+
+Flying_Bug.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+A_1
+  rotate: false
+  xy: 36, 85
+  size: 40, 21
+  orig: 41, 21
+  offset: 0, 0
+  index: -1
+A_2
+  rotate: false
+  xy: 287, 165
+  size: 41, 88
+  orig: 41, 88
+  offset: 0, 0
+  index: -1
+A_3
+  rotate: true
+  xy: 151, 89
+  size: 34, 97
+  orig: 41, 102
+  offset: 0, 0
+  index: -1
+BK_1
+  rotate: true
+  xy: 250, 91
+  size: 39, 20
+  orig: 42, 25
+  offset: 1, 3
+  index: -1
+BK_2
+  rotate: false
+  xy: 198, 18
+  size: 40, 69
+  orig: 41, 69
+  offset: 1, 0
+  index: -1
+BK_3
+  rotate: false
+  xy: 126, 150
+  size: 62, 103
+  orig: 62, 103
+  offset: 0, 0
+  index: -1
+BK_WING
+  rotate: true
+  xy: 78, 125
+  size: 128, 46
+  orig: 128, 47
+  offset: 0, 1
+  index: -1
+BODY
+  rotate: true
+  xy: 72, 5
+  size: 78, 53
+  orig: 78, 53
+  offset: 0, 0
+  index: -1
+BODY_FRONT
+  rotate: true
+  xy: 240, 20
+  size: 67, 62
+  orig: 96, 68
+  offset: 14, 2
+  index: -1
+BODY_FRONT2
+  rotate: false
+  xy: 2, 2
+  size: 68, 81
+  orig: 119, 91
+  offset: 26, 7
+  index: -1
+BODY_FRONT3
+  rotate: true
+  xy: 127, 10
+  size: 76, 69
+  orig: 119, 91
+  offset: 26, 9
+  index: -1
+B_1
+  rotate: false
+  xy: 124, 88
+  size: 25, 35
+  orig: 26, 35
+  offset: 1, 0
+  index: -1
+B_2
+  rotate: true
+  xy: 126, 125
+  size: 23, 63
+  orig: 24, 63
+  offset: 0, 0
+  index: -1
+B_3
+  rotate: false
+  xy: 190, 158
+  size: 19, 95
+  orig: 19, 95
+  offset: 0, 0
+  index: -1
+Eyes
+  rotate: false
+  xy: 304, 84
+  size: 42, 46
+  orig: 42, 46
+  offset: 0, 0
+  index: -1
+M_1
+  rotate: false
+  xy: 78, 87
+  size: 44, 36
+  orig: 44, 36
+  offset: 0, 0
+  index: -1
+M_2
+  rotate: true
+  xy: 243, 132
+  size: 27, 75
+  orig: 27, 75
+  offset: 0, 0
+  index: -1
+M_3
+  rotate: false
+  xy: 211, 161
+  size: 74, 92
+  orig: 74, 92
+  offset: 0, 0
+  index: -1
+Stinger
+  rotate: true
+  xy: 36, 108
+  size: 145, 40
+  orig: 146, 40
+  offset: 1, 0
+  index: -1
+Tail
+  rotate: false
+  xy: 191, 126
+  size: 50, 30
+  orig: 51, 31
+  offset: 0, 1
+  index: -1
+WING_1
+  rotate: true
+  xy: 2, 85
+  size: 168, 32
+  orig: 170, 34
+  offset: 1, 1
+  index: -1

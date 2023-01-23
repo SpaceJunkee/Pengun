@@ -13,6 +13,8 @@ public class EnemyHealthManager : MonoBehaviour
     public TimeManager timemanager;
     public Rigidbody2D rigidbody;
     public AudioSource deathSound;
+
+    //Every enemy needs this
     LootSplash lootSplash;
 
     public float currentHealth;
