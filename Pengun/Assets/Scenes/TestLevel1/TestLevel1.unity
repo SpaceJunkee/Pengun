@@ -100029,6 +100029,7 @@ GameObject:
   - component: {fileID: 2135515511}
   - component: {fileID: 2135515512}
   - component: {fileID: 2135515513}
+  - component: {fileID: 2135515514}
   m_Layer: 18
   m_Name: GromFly
   m_TagString: Enemy
@@ -100162,7 +100163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faa78906f26b3a1428af840762540302, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 1
+  maxHealth: 5
   minHealth: 0
   chargerChunkParticle: {fileID: 4385307598696628365, guid: 0d8eea9441dcb8a47804466b8f3a59e8,
     type: 3}
@@ -100265,6 +100266,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.2234619, y: 1.6901147}
   m_EdgeRadius: 0
+--- !u!114 &2135515514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2135515500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef38f90d10a61f54f9a2845b99b8bbd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  droplet: {fileID: 967314875827216090, guid: a64417040e082964892ec3a645e8dbf2, type: 3}
+  minDropCount: 1
+  maxDropCount: 6
+  spread: 3
+  containsLoot: 1
 --- !u!1001 &81355375167754061
 PrefabInstance:
   m_ObjectHideFlags: 0
