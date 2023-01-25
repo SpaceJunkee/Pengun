@@ -34,6 +34,7 @@ public class SlugromAI : MonoBehaviour
         rigidbody = GetComponent<Rigidbody2D>();
         originalConstraints = rigidbody.constraints;
         originalColliderSize = capCollider.size;
+        playerTarget = GameObject.FindWithTag("Player").transform;
     }
 
     private void Update()
