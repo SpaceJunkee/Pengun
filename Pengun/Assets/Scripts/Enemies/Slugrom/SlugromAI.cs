@@ -87,16 +87,18 @@ public class SlugromAI : MonoBehaviour
     }
 
     IEnumerator FlipColliderAfterTurn()
-    {     
+    {
+        slugPlayerDetector.enabled = false;
         yield return new WaitForSeconds(freezeTime+ 0.4f);
         FlipSlugCollider(hasFlippedA, hasFlippedB);
     }
 
     void FlipSlugCollider(bool left, bool right)
     {
+        slugPlayerDetector.enabled = true;
         if (!left)
         {
-            slugPlayerDetector.transform.localPosition = new Vector2(-8.9f, 0);
+            slugPlayerDetector.transform.localPosition = new Vector2(-7.5f, 0);
         }
         else if(!right)
         {

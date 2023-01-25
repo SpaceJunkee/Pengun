@@ -17,7 +17,6 @@ public class PlayerMovement : MonoBehaviour
      */
 
     //Variables
-    public CassetteTapes cassetteTapes;
     private Rigidbody2D rigidbody;
     private float movementDirection;
     public static RigidbodyConstraints2D originalConstraints;
@@ -108,6 +107,7 @@ public class PlayerMovement : MonoBehaviour
     public float fallingTime = 1;
     public float shootingFallAmount = 6.1f;
     public float meleeFallAmount = 6.1f;
+    public float clampedFallSpeed = -20f;
 
     //Music Abilities
     private bool canFastRun = false;
@@ -197,6 +197,12 @@ public class PlayerMovement : MonoBehaviour
         CheckIfWallSliding();
         WallJump();
 
+        // Clamped fall speed
+        if (rigidbody.velocity.y < clampedFallSpeed)
+        {
+            rigidbody.velocity = new Vector2(rigidbody.velocity.x, clampedFallSpeed);
+        }
+
         isGrounded = IsGrounded();
 
         if (isGrounded)
@@ -252,10 +258,6 @@ public class PlayerMovement : MonoBehaviour
     //Set up movement inputs for character
     private void ProcessInputs()
     {
-        ManageSpecialAbilities();
-        ManageCassetteTapes();
-        OpenRadialMenu();
-
         animator.SetBool("IsJumping", isJumping);
 
         if (Input.GetAxis("LeftTrigger") == 1)
@@ -679,140 +681,6 @@ public class PlayerMovement : MonoBehaviour
         
     }
     
-    bool hasTapeChanged1, hasTapeChanged2, hasTapeChanged3 = false;
-
-    private void ManageCassetteTapes()
-    {
-        if (RadialMenuScript.selection == 2 && !hasTapeChanged1)
-        {
-            cassetteTapes.ChangeToBaseTrackUp();
-            ManageMusicAbilities(false, true, false);
-            ResetHasTrackedChanged(true, false, false);
-        }
-        else if (RadialMenuScript.selection == 1 && !hasTapeChanged2)
-        {
-            cassetteTapes.ChangeToTrackRight();
-            ManageMusicAbilities(true, false, false);
-            FastRun();
-            ResetHasTrackedChanged(false, true, false);
-        }
-        else if (RadialMenuScript.selection == 0 && !hasTapeChanged3)
-        {
-            cassetteTapes.ChangeToTrackLeft();
-            ManageMusicAbilities(false, false, true);
-            ResetHasTrackedChanged(false, false, true);
-        }
-        
-    }
-
-    void ManageMusicAbilities(bool isTimedTapes, bool isConsumableTapes, bool isSpecialTapes)
-    {
-        canFastRun = isTimedTapes;
-        isBerzerkModeActivated = isSpecialTapes;
-
-        hasSelectedConsumableTape = isConsumableTapes;
-        hasSelectedTimedTape = isTimedTapes;
-        hasSelectedSpecialTape = isSpecialTapes;
-    }
-
-    void ManageSpecialAbilities()
-    {
-        if (Input.GetAxisRaw("RightTrigger") == 1 && hasSelectedConsumableTape)
-        {
-            if (!isRightTriggerInUse)
-            {
-                isRightTriggerInUse = true;
-                Debug.Log("Armour");
-            }
-            
-        }
-        else if (Input.GetAxisRaw("RightTrigger") == 1 && hasSelectedTimedTape)
-        {
-            if (!isRightTriggerInUse)
-            {
-                isRightTriggerInUse = true;
-                Debug.Log("Speed");
-            }
-        }
-        else if (Input.GetAxisRaw("RightTrigger") == 1 && hasSelectedSpecialTape)
-        {
-            //Play animation
-            if (!isWallSliding && canUseButtonInput && !isRightTriggerInUse)
-            {
-                isRightTriggerInUse = true;
-                ActivateBloodWave();
-            }
-        }
-        
-        if(Input.GetAxisRaw("RightTrigger") == 0)
-        {
-            if (isRightTriggerInUse)
-            {
-                isRightTriggerInUse = false;
-            }
-        }
-    }
-
-
-    private void ActivateBloodWave()
-    {
-        //bloodWaveAudio.Play();
-        if (!isJumping && isGrounded)
-        {
-            rigidbody.velocity = Vector2.up * jumpForce * 1.3f;
-            Invoke("StopPlayer", 0.2f);
-            Invoke("BloodBlast", 0.2f);
-        }
-        else
-        {
-            StopPlayer(true, true, true);
-            BloodBlast();
-        }
-        
-       // canMove = false;
-        CameraShake.Instance.ShakeCamera(4f, 2f, 1.5f);
-        
-        
-        Invoke("EnableMovement", 1.5f);
-        Debug.Log("Strength");
-    }
-
-    void BloodBlast()
-    {
-        Instantiate(BloodSlamBlast, this.transform.position, Quaternion.identity);
-    }
-
-
-    bool isNotInMenu = false;
-
-    void OpenRadialMenu()
-    {
-        if (Input.GetButton("OpenAbilityMenu") && canMove)
-        {
-            timemanager.StartSlowMotion(0.1f);
-            RadialMenuScript.isActive = true;
-            isNotInMenu = false;
-            canUseButtonInput = false;
-        }
-        else if(isNotInMenu == false)
-        {
-            timemanager.StopSlowMotion();
-            RadialMenuScript.isActive = false;
-            isNotInMenu = true;
-            canUseButtonInput = true;
-        }
-        else
-        {
-            return;
-        }
-    }
-
-    void ResetHasTrackedChanged(bool track1, bool track2, bool track3)
-    {
-        hasTapeChanged1 = track1;
-        hasTapeChanged2 = track2;
-        hasTapeChanged3 = track3;
-    }
 
     //Getters
     public bool getPlayerFaceRight()

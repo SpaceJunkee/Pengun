@@ -199,6 +199,104 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 15719712}
   m_CullTransparentMesh: 0
+--- !u!1001 &23705727
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 81355375102890434, guid: 065f8886a950cfe4383f67f31cc044bb,
+        type: 3}
+      propertyPath: m_Name
+      value: Slugrom (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 81355375102890458, guid: 065f8886a950cfe4383f67f31cc044bb,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 48
+      objectReference: {fileID: 0}
+    - target: {fileID: 81355375102890458, guid: 065f8886a950cfe4383f67f31cc044bb,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 87.46
+      objectReference: {fileID: 0}
+    - target: {fileID: 81355375102890458, guid: 065f8886a950cfe4383f67f31cc044bb,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 37.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 81355375102890458, guid: 065f8886a950cfe4383f67f31cc044bb,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 81355375102890458, guid: 065f8886a950cfe4383f67f31cc044bb,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 81355375102890458, guid: 065f8886a950cfe4383f67f31cc044bb,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 81355375102890458, guid: 065f8886a950cfe4383f67f31cc044bb,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 81355375102890458, guid: 065f8886a950cfe4383f67f31cc044bb,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 81355375102890458, guid: 065f8886a950cfe4383f67f31cc044bb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 81355375102890458, guid: 065f8886a950cfe4383f67f31cc044bb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 81355375102890458, guid: 065f8886a950cfe4383f67f31cc044bb,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 81355375469459175, guid: 065f8886a950cfe4383f67f31cc044bb,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2456576827364007712, guid: 065f8886a950cfe4383f67f31cc044bb,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 2456576827364007712, guid: 065f8886a950cfe4383f67f31cc044bb,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871197742997276356, guid: 065f8886a950cfe4383f67f31cc044bb,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 8871197742997276356, guid: 065f8886a950cfe4383f67f31cc044bb,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.5
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 065f8886a950cfe4383f67f31cc044bb, type: 3}
 --- !u!1 &25434876
 GameObject:
   m_ObjectHideFlags: 0
@@ -50933,6 +51031,7 @@ MonoBehaviour:
   fallingTime: 1
   shootingFallAmount: 6.1
   meleeFallAmount: 6.1
+  clampedFallSpeed: -35
 --- !u!50 &1397586202
 Rigidbody2D:
   serializedVersion: 4
@@ -63022,7 +63121,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!223 &1562522266
 Canvas:
   m_ObjectHideFlags: 0
