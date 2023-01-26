@@ -9,6 +9,7 @@ public class GromEnergyBarController : MonoBehaviour
     public float maxGromEnergy;
     public float minGromEnergy;
     public Image fillImage;
+    public bool isInTestingMode = false;
 
     private void Start()
     {
@@ -17,6 +18,12 @@ public class GromEnergyBarController : MonoBehaviour
 
     private void Update()
     {
+        if (isInTestingMode)
+        {
+            maxGromEnergy = 100000f;
+            currentGromEnergy = 100000f;
+            minGromEnergy = 100000f;
+        }
         CheckIfCurrentIsMinOrMax();
     }
 

@@ -94,17 +94,31 @@ public class Shooting : MonoBehaviour
     {
         HandleShootingMechanics(shotgunForceAmount, shotgunGromEnergyCost, shotgunNextFire, shotgunFireRate, shotgunProjectile, shotgunProjectileSpeed, shotgunRotationAngle);
     }
+    bool inputType;
 
     void HandleShootingMechanics(float forceAmount, float gromEnergyCost, float nextFire, float fireRate, GameObject projectile, float projectileSpeed, float rotationAngle)
     {
         Vector2 inputDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         Vector2 shootingForce = new Vector2(0, forceAmount);
         float inputY = Input.GetAxisRaw("Vertical");
+        bool pistolShotgunInput = Input.GetButtonDown("Fire1");
+        bool machineGunInput = Input.GetButton("Fire1");
+        Debug.Log(inputType);
 
         //Fire up down left right
         if (gromEnergyBarController.currentGromEnergy >= gromEnergyCost)
         {
-            if (inputY > deadzone && Time.time > nextFire && Input.GetButton("Fire1") && canShoot)
+
+            if((isShotgunSelected || isPistolSelected) && !isMachineGunSelected)
+            {
+                inputType = pistolShotgunInput;
+            }
+            else if (isMachineGunSelected && !isShotgunSelected && !isPistolSelected)
+            {
+                inputType = machineGunInput;
+            }
+
+            if (inputY > deadzone && Time.time > nextFire && inputType && canShoot)
             {
                 nextFire = Time.time + fireRate;
                 GameObject newProjectile = Instantiate(projectile, upSpawnPoint.position, upSpawnPoint.rotation) as GameObject;
@@ -116,7 +130,7 @@ public class Shooting : MonoBehaviour
                 canShoot = false;
                 isShootingDown = false;
             }
-            else if (inputDirection.y < 0 && Time.time > nextFire && Input.GetButton("Fire1") && (playerMovement.isJumping || playerMovement.inAirTime < 0) && canShoot)
+            else if (inputDirection.y < 0 && Time.time > nextFire && inputType && (playerMovement.isJumping || playerMovement.inAirTime < 0) && canShoot)
             {
                 nextFire = Time.time + fireRate;
                 GameObject newProjectile = Instantiate(projectile, downSpawnPoint.position, downSpawnPoint.rotation) as GameObject;
@@ -130,7 +144,7 @@ public class Shooting : MonoBehaviour
                 isShootingDown = true;
                 canShoot = false;
             }
-            else if (Input.GetButton("Fire1") && Time.time > nextFire && canShoot)
+            else if (inputType && Time.time > nextFire && canShoot)
             {
                 nextFire = Time.time + fireRate;
                 GameObject newProjectile = Instantiate(projectile, spawnPoint.position, spawnPoint.rotation) as GameObject;

@@ -51240,23 +51240,23 @@ MonoBehaviour:
   isPistolSelected: 0
   isMachineGunSelected: 0
   isShotgunSelected: 0
-  pistolFireRate: 0.5
-  pistolProjectileSpeed: 10
+  pistolFireRate: 0.2
+  pistolProjectileSpeed: 30
   pistolRotationAngle: 90
-  pistolPushBackForce: 1
+  pistolPushBackForce: 7
   pistolForceAmount: 10
   pistolGromEnergyCost: 1
-  machineGunFireRate: 0.5
-  machineGunProjectileSpeed: 10
+  machineGunFireRate: 0.1
+  machineGunProjectileSpeed: 35
   machineGunRotationAngle: 90
   machineGunPushBackForce: 1
-  machineGunForceAmount: 10
+  machineGunForceAmount: 20
   machineGunGromEnergyCost: 1
   shotgunFireRate: 0.5
-  shotgunProjectileSpeed: 10
+  shotgunProjectileSpeed: 30
   shotgunRotationAngle: 90
   shotgunPushBackForce: 1
-  shotgunForceAmount: 10
+  shotgunForceAmount: 50
   shotgunGromEnergyCost: 1
   upDirection: {x: 0, y: 1}
   downDirection: {x: 0, y: -1}
@@ -63244,6 +63244,7 @@ MonoBehaviour:
   maxGromEnergy: 100
   minGromEnergy: 0
   fillImage: {fileID: 1267731380}
+  isInTestingMode: 1
 --- !u!4 &1563049746
 Transform:
   m_ObjectHideFlags: 0
