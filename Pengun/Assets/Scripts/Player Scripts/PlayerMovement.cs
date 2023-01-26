@@ -11,11 +11,6 @@ using UnityEngine.Events;
 
 public class PlayerMovement : MonoBehaviour
 {
-
-    /* Public variables are seen in the unity editor and can be changed. 
-     * Handy if you would like to change values on the fly.
-     */
-
     //Variables
     private Rigidbody2D rigidbody;
     private float movementDirection;
@@ -82,15 +77,6 @@ public class PlayerMovement : MonoBehaviour
     public static bool canUseButtonInput = true;
     public static bool canUseMovementInput = true;
 
-    //Wall sliding and jumping
-    public float wallCheckDistance;
-    public float wallSlidingSpeed;
-    public float maxWallSlideSpeed;
-    public float hopSpeed;
-    public float wallJumpForce = 18f;
-    public float wallJumpDirection = -1;
-    public Vector2 wallJumpAngle;
-
     //Dashing
     public int dashCount;
     public int maxDashInAir = 1;
@@ -112,11 +98,8 @@ public class PlayerMovement : MonoBehaviour
     //Music Abilities
     private bool canFastRun = false;
     private bool isFastRunning = false;
-    private bool hasArmour;
     private bool isBerzerkModeActivated = false;
-    private bool hasSelectedTimedTape = false;
-    private bool hasSelectedSpecialTape = false;
-    private bool hasSelectedConsumableTape = false;
+
 
     //Music Ability variables
     int damageMultiplier = 2;
@@ -194,9 +177,6 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
 
-        CheckIfWallSliding();
-        WallJump();
-
         // Clamped fall speed
         if (rigidbody.velocity.y < clampedFallSpeed)
         {
@@ -212,9 +192,6 @@ public class PlayerMovement : MonoBehaviour
 
         animator.SetBool("Grounded", isGrounded);
         isStandingOnLava = hurtKnockBack.getIsStandingOnLava();
-
-        //Check if player is touching a wall
-        isTouchingWall = Physics2D.Raycast(wallCheck.position, transform.right, wallCheckDistance, wallObjects);
 
         CheckDash();
 
@@ -384,15 +361,6 @@ public class PlayerMovement : MonoBehaviour
             rigidbody.velocity = new Vector2(movementDirection * movementSpeed, rigidbody.velocity.y);
         }
 
-        //Set down velocity for wall sliding
-        if (isWallSliding)
-            {
-                if (rigidbody.velocity.y < -wallSlidingSpeed)
-                {
-                    rigidbody.velocity = new Vector2(rigidbody.velocity.x, -wallSlidingSpeed);
-                }
-            }
-
         //Jumping
         Jump();
     }
@@ -558,38 +526,6 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
-    private void CheckIfWallSliding()
-    {
-        if(isTouchingWall && !isGrounded && rigidbody.velocity.y < 0)
-        {
-            isWallSliding = true;
-            wallSlidingSpeed = -2f;
-        }
-        else if(isTouchingWall && !isGrounded && rigidbody.velocity.y > 0)
-        {
-            isWallSliding = true;
-            wallSlidingSpeed = -2f;
-        }
-        else
-        {
-            isWallSliding = false;
-        }
-
-    }
-
-    void WallJump()
-    {
-
-        if (isWallSliding && isTouchingWall && Input.GetButtonDown("Jump"))
-        {
-            rigidbody.AddForce(new Vector2(wallJumpForce * wallJumpDirection * wallJumpAngle.x, wallJumpForce * wallJumpAngle.y), ForceMode2D.Impulse);
-
-            //animator.SetBool("isWallSliding", false);
-            //animator.SetTrigger("WallClimb");            
-        }
-
-    }
-
     private void FastRun()
     {
         if (canFastRun && (movementDirection > 0 || movementDirection < 0))
@@ -673,7 +609,6 @@ public class PlayerMovement : MonoBehaviour
         playerFaceRight = !playerFaceRight; //Opposite direction
         transform.Rotate(0f, 180f, 0f);
         this.transform.Find("AbilityWheel").transform.Rotate(0f, 180f, 0f);
-        wallJumpDirection *= -1;
         if (isGrounded)
         {
             CreateDustParticles();

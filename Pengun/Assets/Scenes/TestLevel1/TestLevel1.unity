@@ -50882,6 +50882,7 @@ GameObject:
   - component: {fileID: 1397586213}
   - component: {fileID: 1397586200}
   - component: {fileID: 1397586199}
+  - component: {fileID: 1397586214}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -50981,7 +50982,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5a15fccd2cb0a24c8dfa48659de9079, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cassetteTapes: {fileID: 830624687}
   hurtKnockBack: {fileID: 1397586206}
   healthManager: {fileID: 1397586207}
   playerDamageController: {fileID: 1397586210}
@@ -51015,13 +51015,6 @@ MonoBehaviour:
     m_Bits: 512
   checkRadius: 0.55
   isJumping: 0
-  wallCheckDistance: 0.6
-  wallSlidingSpeed: 1
-  maxWallSlideSpeed: 0
-  hopSpeed: 1000
-  wallJumpForce: 1
-  wallJumpDirection: -1
-  wallJumpAngle: {x: 1, y: 3}
   dashCount: 0
   maxDashInAir: 2
   dashTime: 0.3
@@ -51349,6 +51342,20 @@ MonoBehaviour:
   fontStyle: 1
   alignment: 0
   textDropShadow: 0
+--- !u!114 &1397586214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1397586198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6aa024922e417e54aaf2ff73d9b87640, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cassetteTapes: {fileID: 830624687}
+  timemanager: {fileID: 943055218}
 --- !u!1 &1403698077
 GameObject:
   m_ObjectHideFlags: 0
