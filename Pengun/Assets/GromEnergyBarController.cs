@@ -27,7 +27,7 @@ public class GromEnergyBarController : MonoBehaviour
         UpdateGromEnergy();
     }
 
-    public void DecreaseGromEnergy(int amount)
+    public void DecreaseGromEnergy(float amount)
     {
         currentGromEnergy -= amount;
 

@@ -4,28 +4,57 @@ using UnityEngine;
 
 public class Shooting : MonoBehaviour
 {
-    public GameObject projectile;
+    public GameObject pistolProjectile;
+    public GameObject machineGunProjectile;
+    public GameObject shotgunProjectile;
     public Transform spawnPoint;
     public Transform upSpawnPoint;
     public Transform downSpawnPoint;
     GromEnergyBarController gromEnergyBarController;
-    public float fireRate = 0.5f;
-    public float projectileSpeed = 10f;
-    private float nextFire = 0.0f;
-    public float rotationAngle;
+
+    //Active weapon booleans
+    [SerializeField]
+    bool isPistolSelected, isMachineGunSelected, isShotgunSelected = false;
+
+    //Pistol variables
+    public float pistolFireRate = 0.5f;
+    public float pistolProjectileSpeed = 10f;
+    private float pistolNextFire = 0.0f;
+    public float pistolRotationAngle;
+    public float pistolPushBackForce = 1f;
+    public float pistolForceAmount = 10;
+    public float pistolGromEnergyCost = 1;
+
+    [Space]
+    //MachineGun Variables
+    public float machineGunFireRate = 0.5f;
+    public float machineGunProjectileSpeed = 10f;
+    private float machineGunNextFire = 0.0f;
+    public float machineGunRotationAngle;
+    public float machineGunPushBackForce = 1f;
+    public float machineGunForceAmount = 10;
+    public float machineGunGromEnergyCost = 1;
+    [Space]
+    //ShotgunVariables
+    public float shotgunFireRate = 0.5f;
+    public float shotgunProjectileSpeed = 10f;
+    private float shotgunNextFire = 0.0f;
+    public float shotgunRotationAngle;
+    public float shotgunPushBackForce = 1f;
+    public float shotgunForceAmount = 10;
+    public float shotgunGromEnergyCost = 1;
+
     public Vector2 upDirection = Vector2.up;
     public Vector2 downDirection = Vector2.down;
     Rigidbody2D playerRigidBody;
     PlayerMovement playerMovement;
-    public float pushBackForce = 1f;
-    public float forceAmount = 10;
+
     public float deadzone = 0.65f;
     
     public bool isShooting = false;
     public bool isShootingDown =  false;
     public bool canShoot = true;
 
-    int gromEnergyCost = 1;
 
     private void Start()
     {
@@ -36,18 +65,50 @@ public class Shooting : MonoBehaviour
 
     void Update()
     {
+        if (isPistolSelected && !isMachineGunSelected && !isShotgunSelected)
+        {
+            PistolShooting();
+        }
+        else if(!isPistolSelected && isMachineGunSelected && !isShotgunSelected)
+        {
+            MachineGunShooting();
+        }
+        else if(!isPistolSelected && !isMachineGunSelected && isShotgunSelected)
+        {
+            ShotgunShooting();
+        }
+       
+    }
+
+    void PistolShooting()
+    {
+        HandleShootingMechanics(pistolForceAmount, pistolGromEnergyCost, pistolNextFire, pistolFireRate, pistolProjectile, pistolProjectileSpeed, pistolRotationAngle);
+    }
+
+    void MachineGunShooting()
+    {
+        HandleShootingMechanics(machineGunForceAmount, machineGunGromEnergyCost, machineGunNextFire, machineGunFireRate, machineGunProjectile, machineGunProjectileSpeed, machineGunRotationAngle);
+    }
+
+    void ShotgunShooting()
+    {
+        HandleShootingMechanics(shotgunForceAmount, shotgunGromEnergyCost, shotgunNextFire, shotgunFireRate, shotgunProjectile, shotgunProjectileSpeed, shotgunRotationAngle);
+    }
+
+    void HandleShootingMechanics(float forceAmount, float gromEnergyCost, float nextFire, float fireRate, GameObject projectile, float projectileSpeed, float rotationAngle)
+    {
         Vector2 inputDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         Vector2 shootingForce = new Vector2(0, forceAmount);
         float inputY = Input.GetAxisRaw("Vertical");
 
         //Fire up down left right
-        if(gromEnergyBarController.currentGromEnergy >= gromEnergyCost)
+        if (gromEnergyBarController.currentGromEnergy >= gromEnergyCost)
         {
             if (inputY > deadzone && Time.time > nextFire && Input.GetButton("Fire1") && canShoot)
             {
                 nextFire = Time.time + fireRate;
                 GameObject newProjectile = Instantiate(projectile, upSpawnPoint.position, upSpawnPoint.rotation) as GameObject;
-                StartCoroutine(WaitAndShoot());
+                StartCoroutine(WaitAndShoot(fireRate, gromEnergyCost));
                 newProjectile.transform.localEulerAngles = new Vector3(0, 0, rotationAngle);
                 Rigidbody2D rb = newProjectile.GetComponent<Rigidbody2D>();
                 rb.velocity = upDirection * projectileSpeed;
@@ -59,7 +120,7 @@ public class Shooting : MonoBehaviour
             {
                 nextFire = Time.time + fireRate;
                 GameObject newProjectile = Instantiate(projectile, downSpawnPoint.position, downSpawnPoint.rotation) as GameObject;
-                StartCoroutine(WaitAndShoot());
+                StartCoroutine(WaitAndShoot(fireRate, gromEnergyCost));
                 newProjectile.transform.localEulerAngles = new Vector3(0, 0, -rotationAngle);
                 Rigidbody2D rb = newProjectile.GetComponent<Rigidbody2D>();
                 rb.velocity = downDirection * projectileSpeed;
@@ -73,7 +134,7 @@ public class Shooting : MonoBehaviour
             {
                 nextFire = Time.time + fireRate;
                 GameObject newProjectile = Instantiate(projectile, spawnPoint.position, spawnPoint.rotation) as GameObject;
-                StartCoroutine(WaitAndShoot());
+                StartCoroutine(WaitAndShoot(fireRate, gromEnergyCost));
                 Rigidbody2D rb = newProjectile.GetComponent<Rigidbody2D>();
                 rb.velocity = newProjectile.transform.right * projectileSpeed;
                 isShooting = true;
@@ -83,7 +144,7 @@ public class Shooting : MonoBehaviour
         }
     }
 
-    IEnumerator WaitAndShoot()
+    IEnumerator WaitAndShoot(float fireRate, float gromEnergyCost)
     {
         yield return new WaitForSeconds(fireRate);
         gromEnergyBarController.DecreaseGromEnergy(gromEnergyCost);
@@ -92,10 +153,50 @@ public class Shooting : MonoBehaviour
         isShootingDown = false;
     }
 
-    public void GetActiveWeapon()
+    public void SelectActiveWeapon(string weaponType)
     {
+
+        switch (weaponType)
+        {
+            case "Pistol":
+                // Apply pistol variables
+                isPistolSelected = true;
+                isMachineGunSelected = false;
+                isShotgunSelected = false;
+                break;
+            case "MachineGun":
+                // Apply machine gun variables 
+                isPistolSelected = false;
+                isMachineGunSelected = true;
+                isShotgunSelected = false;
+                break;
+            case "Shotgun":
+                // Apply shotgun variables
+                isPistolSelected = false;
+                isMachineGunSelected = false;
+                isShotgunSelected = true;
+                break;
+        }
         //Select which weapon is active and change the variables accordingly.
         //Change int gromEnergyCost variable to match weapon. 
         //May want to change force for each weapon so a shotgun blasts you in the air where as a machine gun makes you hover.
+    }
+
+    public void SelectActiveAltFire(string altFireType)
+    {
+        //Change alt fire based on weapon type.
+
+        switch (altFireType)
+        {
+            case "PistolAlt":
+                // Apply pistol variables
+                break;
+            case "MachineGunAlt":
+                // Apply machine gun variables 
+                break;
+            case "ShotgunAlt":
+                // Apply shotgun variables
+                break;
+        }
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class P_Melee : MonoBehaviour
+public class Melee : MonoBehaviour
 {
     public Transform attackPoint1, attackPointUp, attackPointDown, meleeParticleTransform;
     public Animator animator;
@@ -49,13 +49,13 @@ public class P_Melee : MonoBehaviour
 
     PlayerMovement playerMovement;
     Rigidbody2D playerRB;
-    P_Shoot pShoot;
+    PistolAltFire pShoot;
 
     private void Start()
     {
         hurtKnock = this.GetComponent<HurtKnockBack>();
         playerMovement = this.GetComponent<PlayerMovement>();
-        pShoot = this.GetComponent<P_Shoot>();
+        pShoot = this.GetComponent<PistolAltFire>();
         playerRB = this.GetComponent<Rigidbody2D>();
     }
     void Update()
@@ -95,7 +95,7 @@ public class P_Melee : MonoBehaviour
             canAttack = true;
         }
 
-        if (canAttack && !P_Shoot.isShooting && !PlayerMovement.isDashing && PlayerMovement.canMove && PlayerMovement.canUseButtonInput)
+        if (canAttack && !PistolAltFire.isShooting && !PlayerMovement.isDashing && PlayerMovement.canMove && PlayerMovement.canUseButtonInput)
         {
             if (Input.GetButtonDown("Melee"))
             {

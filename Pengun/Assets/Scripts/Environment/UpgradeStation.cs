@@ -197,8 +197,8 @@ private void NavigateUpgradeMenu()
 
     private void ResetNavImageIfOutOfIndex()
     {
-        Debug.Log(isInTopRow);
-        Debug.Log(isInBottomRow);
+        //Debug.Log(isInTopRow);
+        //Debug.Log(isInBottomRow);
 
         if (currentImageIndex >= 0 && currentImageIndex <= 4)
         {

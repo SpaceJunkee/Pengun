@@ -30,7 +30,7 @@ public class PlayerMovement : MonoBehaviour
     public GameObject BloodSlamBlast;
     public SkeletonMecanim skeletonMec;
     GromEnergyBarController gromEnergyBarController;
-    P_Melee pMelee;
+    Melee melee;
     public BoxCollider2D boxcollider;
     Color mecanimColor;
     Color dashBlackColor;
@@ -112,7 +112,7 @@ public class PlayerMovement : MonoBehaviour
         rigidbody = GetComponent<Rigidbody2D>();
         shooting = GetComponent<Shooting>();
         originalConstraints = rigidbody.constraints;
-        pMelee = GetComponent<P_Melee>();
+        melee = GetComponent<Melee>();
     }
 
     private void Start()
@@ -144,7 +144,7 @@ public class PlayerMovement : MonoBehaviour
             rigidbody.velocity += Vector2.up * Physics2D.gravity.y * (smallJumpMultiplier - shootingFallAmount) * Time.deltaTime;
         }
 
-        if (pMelee.isApplyingUpforce && Input.GetButton("Jump"))
+        if (melee.isApplyingUpforce && Input.GetButton("Jump"))
         {
             rigidbody.velocity -= Vector2.up * Physics2D.gravity.y * (smallJumpMultiplier - meleeFallAmount) * Time.deltaTime;
         }
@@ -407,7 +407,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void AttemptDash()
     {
-        if (!isGrounded && dashCount != 0 && !P_Melee.isMelee)
+        if (!isGrounded && dashCount != 0 && !Melee.isMelee)
         {
             isDashing = true;
             dashCount--;
@@ -420,7 +420,7 @@ public class PlayerMovement : MonoBehaviour
             lastImageXpos = transform.position.x;
          
         }
-        else if(isGrounded && !isTouchingWall && !P_Melee.isMelee)
+        else if(isGrounded && !isTouchingWall && !Melee.isMelee)
         {
             isDashing = true;
             animator.SetBool("isDashFinished", false);

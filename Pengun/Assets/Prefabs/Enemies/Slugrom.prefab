@@ -327,8 +327,8 @@ MonoBehaviour:
   slugGroundCheck: {fileID: 81355374422939573}
   slugPlayerDetector: {fileID: 81355374130734419}
   isTouchingTarget: 0
-  capColliderLength: 0
-  capColliderHeight: 0
+  capColliderLength: 1.5
+  capColliderHeight: 1.5
   slugStink: {fileID: 425872758060571502}
   slugStinkJump: {fileID: 3626267966925077426}
   slugStinkJumpSlime: {fileID: 3822302740033057886}

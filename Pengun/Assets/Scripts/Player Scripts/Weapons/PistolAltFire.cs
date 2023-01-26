@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class P_Shoot : MonoBehaviour
+public class PistolAltFire : MonoBehaviour
 {
     public Animator animator;
     GromEnergyBarController gromEnergyBarController;
@@ -44,12 +44,12 @@ public class P_Shoot : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetButtonDown("Shoot") && !isShooting && P_Melee.isMelee && canShootAgain && gromEnergyBarController.currentGromEnergy >= gromEnergyCost && PlayerMovement.canUseButtonInput)
+        if (Input.GetButtonDown("Shoot") && !isShooting && Melee.isMelee && canShootAgain && gromEnergyBarController.currentGromEnergy >= gromEnergyCost && PlayerMovement.canUseButtonInput)
         {
-            P_Melee.doesPlayerWantToShoot = true;
+            Melee.doesPlayerWantToShoot = true;
         }
 
-        if (Input.GetButtonDown("Shoot") && !isShooting && !P_Melee.isMelee && !PlayerMovement.isDashing && canShootAgain && gromEnergyBarController.currentGromEnergy >= gromEnergyCost && PlayerMovement.canUseButtonInput)
+        if (Input.GetButtonDown("Shoot") && !isShooting && !Melee.isMelee && !PlayerMovement.isDashing && canShootAgain && gromEnergyBarController.currentGromEnergy >= gromEnergyCost && PlayerMovement.canUseButtonInput)
         {
             StartCoroutine(Shoot());
         }
@@ -87,7 +87,7 @@ public class P_Shoot : MonoBehaviour
         yield return new WaitForSeconds(shootCoolDown);
 
         isShooting = false;
-        P_Melee.doesPlayerWantToShoot = false;
+        Melee.doesPlayerWantToShoot = false;
         playerMovement.EnableMovement();
         playerMovement.StopPlayer(true, false, true);
         canShootAgain = false;

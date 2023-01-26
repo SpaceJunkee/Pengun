@@ -1,35 +1,53 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class WeaponChanging : MonoBehaviour
 {
-    public CassetteTapes cassetteTapes;
     public TimeManager timemanager;
+    Shooting shooting;
     bool hasTapeChanged1, hasTapeChanged2, hasTapeChanged3 = false;
+
+    private void Start()
+    {
+        shooting = GetComponent<Shooting>();
+    }
 
     private void Update()
     {
-        ManageCassetteTapes();
+        ManageWeaponChanging();
         OpenRadialMenu();
     }
 
-    private void ManageCassetteTapes()
+    private void ManageWeaponChanging()
     {
         if (RadialMenuScript.selection == 2 && !hasTapeChanged1)
         {
-            cassetteTapes.ChangeToBaseTrackUp();
-            ResetHasTrackedChanged(true, false, false);
+            //top
+            ResetHasWeaponChanged(true, false, false);
+            Debug.Log("Pistol");
+            SwapToPistol();
+            shooting.SelectActiveWeapon("Pistol");
+            shooting.SelectActiveAltFire("PistolAlt");
         }
         else if (RadialMenuScript.selection == 1 && !hasTapeChanged2)
         {
-            cassetteTapes.ChangeToTrackRight();
-            ResetHasTrackedChanged(false, true, false);
+            //right
+            ResetHasWeaponChanged(false, true, false);
+            Debug.Log("Machine Gun");
+            SwapToMachineGun();
+            shooting.SelectActiveWeapon("MachineGun");
+            shooting.SelectActiveAltFire("MachineGunAlt");
         }
         else if (RadialMenuScript.selection == 0 && !hasTapeChanged3)
         {
-            cassetteTapes.ChangeToTrackLeft();
-            ResetHasTrackedChanged(false, false, true);
+            //left
+            ResetHasWeaponChanged(false, false, true);
+            Debug.Log("Shotgun");
+            SwapToShotgun();
+            shooting.SelectActiveWeapon("Shotgun");
+            shooting.SelectActiveAltFire("ShotgunAlt");
         }
 
     }
@@ -59,10 +77,25 @@ public class WeaponChanging : MonoBehaviour
         }
     }
 
-    void ResetHasTrackedChanged(bool track1, bool track2, bool track3)
+    void ResetHasWeaponChanged(bool track1, bool track2, bool track3)
     {
         hasTapeChanged1 = track1;
         hasTapeChanged2 = track2;
         hasTapeChanged3 = track3;
+    }
+
+    private void SwapToShotgun()
+    {
+        //Play animation
+    }
+
+    private void SwapToMachineGun()
+    {
+        //Play animation
+    }
+
+    private void SwapToPistol()
+    {
+        //Play animation
     }
 }
