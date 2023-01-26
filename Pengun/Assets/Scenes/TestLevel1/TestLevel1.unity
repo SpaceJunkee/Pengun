@@ -51228,18 +51228,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ae73bc094c686f4bb1cbce9aaa38e76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 7978960941694512236, guid: ca1944885e0233e45ace5aafc2e2fab9,
+  pistolProjectile: {fileID: 7978960941694512236, guid: ca1944885e0233e45ace5aafc2e2fab9,
+    type: 3}
+  machineGunProjectile: {fileID: 7978960941694512236, guid: dd549640ee7936c4ab5e8263a15b86e4,
+    type: 3}
+  shotgunProjectile: {fileID: 7978960941694512236, guid: 361825b5fb780ca4096851f5e38fd628,
     type: 3}
   spawnPoint: {fileID: 689443170}
   upSpawnPoint: {fileID: 1893676175}
   downSpawnPoint: {fileID: 1723491646}
-  fireRate: 0.2
-  projectileSpeed: 30
-  rotationAngle: 90
+  isPistolSelected: 0
+  isMachineGunSelected: 0
+  isShotgunSelected: 0
+  pistolFireRate: 0.5
+  pistolProjectileSpeed: 10
+  pistolRotationAngle: 90
+  pistolPushBackForce: 1
+  pistolForceAmount: 10
+  pistolGromEnergyCost: 1
+  machineGunFireRate: 0.5
+  machineGunProjectileSpeed: 10
+  machineGunRotationAngle: 90
+  machineGunPushBackForce: 1
+  machineGunForceAmount: 10
+  machineGunGromEnergyCost: 1
+  shotgunFireRate: 0.5
+  shotgunProjectileSpeed: 10
+  shotgunRotationAngle: 90
+  shotgunPushBackForce: 1
+  shotgunForceAmount: 10
+  shotgunGromEnergyCost: 1
   upDirection: {x: 0, y: 1}
   downDirection: {x: 0, y: -1}
-  pushBackForce: 7
-  forceAmount: 10
   deadzone: 0.65
   isShooting: 0
   isShootingDown: 0
