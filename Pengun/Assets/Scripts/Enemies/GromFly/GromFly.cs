@@ -8,7 +8,7 @@ public class GromFly : MonoBehaviour
 {
     public Transform target;
     public float speed = 200f;
-    public float nectWaypointDistance = 3f;
+    public float nextWaypointDistance = 3f;
     public float range = 20f;
 
     public Transform gromFlyGFX;
@@ -55,7 +55,7 @@ public class GromFly : MonoBehaviour
 
         float distance = Vector2.Distance(rigidbody.position, path.vectorPath[currentWaypoint]);
 
-        if(distance < nectWaypointDistance)
+        if(distance < nextWaypointDistance)
         {
             currentWaypoint++;
         }

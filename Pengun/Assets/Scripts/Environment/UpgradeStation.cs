@@ -11,6 +11,7 @@ public float interactDistance = 2f;
     public GameObject upgradeMenuUI;
     private GameObject player;
     PlayerMovement playerMovement;
+    GromBucks gromBucks;
     public bool isInRange = false;
     public bool isInMenu = false;
     public bool isNotInMenu = true;
@@ -31,6 +32,7 @@ public float interactDistance = 2f;
         player = GameObject.FindGameObjectWithTag("Player");
         upgradeMenuUI.SetActive(false);
         playerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+        gromBucks = GameObject.FindGameObjectWithTag("GromBucksController").GetComponent<GromBucks>();
     }
 
     void Update()
@@ -111,7 +113,16 @@ public float interactDistance = 2f;
             case "Health":
                 // Apply Health Upgrade
                 break;
-            case "Damage":
+            case "GromCanister":
+                // Apply Damage Upgrade
+                break;
+            case "Dash":
+                // Apply Speed Upgrade
+                break;
+            case "MachineGun":
+                // Apply Health Upgrade
+                break;
+            case "Shotgun":
                 // Apply Damage Upgrade
                 break;
             case "Speed":

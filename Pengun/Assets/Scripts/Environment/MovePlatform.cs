@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class MovePlatform : MonoBehaviour
 {
-    public Transform position1, position2;
+    public GameObject[] positions;
+    int direction = 1;
+    int currentPoint = 0;
     public float speed;
     public Transform startPosition;
 
@@ -17,13 +19,20 @@ public class MovePlatform : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(transform.position == position1.position)
+        if (transform.position == positions[currentPoint].transform.position)
         {
-            nextPosition = position2.position;
-        }
-        else if(transform.position == position2.position)
-        {
-            nextPosition = position1.position;
+            currentPoint = currentPoint + direction;
+            if (currentPoint == positions.Length)
+            {
+                currentPoint = positions.Length - 2;
+                direction = -1;
+            }
+            else if (currentPoint < 0)
+            {
+                currentPoint = 1;
+                direction = 1;
+            }
+            nextPosition = positions[currentPoint].transform.position;
         }
 
         transform.position = Vector3.MoveTowards(transform.position, nextPosition, speed * Time.deltaTime);
@@ -33,6 +42,7 @@ public class MovePlatform : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            if(transform.position.y < collision.transform.position.y - 0.8)
             collision.collider.transform.SetParent(transform);
         }
     }
@@ -47,6 +57,9 @@ public class MovePlatform : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawLine(position1.position, position2.position);
+        for (int i = 0; i < positions.Length - 1; i++)
+        {
+            Gizmos.DrawLine(positions[i].transform.position, positions[i + 1].transform.position);
+        }
     }
 }

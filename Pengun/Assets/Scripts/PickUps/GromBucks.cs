@@ -11,10 +11,12 @@ public class GromBucks : MonoBehaviour
 
     TextMeshProUGUI gromBucksText;
     int numberOfGromBucks;
+    string prefKey = "UpdateGromBucks";
 
     private void Start()
     {
         gromBucksText = GetComponentInChildren<TextMeshProUGUI>();
+        numberOfGromBucks = PlayerPrefs.GetInt(prefKey);
     }
 
     private void Update()
@@ -26,5 +28,11 @@ public class GromBucks : MonoBehaviour
     public void AddToGromBucks(int numOfGromBucks)
     {
         numberOfGromBucks += numOfGromBucks;
+        PlayerPrefs.SetInt(prefKey, numberOfGromBucks);
+    }
+
+    public int GetNumberOfGromBucks()
+    {
+        return numberOfGromBucks;
     }
 }
