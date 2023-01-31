@@ -16,6 +16,10 @@ public class CameraZoom : MonoBehaviour
     GameObject focusPoint;
     static int focusPointCounter = 0;
     Transform playerTransform;
+    public float xFocus = 0.45f;
+    public float yFocus = 0.7f;
+
+    public float originalxFocus, originalyFocus;
 
     private void Start()
     {
@@ -28,11 +32,22 @@ public class CameraZoom : MonoBehaviour
 
         focusPoint.transform.position = roomCollider.bounds.center;
 
+        originalxFocus = virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>().m_ScreenX;
+        originalyFocus = virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>().m_ScreenY;
+
     }
+
+    private void Update()
+    {
+
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
-    {      
+    {
         if (collision.CompareTag("Player"))
         {
+            virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>().m_ScreenX = xFocus;
+            virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>().m_ScreenY = yFocus;
             confiner.m_BoundingShape2D = roomCollider;
             if (stopFollowingPlayer)
             {
@@ -42,7 +57,6 @@ public class CameraZoom : MonoBehaviour
                 confiner.m_ConfineMode = CinemachineConfiner.Mode.Confine2D;
                 virtualCamera.Follow = null;
                 virtualCamera.Follow = focusPoint.transform;
-                
             }
             else
             {
@@ -52,9 +66,12 @@ public class CameraZoom : MonoBehaviour
     }
 
     private void OnTriggerExit2D(Collider2D collision)
-    {       
+    {
+
         if (collision.CompareTag("Player"))
         {
+            virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>().m_ScreenX = originalxFocus;
+            virtualCamera.GetCinemachineComponent<CinemachineFramingTransposer>().m_ScreenY = originalyFocus;
             confiner.m_BoundingShape2D = null;
             confiner.enabled = false;
             StartCoroutine(ZoomOut());
