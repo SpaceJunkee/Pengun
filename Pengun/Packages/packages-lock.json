@@ -8,6 +8,14 @@
         "com.unity.timeline": "1.2.10"
       }
     },
+    "com.esotericsoftware.spine.urp-shaders": {
+      "version": "file:D:/Reviews/com.esotericsoftware.spine.urp-shaders-4.1-Unity2019.3-2023-02-02/com.esotericsoftware.spine.urp-shaders-4.1-2019.1",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.unity.render-pipelines.universal": "7.1.5"
+      }
+    },
     "com.unity.2d.animation": {
       "version": "9.0.1",
       "depth": 0,

@@ -184,7 +184,11 @@ public class Melee : MonoBehaviour
         foreach (Collider2D enemy in hitEnemies)
         {
             Debug.Log(hitEnemies.Length);
-            if (enemy.GetComponent<ChargerHealthManager>() != null)
+            if (enemy.GetComponent<DiscoverableRoom>() != null)
+            {
+                enemy.GetComponent<DiscoverableRoom>().BreakBarrierMelee();
+            }
+                if (enemy.GetComponent<ChargerHealthManager>() != null)
             {
                 if (ChargerCanAttackZone.isInAttackZone)
                 {

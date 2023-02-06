@@ -12,11 +12,16 @@ public class AutomaticDoor : MonoBehaviour
     private bool isOpening;
     private bool isClosing;
     private bool isOpen;
+    private bool soundPlayed;
 
     public Transform doorTransform;
+    AudioSource audioSource;
+    public AudioClip openDoorSound;
+    public AudioClip closeDoorSound;
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         targetY = doorTransform.position.y + openDistance;
     }
 
@@ -25,21 +30,29 @@ public class AutomaticDoor : MonoBehaviour
         if (isOpening)
         {
             doorTransform.position = Vector2.MoveTowards(doorTransform.position, new Vector2(doorTransform.position.x, targetY), openSpeed * Time.deltaTime);
-
+            if (!soundPlayed)
+            {
+                PlayOpenSound();
+            }
             if (doorTransform.position.y == targetY)
             {
                 isOpen = true;
                 isOpening = false;
+                soundPlayed = false;
             }
         }
         else if (isClosing)
         {
             doorTransform.position = Vector2.MoveTowards(doorTransform.position, new Vector2(doorTransform.position.x, targetY - openDistance), closeSpeed * Time.deltaTime);
-
+            if (!soundPlayed)
+            {
+                PlayCloseSound();
+            }
             if (doorTransform.position.y == targetY - openDistance)
             {
                 isOpen = false;
                 isClosing = false;
+                soundPlayed = false;
             }
         }
     }
@@ -71,5 +84,19 @@ public class AutomaticDoor : MonoBehaviour
                 isOpen = false;
             }
         }
+    }
+
+    private void PlayOpenSound()
+    {
+        audioSource.clip = openDoorSound;
+        audioSource.Play();
+        soundPlayed = true;
+    }
+
+    private void PlayCloseSound()
+    {
+        audioSource.clip = closeDoorSound;
+        audioSource.Play();
+        soundPlayed = true;
     }
 }

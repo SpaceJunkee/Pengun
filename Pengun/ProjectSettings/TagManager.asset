@@ -50,7 +50,7 @@ TagManager:
   - OnDestroyObject
   - UnkillableEnemy
   - Melee
-  - 
+  - DiscoverBreakable
   - 
   - 
   - 
