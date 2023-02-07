@@ -9,7 +9,7 @@
       }
     },
     "com.esotericsoftware.spine.urp-shaders": {
-      "version": "file:D:/Reviews/com.esotericsoftware.spine.urp-shaders-4.1-Unity2019.3-2023-02-02/com.esotericsoftware.spine.urp-shaders-4.1-2019.1",
+      "version": "file:com.esotericsoftware.spine.urp-shaders-4.1-Unity2019.3-2023-02-02/com.esotericsoftware.spine.urp-shaders-4.1-2019.1",
       "depth": 0,
       "source": "local",
       "dependencies": {

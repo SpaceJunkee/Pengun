@@ -1,0 +1,391 @@
+
+PENGUN.png
+size: 2048, 2048
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+ARM_BACK
+  rotate: false
+  xy: 1149, 1174
+  size: 184, 144
+  orig: 187, 187
+  offset: 1, 42
+  index: -1
+ARM_FRONT
+  rotate: false
+  xy: 1625, 1668
+  size: 201, 146
+  orig: 202, 164
+  offset: 0, 1
+  index: -1
+BELTBUCKLE
+  rotate: false
+  xy: 1317, 1368
+  size: 190, 90
+  orig: 190, 91
+  offset: 0, 1
+  index: -1
+Beak_Cover_Normal
+  rotate: true
+  xy: 851, 1025
+  size: 191, 58
+  orig: 231, 88
+  offset: 25, 7
+  index: -1
+Beak_Cover_Zombie
+  rotate: false
+  xy: 2, 15
+  size: 191, 58
+  orig: 231, 88
+  offset: 25, 7
+  index: -1
+Blast_1
+  rotate: true
+  xy: 1233, 1109
+  size: 63, 69
+  orig: 97, 90
+  offset: 16, 6
+  index: -1
+Blast_5
+  rotate: true
+  xy: 1233, 1109
+  size: 63, 69
+  orig: 97, 90
+  offset: 16, 6
+  index: -1
+Blast_2
+  rotate: false
+  xy: 1054, 1101
+  size: 77, 76
+  orig: 97, 90
+  offset: 8, 5
+  index: -1
+Blast_6
+  rotate: false
+  xy: 1054, 1101
+  size: 77, 76
+  orig: 97, 90
+  offset: 8, 5
+  index: -1
+Blast_3
+  rotate: false
+  xy: 1828, 1769
+  size: 44, 45
+  orig: 97, 90
+  offset: 28, 28
+  index: -1
+Blast_7
+  rotate: false
+  xy: 1828, 1769
+  size: 44, 45
+  orig: 97, 90
+  offset: 28, 28
+  index: -1
+Blast_4
+  rotate: false
+  xy: 661, 341
+  size: 52, 56
+  orig: 97, 90
+  offset: 25, 23
+  index: -1
+Blast_8
+  rotate: false
+  xy: 661, 341
+  size: 52, 56
+  orig: 97, 90
+  offset: 25, 23
+  index: -1
+FOOTTIP_BACK
+  rotate: false
+  xy: 195, 2
+  size: 116, 65
+  orig: 117, 66
+  offset: 1, 1
+  index: -1
+FOOTTIP_FRONT_IDLE
+  rotate: false
+  xy: 911, 1018
+  size: 124, 71
+  orig: 125, 71
+  offset: 1, 0
+  index: -1
+FOOTTIP_FRONT_RUN
+  rotate: true
+  xy: 418, 232
+  size: 127, 71
+  orig: 129, 72
+  offset: 1, 1
+  index: -1
+FOREARM_BACK
+  rotate: false
+  xy: 1887, 1868
+  size: 159, 168
+  orig: 159, 168
+  offset: 0, 0
+  index: -1
+FOREARM_BACK_Zom
+  rotate: false
+  xy: 1887, 1698
+  size: 159, 168
+  orig: 159, 168
+  offset: 0, 0
+  index: -1
+FOREARM_FRONT
+  rotate: true
+  xy: 672, 762
+  size: 146, 192
+  orig: 160, 192
+  offset: 10, 0
+  index: -1
+FOREARM_FRONT_Zom
+  rotate: true
+  xy: 197, 69
+  size: 146, 192
+  orig: 160, 192
+  offset: 10, 0
+  index: -1
+Foot_Close
+  rotate: true
+  xy: 313, 6
+  size: 61, 73
+  orig: 82, 88
+  offset: 9, 10
+  index: -1
+GROIN
+  rotate: false
+  xy: 657, 542
+  size: 153, 108
+  orig: 153, 109
+  offset: 0, 0
+  index: -1
+HAND_BACK
+  rotate: false
+  xy: 492, 341
+  size: 167, 189
+  orig: 168, 191
+  offset: 0, 1
+  index: -1
+HAND_BACK_FIST
+  rotate: true
+  xy: 1335, 1184
+  size: 182, 170
+  orig: 189, 171
+  offset: 0, 0
+  index: -1
+HAND_FRONT
+  rotate: false
+  xy: 455, 637
+  size: 189, 169
+  orig: 189, 171
+  offset: 0, 1
+  index: -1
+HEAD
+  rotate: false
+  xy: 2, 1628
+  size: 465, 408
+  orig: 465, 409
+  offset: 0, 1
+  index: -1
+HEAD_EYES_CLOSED
+  rotate: false
+  xy: 2, 1218
+  size: 464, 408
+  orig: 464, 408
+  offset: 0, 0
+  index: -1
+HEAD_HALF_BLINK
+  rotate: false
+  xy: 469, 1628
+  size: 464, 408
+  orig: 464, 408
+  offset: 0, 0
+  index: -1
+HEAD_LEFT
+  rotate: false
+  xy: 935, 1628
+  size: 459, 408
+  orig: 465, 409
+  offset: 6, 1
+  index: -1
+HEAD_MouthOpen
+  rotate: false
+  xy: 2, 808
+  size: 464, 408
+  orig: 464, 408
+  offset: 0, 0
+  index: -1
+HEAD_Zombie
+  rotate: false
+  xy: 468, 1218
+  size: 464, 408
+  orig: 464, 408
+  offset: 0, 0
+  index: -1
+Hair_1
+  rotate: false
+  xy: 491, 234
+  size: 105, 105
+  orig: 106, 106
+  offset: 0, 0
+  index: -1
+Hair_1_Zom
+  rotate: false
+  xy: 904, 911
+  size: 105, 105
+  orig: 106, 106
+  offset: 0, 0
+  index: -1
+Hair_2
+  rotate: false
+  xy: 598, 241
+  size: 67, 98
+  orig: 68, 99
+  offset: 0, 1
+  index: -1
+Hair_2_Zom
+  rotate: true
+  xy: 1133, 1105
+  size: 67, 98
+  orig: 68, 99
+  offset: 0, 1
+  index: -1
+Hair_3
+  rotate: false
+  xy: 468, 808
+  size: 202, 100
+  orig: 205, 112
+  offset: 1, 11
+  index: -1
+Hair_3_Zom
+  rotate: false
+  xy: 1396, 1626
+  size: 202, 100
+  orig: 205, 112
+  offset: 1, 11
+  index: -1
+JETPACK2
+  rotate: false
+  xy: 1396, 1728
+  size: 227, 308
+  orig: 228, 309
+  offset: 1, 0
+  index: -1
+Mouth Open
+  rotate: true
+  xy: 1511, 1483
+  size: 141, 86
+  orig: 157, 103
+  offset: 10, 0
+  index: -1
+SHIN_BACK
+  rotate: true
+  xy: 455, 532
+  size: 103, 200
+  orig: 104, 201
+  offset: 1, 0
+  index: -1
+SHIN_FRONT
+  rotate: true
+  xy: 934, 1179
+  size: 139, 213
+  orig: 139, 214
+  offset: 0, 1
+  index: -1
+THIGH_BACK
+  rotate: true
+  xy: 646, 652
+  size: 108, 170
+  orig: 108, 171
+  offset: 0, 0
+  index: -1
+THIGH_FRONT
+  rotate: false
+  xy: 661, 399
+  size: 98, 141
+  orig: 99, 141
+  offset: 1, 0
+  index: -1
+TORSO
+  rotate: false
+  xy: 222, 503
+  size: 231, 303
+  orig: 282, 304
+  offset: 50, 1
+  index: -1
+Tail
+  rotate: false
+  xy: 468, 910
+  size: 381, 306
+  orig: 464, 408
+  offset: 83, 102
+  index: -1
+Tail_Zom
+  rotate: false
+  xy: 934, 1320
+  size: 381, 306
+  orig: 464, 408
+  offset: 83, 102
+  index: -1
+Weapon
+  rotate: false
+  xy: 222, 361
+  size: 268, 140
+  orig: 288, 153
+  offset: 8, 2
+  index: -1
+Weapon - Copy
+  rotate: false
+  xy: 851, 910
+  size: 51, 113
+  orig: 87, 131
+  offset: 19, 10
+  index: -1
+Whoosh_1
+  rotate: false
+  xy: 1625, 1816
+  size: 260, 220
+  orig: 321, 255
+  offset: 31, 13
+  index: -1
+Whoosh_2
+  rotate: false
+  xy: 1317, 1460
+  size: 192, 164
+  orig: 370, 251
+  offset: 45, 20
+  index: -1
+Whoosh_3
+  rotate: false
+  xy: 2, 75
+  size: 193, 216
+  orig: 278, 268
+  offset: 52, 23
+  index: -1
+Whoosh_4
+  rotate: false
+  xy: 222, 217
+  size: 194, 142
+  orig: 220, 150
+  offset: 23, 8
+  index: -1
+Wrench
+  rotate: false
+  xy: 2, 293
+  size: 218, 513
+  orig: 416, 520
+  offset: 98, 2
+  index: -1
+ZIP
+  rotate: false
+  xy: 818, 714
+  size: 41, 46
+  orig: 41, 46
+  offset: 0, 0
+  index: -1
+Zombie_Mouth
+  rotate: false
+  xy: 911, 1091
+  size: 141, 86
+  orig: 157, 103
+  offset: 10, 0
+  index: -1

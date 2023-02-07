@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "com.esotericsoftware.spine.timeline": "file:../SpineTimeLine/com.esotericsoftware.spine.timeline-3.8-2021-03-19/com.esotericsoftware.spine.timeline-3.8",
-    "com.esotericsoftware.spine.urp-shaders": "file:D:/Reviews/com.esotericsoftware.spine.urp-shaders-4.1-Unity2019.3-2023-02-02/com.esotericsoftware.spine.urp-shaders-4.1-2019.1",
+    "com.esotericsoftware.spine.urp-shaders": "file:com.esotericsoftware.spine.urp-shaders-4.1-Unity2019.3-2023-02-02/com.esotericsoftware.spine.urp-shaders-4.1-2019.1",
     "com.unity.2d.animation": "9.0.1",
     "com.unity.2d.pixel-perfect": "5.0.2",
     "com.unity.2d.psdimporter": "8.0.1",
