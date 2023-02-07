@@ -11,6 +11,7 @@ public class Shooting : MonoBehaviour
     public Transform upSpawnPoint;
     public Transform downSpawnPoint;
     GromEnergyBarController gromEnergyBarController;
+    public Animator animator;
 
     //Active weapon booleans
     [SerializeField]
@@ -120,6 +121,7 @@ public class Shooting : MonoBehaviour
 
             if (inputY > deadzone && Time.time > nextFire && inputType && canShoot)
             {
+                //ANIMATE UP SHOOTING AND CHANGE BASED ON WEAPON
                 nextFire = Time.time + fireRate;
                 GameObject newProjectile = Instantiate(projectile, upSpawnPoint.position, upSpawnPoint.rotation) as GameObject;
                 StartCoroutine(WaitAndShoot(fireRate, gromEnergyCost));
@@ -129,9 +131,12 @@ public class Shooting : MonoBehaviour
                 isShooting = true;
                 canShoot = false;
                 isShootingDown = false;
+
+                HandleUpShootingAnimations();
             }
             else if (inputDirection.y < 0 && Time.time > nextFire && inputType && (playerMovement.isJumping || playerMovement.inAirTime < 0) && canShoot)
             {
+                //ANIMATE DOWN SHOOTING AND CHANGE BASED ON WEAPON
                 nextFire = Time.time + fireRate;
                 GameObject newProjectile = Instantiate(projectile, downSpawnPoint.position, downSpawnPoint.rotation) as GameObject;
                 StartCoroutine(WaitAndShoot(fireRate, gromEnergyCost));
@@ -143,9 +148,12 @@ public class Shooting : MonoBehaviour
                 playerRigidBody.AddForce(shootingForce, ForceMode2D.Impulse);
                 isShootingDown = true;
                 canShoot = false;
+
+                HandleDownShootingAnimations();
             }
             else if (inputType && Time.time > nextFire && canShoot)
             {
+                //ANIMATE STRAIGHT SHOOTING AND CHANGE BASED ON WEAPON
                 nextFire = Time.time + fireRate;
                 GameObject newProjectile = Instantiate(projectile, spawnPoint.position, spawnPoint.rotation) as GameObject;
                 StartCoroutine(WaitAndShoot(fireRate, gromEnergyCost));
@@ -154,6 +162,9 @@ public class Shooting : MonoBehaviour
                 isShooting = true;
                 canShoot = false;
                 isShootingDown = false;
+
+                HandleStraightShootingAnimations();
+
             }
         }
     }
@@ -212,5 +223,42 @@ public class Shooting : MonoBehaviour
                 // Apply shotgun variables
                 break;
         }
+    }
+
+    private void HandleStraightShootingAnimations()
+    {
+        if (isPistolSelected && !isMachineGunSelected && !isShotgunSelected)
+        {
+            animator.SetTrigger("ShootPistol");
+        }
+        else if (!isPistolSelected && isMachineGunSelected && !isShotgunSelected)
+        {
+            animator.SetTrigger("ShootMachineGun");
+        }
+        else if (!isPistolSelected && !isMachineGunSelected && isShotgunSelected)
+        {
+            animator.SetTrigger("ShootShotgun");
+        }
+    }
+
+    private void HandleUpShootingAnimations()
+    {
+        if (isPistolSelected && !isMachineGunSelected && !isShotgunSelected)
+        {
+            animator.SetTrigger("ShootPistolUp");
+        }
+        else if (!isPistolSelected && isMachineGunSelected && !isShotgunSelected)
+        {
+            animator.SetTrigger("ShootMachineGun");
+        }
+        else if (!isPistolSelected && !isMachineGunSelected && isShotgunSelected)
+        {
+            animator.SetTrigger("ShootShotgun");
+        }
+    }
+
+    private void HandleDownShootingAnimations()
+    {
+
     }
 }
