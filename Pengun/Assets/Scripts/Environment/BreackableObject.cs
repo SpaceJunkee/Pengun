@@ -28,7 +28,7 @@ public class BreackableObject : MonoBehaviour
         if (isBreakable)
         {
             if (collision.gameObject.CompareTag("DashColliderChecker") && PlayerMovement.isDashing ||
-                collision.gameObject.CompareTag("Player") && PlayerMovement.isfalling ||
+                collision.gameObject.CompareTag("Player") && PlayerMovement.isLongFall ||
                 collision.gameObject.CompareTag("Bullet")
                 )
             {

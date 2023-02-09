@@ -54,7 +54,7 @@ public class Shooting : MonoBehaviour
     
     public bool isShooting = false;
     public bool isShootingDown =  false;
-    public bool canShoot = true;
+    public static bool canShoot = true;
 
 
     private void Start()
@@ -96,6 +96,8 @@ public class Shooting : MonoBehaviour
         HandleShootingMechanics(shotgunForceAmount, shotgunGromEnergyCost, shotgunNextFire, shotgunFireRate, shotgunProjectile, shotgunProjectileSpeed, shotgunRotationAngle);
     }
     bool inputType;
+    bool isHoldingDown = false;
+    bool isHoldingUp = false;
 
     void HandleShootingMechanics(float forceAmount, float gromEnergyCost, float nextFire, float fireRate, GameObject projectile, float projectileSpeed, float rotationAngle)
     {
@@ -131,6 +133,7 @@ public class Shooting : MonoBehaviour
                 isShooting = true;
                 canShoot = false;
                 isShootingDown = false;
+                isHoldingUp = true;
 
                 HandleUpShootingAnimations();
             }
@@ -148,6 +151,7 @@ public class Shooting : MonoBehaviour
                 playerRigidBody.AddForce(shootingForce, ForceMode2D.Impulse);
                 isShootingDown = true;
                 canShoot = false;
+                isHoldingDown = true;
 
                 HandleDownShootingAnimations();
             }
@@ -165,6 +169,21 @@ public class Shooting : MonoBehaviour
 
                 HandleStraightShootingAnimations();
 
+            }
+
+            if (inputDirection.y < 0 && isHoldingDown)
+            {
+                animator.SetBool("isInDownShootPose", true);
+            }
+            else if (inputDirection.y > 0  && isHoldingUp)
+            {
+                animator.SetBool("isInUpShootPose", true);
+            }
+            else
+            {
+                isHoldingDown = false;
+                isHoldingUp = false;
+                animator.SetBool("isInStraightShootPose", true);
             }
         }
     }
@@ -249,16 +268,28 @@ public class Shooting : MonoBehaviour
         }
         else if (!isPistolSelected && isMachineGunSelected && !isShotgunSelected)
         {
-            animator.SetTrigger("ShootMachineGun");
+            animator.SetTrigger("ShootMachineGunUp");
         }
         else if (!isPistolSelected && !isMachineGunSelected && isShotgunSelected)
         {
-            animator.SetTrigger("ShootShotgun");
+            animator.SetTrigger("ShootShotgunUp");
         }
     }
 
     private void HandleDownShootingAnimations()
     {
-
+        if (isPistolSelected && !isMachineGunSelected && !isShotgunSelected)
+        {
+            animator.SetTrigger("ShootPistolDown");
+        }
+        else if (!isPistolSelected && isMachineGunSelected && !isShotgunSelected)
+        {
+            animator.SetTrigger("ShootMachineGunDown");
+        }
+        else if (!isPistolSelected && !isMachineGunSelected && isShotgunSelected)
+        {
+            animator.SetTrigger("ShootShotgunDown");
+        }
     }
+
 }

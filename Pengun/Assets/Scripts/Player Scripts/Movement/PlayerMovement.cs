@@ -89,8 +89,8 @@ public class PlayerMovement : MonoBehaviour
     private float lastDash = -100f;//Check when last dash was
 
     //Falling
-    public static bool isfalling = false;
-    public float fallingTime = 1;
+    public static bool isFalling = false;
+    public float fallTimer = 0f;
     public float shootingFallAmount = 6.1f;
     public float meleeFallAmount = 6.1f;
     public float clampedFallSpeed = -20f;
@@ -123,8 +123,8 @@ public class PlayerMovement : MonoBehaviour
         dashCount = maxDashInAir;
 
         mecanimColor = skeletonMec.skeleton.GetColor();
-        dashBlackColor = Color.blue;
-        dashBlackColor.a = Mathf.Clamp(0.3f, 0, 1);
+        //dashBlackColor = Color.blue;
+        //dashBlackColor.a = Mathf.Clamp(0.3f, 0, 1);
     }
 
     // Update is called once per frame(updates every frame so if 60fps update runs 60 times per second)
@@ -365,31 +365,33 @@ public class PlayerMovement : MonoBehaviour
         Jump();
     }
 
+    public static bool isLongFall = false;
+
     private void CheckIfFalling()
     {
-        if (!isGrounded && !isJumping && !isWallSliding)
+        if (rigidbody.velocity.y < 0)
         {
-            fallingTime -= Time.deltaTime;
+            isFalling = true;
+        }
+        else
+        {
+            isFalling = false;
+            fallTimer = 0f;
+        }
 
-            if (fallingTime <= -0.2f)
+        if (isFalling)
+        {
+            fallTimer += Time.deltaTime;
+            if (fallTimer > 1.5f)
             {
-                isfalling = true;
+                isLongFall = true;
                 animator.SetBool("isFalling", true);
             }
         }
-
-        if (isGrounded)
+        else
         {
-            fallingTime += 0.4f;
-            fallingTime += Time.deltaTime;
-
-            if (fallingTime >= 0.5)
-            {
-                isfalling = false;
-                animator.SetBool("isFalling", false);
-                fallingTime = 1;
-            }
-
+            isLongFall = false;
+            animator.SetBool("isFalling", false);
         }
     }
 
@@ -399,7 +401,7 @@ public class PlayerMovement : MonoBehaviour
         dashBubblesParticles.Play();
         dashLinesParticles.Play();
         dashPopParticles.Play();
-        skeletonMec.skeleton.SetColor(dashBlackColor);
+        //skeletonMec.skeleton.SetColor(dashBlackColor);
         CameraShake.Instance.ShakeCamera(3f, 0.075f, 0.3f);
         PostProcessingController.myVignette.active = true;
         dashAudio.Play();
@@ -476,7 +478,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 isDashing = false;
                 animator.SetBool("isDashFinished", true);
-                skeletonMec.skeleton.SetColor(mecanimColor);
+                //skeletonMec.skeleton.SetColor(mecanimColor);
                 PostProcessingController.myVignette.active = false;
                 canMove = true;
                 rigidbody.constraints = originalConstraints;
@@ -528,32 +530,41 @@ public class PlayerMovement : MonoBehaviour
 
     private void FastRun()
     {
-        if (canFastRun && (movementDirection > 0 || movementDirection < 0))
+        if (isGrounded && canFastRun && (movementDirection > 0 || movementDirection < 0))
         {
             isFastRunning = true;
             movementSpeed = 18f;
+            jumpForce = 20f;
+            Shooting.canShoot = false;
 
             if (isGrounded)
             {
                 animator.SetBool("isSprinting", true);
+                speedTrailParticles.Play();
             }
 
             animator.SetBool("Running", false);
-            if (isGrounded)
-            {
-                speedTrailParticles.Play();
-            } 
             
         }
         else
         {
-            isFastRunning = false;
-            movementSpeed = 13f;
-            animator.SetFloat("SpeedMultiplier", 1f);
-            animator.SetBool("Running", true);
-            animator.SetBool("isSprinting", false);
-            speedTrailParticles.Stop();
-            
+
+            if (!isGrounded && isJumping && isFastRunning == true)
+            {
+                movementSpeed = 24f;
+            }
+            else if (isGrounded)
+            {
+                isFastRunning = false;
+                movementSpeed = 13f;
+                jumpForce = 26f;
+                animator.SetFloat("SpeedMultiplier", 1f);
+                animator.SetBool("Running", true);
+                animator.SetBool("isSprinting", false);
+                speedTrailParticles.Stop();
+                Shooting.canShoot = true;
+            }
+
         }
     }
 
