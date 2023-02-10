@@ -44,7 +44,9 @@ public class PlayerMovement : MonoBehaviour
 
     //Player speed
     public float movementSpeed = 8f;
-    
+    private float targetMovementSpeed = 13f;
+    public float runningSmoothSpeed = 10f;
+
     //Jumping
     public float jumpForce = 26;
     public int maxJumpCount;
@@ -528,14 +530,16 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    public float fastRunJumpSpeed = 24f;
+
     private void FastRun()
     {
         if (isGrounded && canFastRun && (movementDirection > 0 || movementDirection < 0))
         {
             isFastRunning = true;
-            movementSpeed = 18f;
+            targetMovementSpeed = 18f;
             jumpForce = 20f;
-            Shooting.canShoot = false;
+            Shooting.isDisableShoot = true;
 
             if (isGrounded)
             {
@@ -544,28 +548,30 @@ public class PlayerMovement : MonoBehaviour
             }
 
             animator.SetBool("Running", false);
-            
+
         }
         else
         {
 
             if (!isGrounded && isJumping && isFastRunning == true)
             {
-                movementSpeed = 24f;
+                targetMovementSpeed = fastRunJumpSpeed;
             }
             else if (isGrounded)
             {
                 isFastRunning = false;
-                movementSpeed = 13f;
+                targetMovementSpeed = 13f;
                 jumpForce = 26f;
                 animator.SetFloat("SpeedMultiplier", 1f);
                 animator.SetBool("Running", true);
                 animator.SetBool("isSprinting", false);
                 speedTrailParticles.Stop();
-                Shooting.canShoot = true;
+                Shooting.isDisableShoot = false;
             }
 
         }
+
+        movementSpeed = Mathf.Lerp(movementSpeed, targetMovementSpeed, Time.deltaTime * runningSmoothSpeed);
     }
 
     //Flips character rotation depending on which way the character is facing

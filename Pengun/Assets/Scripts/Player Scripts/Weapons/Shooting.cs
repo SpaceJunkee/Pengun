@@ -54,7 +54,8 @@ public class Shooting : MonoBehaviour
     
     public bool isShooting = false;
     public bool isShootingDown =  false;
-    public static bool canShoot = true;
+    public bool canShoot = true;
+    public static bool isDisableShoot = false;
 
 
     private void Start()
@@ -121,7 +122,7 @@ public class Shooting : MonoBehaviour
                 inputType = machineGunInput;
             }
 
-            if (inputY > deadzone && Time.time > nextFire && inputType && canShoot)
+            if (inputY > deadzone && Time.time > nextFire && inputType && canShoot && !isDisableShoot)
             {
                 //ANIMATE UP SHOOTING AND CHANGE BASED ON WEAPON
                 nextFire = Time.time + fireRate;
@@ -137,7 +138,7 @@ public class Shooting : MonoBehaviour
 
                 HandleUpShootingAnimations();
             }
-            else if (inputDirection.y < 0 && Time.time > nextFire && inputType && (playerMovement.isJumping || playerMovement.inAirTime < 0) && canShoot)
+            else if (inputDirection.y < 0 && Time.time > nextFire && inputType && (playerMovement.isJumping || playerMovement.inAirTime < 0) && canShoot && !isDisableShoot)
             {
                 //ANIMATE DOWN SHOOTING AND CHANGE BASED ON WEAPON
                 nextFire = Time.time + fireRate;
@@ -155,7 +156,7 @@ public class Shooting : MonoBehaviour
 
                 HandleDownShootingAnimations();
             }
-            else if (inputType && Time.time > nextFire && canShoot)
+            else if (inputType && Time.time > nextFire && canShoot && !isDisableShoot)
             {
                 //ANIMATE STRAIGHT SHOOTING AND CHANGE BASED ON WEAPON
                 nextFire = Time.time + fireRate;
