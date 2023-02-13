@@ -35,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
     Color mecanimColor;
     Color dashBlackColor;
     bool isRightTriggerInUse = false;
+    public static bool disableDash = false;
 
     //Timer
     private IEnumerator coroutine;
@@ -102,6 +103,15 @@ public class PlayerMovement : MonoBehaviour
     private bool isFastRunning = false;
     private bool isBerzerkModeActivated = false;
 
+    //Stamina
+    public float stamina = 100f;
+    public float maxStamina = 100f;
+    public float staminaDepletionSpeed = 20f;
+    public float staminaRegenerationSpeed = 5f;
+    public float staminaRegenerationDelay = 2f;
+    public float staminaRegenerationDelayCounter = 0f;
+    public bool isStaminaDepleted = false;
+
 
     //Music Ability variables
     int damageMultiplier = 2;
@@ -132,6 +142,13 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame(updates every frame so if 60fps update runs 60 times per second)
     void Update()
     {
+        if (shooting.isShootingDown)
+        {
+            movementSpeed = 13f;
+        }
+
+        Debug.Log("Stamina: " + stamina);
+
         if(rigidbody.velocity.y < -7|| isGrounded)
         {
             isJumping = false;
@@ -196,6 +213,7 @@ public class PlayerMovement : MonoBehaviour
         isStandingOnLava = hurtKnockBack.getIsStandingOnLava();
 
         CheckDash();
+
 
         if (canMove)
         {
@@ -411,7 +429,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void AttemptDash()
     {
-        if (!isGrounded && dashCount != 0 && !Melee.isMelee)
+        if (!isGrounded && dashCount != 0 && !Melee.isMelee && !shooting.isShooting && !shooting.isShootingDown)
         {
             isDashing = true;
             dashCount--;
@@ -424,7 +442,7 @@ public class PlayerMovement : MonoBehaviour
             lastImageXpos = transform.position.x;
          
         }
-        else if(isGrounded && !isTouchingWall && !Melee.isMelee)
+        else if(isGrounded && !isTouchingWall && !Melee.isMelee && !shooting.isShooting)
         {
             isDashing = true;
             animator.SetBool("isDashFinished", false);
@@ -448,6 +466,7 @@ public class PlayerMovement : MonoBehaviour
         if (isDashing)
         {
             canMove = false;
+            Shooting.isDisableShoot = true;
             if (dashTimeLeft > 0 && playerFaceRight)
             {
                 rigidbody.AddForce(Vector2.right * dashSpeed, 0.0f);
@@ -483,6 +502,7 @@ public class PlayerMovement : MonoBehaviour
                 //skeletonMec.skeleton.SetColor(mecanimColor);
                 PostProcessingController.myVignette.active = false;
                 canMove = true;
+                Shooting.isDisableShoot = false;
                 rigidbody.constraints = originalConstraints;
             }
            
@@ -534,7 +554,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FastRun()
     {
-        if (isGrounded && canFastRun && (movementDirection > 0 || movementDirection < 0))
+        if (isGrounded && canFastRun && (movementDirection > 0 || movementDirection < 0) && stamina > 0)
         {
             isFastRunning = true;
             targetMovementSpeed = 18f;
@@ -545,6 +565,14 @@ public class PlayerMovement : MonoBehaviour
             {
                 animator.SetBool("isSprinting", true);
                 speedTrailParticles.Play();
+
+                stamina -= Time.deltaTime * staminaDepletionSpeed;
+
+                if (stamina <= 0)
+                {
+                    isStaminaDepleted = true;
+                    stamina = 0;
+                }
             }
 
             animator.SetBool("Running", false);
@@ -552,10 +580,16 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
+            if (isStaminaDepleted && !isGrounded)
+            {
+                staminaRegenerationDelayCounter += Time.deltaTime;
+            }
 
             if (!isGrounded && isJumping && isFastRunning == true)
             {
                 targetMovementSpeed = fastRunJumpSpeed;
+                stamina -= Time.deltaTime * staminaDepletionSpeed;
+
             }
             else if (isGrounded)
             {
@@ -567,6 +601,28 @@ public class PlayerMovement : MonoBehaviour
                 animator.SetBool("isSprinting", false);
                 speedTrailParticles.Stop();
                 Shooting.isDisableShoot = false;
+
+                if (isStaminaDepleted)
+                {
+                    staminaRegenerationDelayCounter += Time.deltaTime;
+
+                    if (staminaRegenerationDelayCounter >= staminaRegenerationDelay)
+                    {
+                        isStaminaDepleted = false;
+                        staminaRegenerationDelayCounter = 0;
+                        stamina = maxStamina;
+                    }
+                }
+                else
+                {
+                    stamina += Time.deltaTime * staminaRegenerationSpeed;
+
+                    if (stamina > maxStamina)
+                    {
+                        stamina = maxStamina;
+                    }
+                }
+
             }
 
         }

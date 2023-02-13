@@ -2253,7 +2253,7 @@ AnimatorStateMachine:
     m_Position: {x: 1140, y: -80, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1486861464574789648}
-    m_Position: {x: -430, y: 70, z: 0}
+    m_Position: {x: -410, y: 120, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4990724243709745236}
     m_Position: {x: -280, y: 700, z: 0}
@@ -2281,7 +2281,7 @@ AnimatorStateMachine:
   - {fileID: 2631926176602436224}
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: -730, y: 130, z: 0}
+  m_AnyStatePosition: {x: -700, y: 140, z: 0}
   m_EntryPosition: {x: 410, y: -380, z: 0}
   m_ExitPosition: {x: -40, y: 830, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
@@ -2613,7 +2613,7 @@ AnimationClip:
     m_Level: 0
     m_CycleOffset: 0
     m_HasAdditiveReferencePose: 0
-    m_LoopTime: 0
+    m_LoopTime: 1
     m_LoopBlend: 0
     m_LoopBlendOrientation: 0
     m_LoopBlendPositionY: 0
@@ -5371,6 +5371,9 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 1
     m_ConditionEvent: Grounded
+    m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: isDashFinished
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 8396037776141091175}

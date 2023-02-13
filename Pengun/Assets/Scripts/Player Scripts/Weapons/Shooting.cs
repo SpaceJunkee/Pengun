@@ -51,7 +51,8 @@ public class Shooting : MonoBehaviour
     PlayerMovement playerMovement;
 
     public float deadzone = 0.65f;
-    
+    public float downDeadzone = 0.65f;
+
     public bool isShooting = false;
     public bool isShootingDown =  false;
     public bool canShoot = true;
@@ -79,7 +80,7 @@ public class Shooting : MonoBehaviour
         {
             ShotgunShooting();
         }
-       
+
     }
 
     void PistolShooting()
@@ -138,7 +139,7 @@ public class Shooting : MonoBehaviour
 
                 HandleUpShootingAnimations();
             }
-            else if (inputDirection.y < 0 && Time.time > nextFire && inputType && (playerMovement.isJumping || playerMovement.inAirTime < 0) && canShoot && !isDisableShoot)
+            else if (inputDirection.y < downDeadzone && Time.time > nextFire && inputType && (playerMovement.isJumping || playerMovement.inAirTime < 0) && canShoot && !isDisableShoot)
             {
                 //ANIMATE DOWN SHOOTING AND CHANGE BASED ON WEAPON
                 nextFire = Time.time + fireRate;

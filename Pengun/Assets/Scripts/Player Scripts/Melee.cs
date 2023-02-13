@@ -95,10 +95,11 @@ public class Melee : MonoBehaviour
             canAttack = true;
         }
 
-        if (canAttack && !PistolAltFire.isShooting && !PlayerMovement.isDashing && PlayerMovement.canMove && PlayerMovement.canUseButtonInput)
+        if (canAttack && !PistolAltFire.isShooting && !PlayerMovement.isDashing && PlayerMovement.canMove && PlayerMovement.canUseButtonInput && !playerMovement.getIsFastRunning())
         {
             if (Input.GetButtonDown("Melee"))
             {
+                
                 CheckMeleeCount();
                 //animator.SetInteger("MeleeCount", meleeCount);
                 //meleeCount++;
@@ -295,7 +296,7 @@ public class Melee : MonoBehaviour
     {
         yield return new WaitForSeconds(meleeCooldown);
         isMelee = false;
-        
+
         if (doesPlayerWantToShoot)
         {
             StartCoroutine(pShoot.Shoot());
@@ -310,5 +311,10 @@ public class Melee : MonoBehaviour
         {
             meleeCount = meleeReset;
         }
+    }
+
+    public void SetCanAttack(bool newCanAttack)
+    {
+        canAttack = newCanAttack;
     }
 }
