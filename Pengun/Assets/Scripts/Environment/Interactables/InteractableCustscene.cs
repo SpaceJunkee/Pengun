@@ -8,6 +8,7 @@ public class InteractableCustscene : MonoBehaviour
 {
     public Transform teleportTarget;
     private Collider2D playerCollider;
+    public static bool canInteractCutscene = false;
 
     //Attach Canvas as child for worldSpace
     public Canvas canvas;
@@ -44,6 +45,7 @@ public class InteractableCustscene : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            canInteractCutscene = true;
             canvas.enabled = true;
             playerCollider = collision;
         }
@@ -53,6 +55,7 @@ public class InteractableCustscene : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            canInteractCutscene = false;
             canvas.enabled = false;
             playerCollider = null;
         }

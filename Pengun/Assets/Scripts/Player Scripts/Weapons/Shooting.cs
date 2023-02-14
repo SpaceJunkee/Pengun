@@ -12,6 +12,11 @@ public class Shooting : MonoBehaviour
     public Transform downSpawnPoint;
     GromEnergyBarController gromEnergyBarController;
     public Animator animator;
+    GameObject weaponAudioManager;
+    AudioSource pistolAudio;
+    AudioSource machineGunAudio;
+    AudioSource shotgunAudio;
+
 
     //Active weapon booleans
     [SerializeField]
@@ -61,6 +66,10 @@ public class Shooting : MonoBehaviour
 
     private void Start()
     {
+        weaponAudioManager = GameObject.Find("WeaponAudioManager");
+        pistolAudio = weaponAudioManager.transform.Find("PistolAudio").GetComponent<AudioSource>();
+        shotgunAudio = weaponAudioManager.transform.Find("ShotgunAudio").GetComponent<AudioSource>();
+        machineGunAudio = weaponAudioManager.transform.Find("MachineGunAudio").GetComponent<AudioSource>();
         playerMovement = GetComponentInParent<PlayerMovement>();
         playerRigidBody = playerMovement.getRigidbody2D();
         gromEnergyBarController = GameObject.Find("GromEnergyBarController").GetComponent<GromEnergyBarController>();
@@ -108,7 +117,6 @@ public class Shooting : MonoBehaviour
         float inputY = Input.GetAxisRaw("Vertical");
         bool pistolShotgunInput = Input.GetButtonDown("Fire1");
         bool machineGunInput = Input.GetButton("Fire1");
-        Debug.Log(inputType);
 
         //Fire up down left right
         if (gromEnergyBarController.currentGromEnergy >= gromEnergyCost)
@@ -137,6 +145,7 @@ public class Shooting : MonoBehaviour
                 isShootingDown = false;
                 isHoldingUp = true;
 
+                HandleShootingAudio();
                 HandleUpShootingAnimations();
             }
             else if (inputDirection.y < downDeadzone && Time.time > nextFire && inputType && (playerMovement.isJumping || playerMovement.inAirTime < 0) && canShoot && !isDisableShoot)
@@ -155,6 +164,7 @@ public class Shooting : MonoBehaviour
                 canShoot = false;
                 isHoldingDown = true;
 
+                HandleShootingAudio();
                 HandleDownShootingAnimations();
             }
             else if (inputType && Time.time > nextFire && canShoot && !isDisableShoot)
@@ -169,8 +179,8 @@ public class Shooting : MonoBehaviour
                 canShoot = false;
                 isShootingDown = false;
 
+                HandleShootingAudio();
                 HandleStraightShootingAnimations();
-
             }
 
             if (inputDirection.y < 0 && isHoldingDown)
@@ -291,6 +301,22 @@ public class Shooting : MonoBehaviour
         else if (!isPistolSelected && !isMachineGunSelected && isShotgunSelected)
         {
             animator.SetTrigger("ShootShotgunDown");
+        }
+    }
+
+    private void HandleShootingAudio()
+    {
+        if (isPistolSelected)
+        {
+            pistolAudio.Play();
+        }
+        else if (isShotgunSelected)
+        {
+            shotgunAudio.Play();
+        }
+        else if (isMachineGunSelected)
+        {
+            machineGunAudio.Play();
         }
     }
 

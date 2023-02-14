@@ -95,7 +95,7 @@ public class Melee : MonoBehaviour
             canAttack = true;
         }
 
-        if (canAttack && !PistolAltFire.isShooting && !PlayerMovement.isDashing && PlayerMovement.canMove && PlayerMovement.canUseButtonInput && !playerMovement.getIsFastRunning())
+        if (canAttack && !PistolAltFire.isShooting && !PlayerMovement.isDashing && PlayerMovement.canMove && PlayerMovement.canUseButtonInput && !playerMovement.getIsFastRunning() && !InteractableCustscene.canInteractCutscene)
         {
             if (Input.GetButtonDown("Melee"))
             {

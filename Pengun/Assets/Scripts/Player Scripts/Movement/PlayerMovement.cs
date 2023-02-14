@@ -25,8 +25,6 @@ public class PlayerMovement : MonoBehaviour
     public ParticleSystem dashLinesParticles;
     public ParticleSystem dashPopParticles;
     public ParticleSystem speedTrailParticles;
-    public AudioSource dashAudio;
-    public AudioSource bloodWaveAudio;
     public GameObject BloodSlamBlast;
     public SkeletonMecanim skeletonMec;
     GromEnergyBarController gromEnergyBarController;
@@ -36,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
     Color dashBlackColor;
     bool isRightTriggerInUse = false;
     public static bool disableDash = false;
+    PlayerAudioManager playerAudioManager;
 
     //Timer
     private IEnumerator coroutine;
@@ -59,6 +58,7 @@ public class PlayerMovement : MonoBehaviour
     float pressedJumpRemember = 0;
     float pressedJumpTime = 0.2f;
     public float inAirTime = 0.1f;
+    bool isSprinting = false;
 
 
     //Checks
@@ -102,21 +102,23 @@ public class PlayerMovement : MonoBehaviour
     private bool canFastRun = false;
     private bool isFastRunning = false;
     private bool isBerzerkModeActivated = false;
+    bool wasInAir;
 
-    //Stamina
-    public float stamina = 100f;
-    public float maxStamina = 100f;
-    public float staminaDepletionSpeed = 20f;
-    public float staminaRegenerationSpeed = 5f;
-    public float staminaRegenerationDelay = 2f;
-    public float staminaRegenerationDelayCounter = 0f;
-    public bool isStaminaDepleted = false;
+
+
+    /* //Stamina
+     public float stamina = 100f;
+     public float maxStamina = 100f;
+     public float staminaDepletionSpeed = 20f;
+     public float staminaRegenerationSpeed = 5f;
+     public float staminaRegenerationDelay = 2f;
+     public float staminaRegenerationDelayCounter = 0f;
+     public bool isStaminaDepleted = false;*/
 
 
     //Music Ability variables
     int damageMultiplier = 2;
     int originalDamageMultiplier = 1;
-
 
     //Awake method is called before the start method when the objects are being initialized.
     private void Awake()
@@ -129,6 +131,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        wasInAir = !isGrounded;
+        playerAudioManager = GetComponent<PlayerAudioManager>();
         gromEnergyBarController = GameObject.Find("GromEnergyBarController").GetComponent<GromEnergyBarController>();
         canMove = true;
         jumpCount = maxJumpCount;
@@ -146,8 +150,6 @@ public class PlayerMovement : MonoBehaviour
         {
             movementSpeed = 13f;
         }
-
-        Debug.Log("Stamina: " + stamina);
 
         if(rigidbody.velocity.y < -7|| isGrounded)
         {
@@ -253,9 +255,17 @@ public class PlayerMovement : MonoBehaviour
 
 
     //Set up movement inputs for character
+    public float dashpitch = 1;
     private void ProcessInputs()
     {
         animator.SetBool("IsJumping", isJumping);
+
+        //Check if player has landed
+        if (wasInAir && isGrounded)
+        {
+            playerAudioManager.PlayAudioSource("Landed");
+        }
+        wasInAir = !isGrounded;
 
         if (Input.GetAxis("LeftTrigger") == 1)
         {
@@ -293,6 +303,7 @@ public class PlayerMovement : MonoBehaviour
         {
             movementDirection = Math.Max(movementDirection, 1);
         }
+        
 
         if (canUseButtonInput)
         {
@@ -309,7 +320,6 @@ public class PlayerMovement : MonoBehaviour
 
             pressedJumpRemember -= Time.deltaTime;
 
-
             if (Input.GetButtonDown("Jump"))
             {
 
@@ -319,8 +329,18 @@ public class PlayerMovement : MonoBehaviour
 
                 if ((isGrounded || isStandingOnLava) || (inAirTime > 0 && !isGrounded && !isStandingOnLava))
                 {
-                    animator.SetTrigger("Jump");
-                    CreateDustParticles();
+                    if (canFastRun)
+                    {
+                        animator.SetTrigger("Jump");
+                        playerAudioManager.PlayAudioSource("SprintJump");
+                        CreateDustParticles();
+                    }
+                    else
+                    {
+                        animator.SetTrigger("Jump");
+                        playerAudioManager.PlayAudioSource("Jump");
+                        CreateDustParticles();
+                    }
                 }
 
             }
@@ -332,8 +352,18 @@ public class PlayerMovement : MonoBehaviour
             //Still plays jump animation when remembering jump.
             if ((isGrounded || isStandingOnLava) || (inAirTime > 0 && !isGrounded && !isStandingOnLava))
             {
-                animator.SetTrigger("Jump");
-                CreateDustParticles();
+                if (canFastRun)
+                {
+                    animator.SetTrigger("Jump");
+                    playerAudioManager.PlayAudioSource("SprintJump");
+                    CreateDustParticles();
+                }
+                else
+                {
+                    animator.SetTrigger("Jump");
+                    playerAudioManager.PlayAudioSource("Jump");
+                    CreateDustParticles();
+                }
             }
 
             pressedJumpRemember = 0;
@@ -341,6 +371,7 @@ public class PlayerMovement : MonoBehaviour
             StartCoroutine("ToggleIsJumping");
             StartCoroutine("ToggleHasJustLeftGround");
         }
+
 
         if (!isGrounded && !isTouchingWall && !isStandingOnLava)
         {
@@ -418,13 +449,13 @@ public class PlayerMovement : MonoBehaviour
     private void PerformDashEffectsAndAnims()
     {
         animator.SetTrigger("Dash");
+        playerAudioManager.PlayAudioSource("Dash");
         dashBubblesParticles.Play();
         dashLinesParticles.Play();
         dashPopParticles.Play();
         //skeletonMec.skeleton.SetColor(dashBlackColor);
         CameraShake.Instance.ShakeCamera(3f, 0.075f, 0.3f);
         PostProcessingController.myVignette.active = true;
-        dashAudio.Play();
     }
 
     private void AttemptDash()
@@ -554,7 +585,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void FastRun()
     {
-        if (isGrounded && canFastRun && (movementDirection > 0 || movementDirection < 0) && stamina > 0)
+        isSprinting = true;
+        if (isGrounded && canFastRun && (movementDirection > 0 || movementDirection < 0))
         {
             isFastRunning = true;
             targetMovementSpeed = 18f;
@@ -565,14 +597,6 @@ public class PlayerMovement : MonoBehaviour
             {
                 animator.SetBool("isSprinting", true);
                 speedTrailParticles.Play();
-
-                stamina -= Time.deltaTime * staminaDepletionSpeed;
-
-                if (stamina <= 0)
-                {
-                    isStaminaDepleted = true;
-                    stamina = 0;
-                }
             }
 
             animator.SetBool("Running", false);
@@ -580,16 +604,10 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            if (isStaminaDepleted && !isGrounded)
-            {
-                staminaRegenerationDelayCounter += Time.deltaTime;
-            }
 
             if (!isGrounded && isJumping && isFastRunning == true)
             {
                 targetMovementSpeed = fastRunJumpSpeed;
-                stamina -= Time.deltaTime * staminaDepletionSpeed;
-
             }
             else if (isGrounded)
             {
@@ -601,34 +619,91 @@ public class PlayerMovement : MonoBehaviour
                 animator.SetBool("isSprinting", false);
                 speedTrailParticles.Stop();
                 Shooting.isDisableShoot = false;
-
-                if (isStaminaDepleted)
-                {
-                    staminaRegenerationDelayCounter += Time.deltaTime;
-
-                    if (staminaRegenerationDelayCounter >= staminaRegenerationDelay)
-                    {
-                        isStaminaDepleted = false;
-                        staminaRegenerationDelayCounter = 0;
-                        stamina = maxStamina;
-                    }
-                }
-                else
-                {
-                    stamina += Time.deltaTime * staminaRegenerationSpeed;
-
-                    if (stamina > maxStamina)
-                    {
-                        stamina = maxStamina;
-                    }
-                }
-
             }
-
+            isSprinting = false;
         }
 
         movementSpeed = Mathf.Lerp(movementSpeed, targetMovementSpeed, Time.deltaTime * runningSmoothSpeed);
     }
+
+    //WITH STAMINA SYSTEM
+    /*    private void FastRun()
+        {
+            if (isGrounded && canFastRun && (movementDirection > 0 || movementDirection < 0) && stamina > 0)
+            {
+                isFastRunning = true;
+                targetMovementSpeed = 18f;
+                jumpForce = 20f;
+                Shooting.isDisableShoot = true;
+
+                if (isGrounded)
+                {
+                    animator.SetBool("isSprinting", true);
+                    speedTrailParticles.Play();
+
+                    stamina -= Time.deltaTime * staminaDepletionSpeed;
+
+                    if (stamina <= 0)
+                    {
+                        isStaminaDepleted = true;
+                        stamina = 0;
+                    }
+                }
+
+                animator.SetBool("Running", false);
+
+            }
+            else
+            {
+                if (isStaminaDepleted && !isGrounded)
+                {
+                    staminaRegenerationDelayCounter += Time.deltaTime;
+                }
+
+                if (!isGrounded && isJumping && isFastRunning == true)
+                {
+                    targetMovementSpeed = fastRunJumpSpeed;
+                    stamina -= Time.deltaTime * staminaDepletionSpeed;
+
+                }
+                else if (isGrounded)
+                {
+                    isFastRunning = false;
+                    targetMovementSpeed = 13f;
+                    jumpForce = 26f;
+                    animator.SetFloat("SpeedMultiplier", 1f);
+                    animator.SetBool("Running", true);
+                    animator.SetBool("isSprinting", false);
+                    speedTrailParticles.Stop();
+                    Shooting.isDisableShoot = false;
+
+                    if (isStaminaDepleted)
+                    {
+                        staminaRegenerationDelayCounter += Time.deltaTime;
+
+                        if (staminaRegenerationDelayCounter >= staminaRegenerationDelay)
+                        {
+                            isStaminaDepleted = false;
+                            staminaRegenerationDelayCounter = 0;
+                            stamina = maxStamina;
+                        }
+                    }
+                    else
+                    {
+                        stamina += Time.deltaTime * staminaRegenerationSpeed;
+
+                        if (stamina > maxStamina)
+                        {
+                            stamina = maxStamina;
+                        }
+                    }
+
+                }
+
+            }
+
+            movementSpeed = Mathf.Lerp(movementSpeed, targetMovementSpeed, Time.deltaTime * runningSmoothSpeed);
+        }*/
 
     //Flips character rotation depending on which way the character is facing
     public void FlipCharDirection()
