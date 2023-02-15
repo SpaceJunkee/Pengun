@@ -24,6 +24,7 @@ TagManager:
   - DashColliderChecker
   - GromBucksController
   - VirtualCam
+  - DontChangeAudioPitch
   layers:
   - Default
   - TransparentFX

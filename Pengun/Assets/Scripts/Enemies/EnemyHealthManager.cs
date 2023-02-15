@@ -12,7 +12,6 @@ public class EnemyHealthManager : MonoBehaviour
     public MeshRenderer meshRenderer;
     public TimeManager timemanager;
     public Rigidbody2D rigidbody;
-    public AudioSource deathSound;
 
     //Every enemy needs this
     LootSplash lootSplash;
@@ -40,7 +39,6 @@ public class EnemyHealthManager : MonoBehaviour
         player = GameObject.Find("Player").GetComponent<Rigidbody2D>();
         lootSplash = this.GetComponent<LootSplash>();
         timemanager = GameObject.Find("TimeManager").GetComponent<TimeManager>();
-        deathSound = GameObject.Find("AudioManager").transform.GetChild(6).gameObject.GetComponent<AudioSource>();
 
         currentHealth = maxHealth;
     }
@@ -136,17 +134,10 @@ public class EnemyHealthManager : MonoBehaviour
 
     public void KillEnemy()
     {
-        deathSound.Play();
         isDead = true;
         lootSplash.summonDrop();
-        if (this.CompareTag("Grombie"))
-        {
-            Destroy(this.gameObject, 0.05f);
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
+        
+        Destroy(this.gameObject, 0.075f);
 
         Instantiate(chargerChunkParticle, this.gameObject.transform.position, chargerChunkParticle.transform.rotation);
         Instantiate(chargerBloodParticle, this.gameObject.transform.position, chargerBloodParticle.transform.rotation);

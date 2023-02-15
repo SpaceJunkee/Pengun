@@ -6,11 +6,13 @@ using UnityEngine;
 public class WeaponChanging : MonoBehaviour
 {
     public TimeManager timemanager;
+    PlayerAudioManager playerAudioManager;
     Shooting shooting;
     bool hasTapeChanged1, hasTapeChanged2, hasTapeChanged3 = false;
 
     private void Start()
     {
+        playerAudioManager = GetComponent<PlayerAudioManager>();
         shooting = GetComponent<Shooting>();
     }
 

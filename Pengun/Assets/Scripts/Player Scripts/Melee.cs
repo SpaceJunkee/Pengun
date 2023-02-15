@@ -6,6 +6,7 @@ public class Melee : MonoBehaviour
 {
     public Transform attackPoint1, attackPointUp, attackPointDown, meleeParticleTransform;
     public Animator animator;
+    PlayerAudioManager playerAudioManager;
     HurtKnockBack hurtKnock;
     public ParticleSystem meleeParticleSwipe;
 
@@ -53,6 +54,7 @@ public class Melee : MonoBehaviour
 
     private void Start()
     {
+        playerAudioManager = this.GetComponent<PlayerAudioManager>();
         hurtKnock = this.GetComponent<HurtKnockBack>();
         playerMovement = this.GetComponent<PlayerMovement>();
         pShoot = this.GetComponent<PistolAltFire>();
@@ -121,6 +123,7 @@ public class Melee : MonoBehaviour
 
     void PerformMeleeAnimations(bool isLookUp, bool isLookDown)
     {
+        playerAudioManager.PlayAudioSource("Melee");
         if (isLookUp)
         {
             animator.SetTrigger("MeleeUp");

@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     public ParticleSystem dashPopParticles;
     public ParticleSystem speedTrailParticles;
     public GameObject BloodSlamBlast;
+    public GameObject audioListenerContainer;
     public SkeletonMecanim skeletonMec;
     GromEnergyBarController gromEnergyBarController;
     Melee melee;
@@ -263,6 +264,7 @@ public class PlayerMovement : MonoBehaviour
         //Check if player has landed
         if (wasInAir && isGrounded)
         {
+            //Play particles on land here
             playerAudioManager.PlayAudioSource("Landed");
         }
         wasInAir = !isGrounded;
@@ -710,13 +712,12 @@ public class PlayerMovement : MonoBehaviour
     {
         if (movementDirection > 0 && !playerFaceRight && !isWallSliding)
         {
-            TurnCharacterDirection();    
+            TurnCharacterDirection();
         }
         else if (movementDirection < 0 && playerFaceRight && !isWallSliding)
         {
-            TurnCharacterDirection();        
+            TurnCharacterDirection();
         }
-        
     }
 
     public void StopPlayer(bool freezeY, bool freezeX, bool stopVelocity)
@@ -756,14 +757,14 @@ public class PlayerMovement : MonoBehaviour
     {
         playerFaceRight = !playerFaceRight; //Opposite direction
         transform.Rotate(0f, 180f, 0f);
+        audioListenerContainer.transform.Rotate(0f, 180f, 0f);
         this.transform.Find("AbilityWheel").transform.Rotate(0f, 180f, 0f);
         if (isGrounded)
         {
             CreateDustParticles();
         }
-        
     }
-    
+
 
     //Getters
     public bool getPlayerFaceRight()
