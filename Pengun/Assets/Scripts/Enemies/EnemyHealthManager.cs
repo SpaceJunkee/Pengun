@@ -4,19 +4,22 @@ using UnityEngine;
 
 public class EnemyHealthManager : MonoBehaviour
 {
+
+    /*MAKE SURE TO ADD ALT FIRE DAMAGES FOR THIS TOO - CHECK PLAYERDAMAGECONTROLLER SCRIPT*/
     public float maxHealth;
     public float minHealth = 0;
+    public float currentHealth;
 
     public GameObject chargerChunkParticle, chargerBloodParticle, hitChunckParticle, gromDroplet;
     public SpriteRenderer[] spriteRenderer;
     public MeshRenderer meshRenderer;
     public TimeManager timemanager;
     public Rigidbody2D rigidbody;
+    public float canBeHurtAgainTimer = 0.25f;
 
     //Every enemy needs this
     LootSplash lootSplash;
 
-    public float currentHealth;
     private bool canBeHurt = true;
     public bool isDead = false;
     private bool isDashing;
@@ -99,28 +102,26 @@ public class EnemyHealthManager : MonoBehaviour
         this.GetComponent<MoveEnemyOnPoints>().isMoving = true;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("BloodWave"))
-        {
-            KillEnemy();
-        }
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("BloodWave"))
-        {
-            KillEnemy();
-        }
-    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        string bulletType = collision.gameObject.tag;
 
-        if (collision.gameObject.CompareTag("Bullet"))
+        switch (bulletType)
         {
-            DecreaseHealth(PlayerDamageController.gunDamageOutput);
+            case "PistolBullet":
+                // Apply pistol variables
+                DecreaseHealth(PlayerDamageController.pistolBulletDamage);
+                break;
+            case "MachineGunBullet":
+                // Apply MG variables
+                DecreaseHealth(PlayerDamageController.machineGunBulletDamage);
+                break;
+            case "ShotgunBullet":
+                // Apply Shotgun variables
+                DecreaseHealth(PlayerDamageController.shotgunBulletDamage);
+                break;
+
         }
 
     }
@@ -128,7 +129,7 @@ public class EnemyHealthManager : MonoBehaviour
     IEnumerator CanBeHurtAgain()
     {
         canBeHurt = false;
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(canBeHurtAgainTimer);
         canBeHurt = true;
     }
 

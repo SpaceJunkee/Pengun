@@ -145,7 +145,7 @@ public class HurtKnockBack : MonoBehaviour
         Time.fixedDeltaTime = originalFixedDeltaTime;
 
         // Slow down time for a short duration using TimeManager
-        timeManager.StartSlowMotion(0.05f);
+        timeManager.StartSlowMotion(0.03f);
 
         // Wait for the knockback duration
         yield return new WaitForSeconds(knockbackDuration);

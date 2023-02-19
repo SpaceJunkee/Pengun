@@ -62,7 +62,7 @@ public class ChargerHealthManager : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Bullet"))
         {
-            DecreaseHealth(PlayerDamageController.gunDamageOutput);
+            DecreaseHealth(PlayerDamageController.pistolBulletDamage);
         }
 
         if (collision.gameObject.CompareTag("BloodWave"))

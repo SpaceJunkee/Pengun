@@ -16,8 +16,8 @@ GameObject:
   - component: {fileID: 6579000670834548575}
   - component: {fileID: 6032478336379659347}
   m_Layer: 11
-  m_Name: ShotGunBullet
-  m_TagString: Bullet
+  m_Name: MachineGunBullet
+  m_TagString: MachineGunBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 7978960941694512236}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 19.4, y: 9.97, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -106,7 +106,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 0.75919914, g: 0, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.32911384, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class PlayerDamageController : MonoBehaviour
 {
+    /*MAKE SURE TO ADD ALT FIRE DAMAGES FOR THIS TOO - CHECK ENEMYHEALTHMANAGER SCRIPT*/
+
     public static float meleeDamageOutput = 1f;
-    public static float gunDamageOutput = 2f;
     public static float dashDamageOutput = 2f;
+
+    //Bullet damage
+    public static float pistolBulletDamage = 1f;
+    public static float machineGunBulletDamage = 0.5f;
+    public static float shotgunBulletDamage = 5f;
 
 
     public void setMeleeDamageOutput(float damageMultiplier)
@@ -14,9 +20,17 @@ public class PlayerDamageController : MonoBehaviour
         meleeDamageOutput = damageMultiplier;
     }
 
-    public void setGunDamageOutput(float damageMultiplier)
+    public void setPistolBulletDamageOutput(float damageMultiplier)
     {
-        gunDamageOutput = damageMultiplier;
+        pistolBulletDamage = damageMultiplier;
+    }
+    public void setMachineGunBulletDamageOutput(float damageMultiplier)
+    {
+        machineGunBulletDamage = damageMultiplier;
+    }
+    public void setShotgunBulletDamageOutput(float damageMultiplier)
+    {
+        shotgunBulletDamage = damageMultiplier;
     }
 
     public void setDashDamageOutput(float damageMultiplier)
@@ -29,9 +43,19 @@ public class PlayerDamageController : MonoBehaviour
         return meleeDamageOutput;
     }
 
-    public float getGunDamageOutput()
+    public float getPistolBulletDamageOutput()
     {
-        return gunDamageOutput;
+        return pistolBulletDamage;
+    }
+
+    public float getMachineGunBulletDamageOutput()
+    {
+        return machineGunBulletDamage;
+    }
+
+    public float getShotgunBulletDamageOutput()
+    {
+        return shotgunBulletDamage;
     }
 
     public float getDashDamageOutput()

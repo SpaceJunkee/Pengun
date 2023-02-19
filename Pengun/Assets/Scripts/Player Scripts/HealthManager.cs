@@ -34,19 +34,7 @@ public class HealthManager : MonoBehaviour
 
     private void Update()
     {
-
         CheckIfCurrentHealthIsMax();
-
-        /*if (Input.GetButtonDown("Melee"))
-        {
-            DecreaseHealth(3);
-        }
-
-        if (Input.GetButtonDown("Dash"))
-        {
-            IncreaseHealth(5);
-        }*/
-
     }
 
     public void HurtPlayer(float damageAmount)
