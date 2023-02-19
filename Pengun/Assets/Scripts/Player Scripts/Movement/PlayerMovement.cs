@@ -724,6 +724,8 @@ public class PlayerMovement : MonoBehaviour
     {
         canMove = false;
         animator.SetBool("Running", false);
+        melee.SetCanAttack(false);
+        shooting.canShoot = false;
 
         if (stopVelocity)
         {
@@ -748,6 +750,8 @@ public class PlayerMovement : MonoBehaviour
     public void EnableMovement()
     {
         canMove = true;
+        melee.SetCanAttack(true);
+        shooting.canShoot = true;
         rigidbody.constraints = originalConstraints;
     }
 

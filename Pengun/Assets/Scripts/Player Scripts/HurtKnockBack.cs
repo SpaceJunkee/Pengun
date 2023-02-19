@@ -9,6 +9,8 @@ public class HurtKnockBack : MonoBehaviour
     public MeshRenderer meshRenderer;
     public PlayerMovement playerMovement;
     public LayerMask lavaObjects;
+    private bool isKnockback;
+    public float knockbackDuration;
 
     public float knockBackAmount;
     public float knockBackdirectionForce;
@@ -130,9 +132,28 @@ public class HurtKnockBack : MonoBehaviour
 
     IEnumerator StopTimeForKnockBack()
     {
-        timeManager.StartSlowMotion(0.001f);
-        yield return new WaitForSeconds(0.0001f);
-        timeManager.InvokeStopSlowMotion(0.0001f);
+        // Store the original fixedDeltaTime
+        float originalFixedDeltaTime = Time.fixedDeltaTime;
+
+        // Set the fixedDeltaTime to zero to effectively pause physics
+        Time.fixedDeltaTime = 0f;
+
+        // Wait for a short amount of real time to ensure the pause is effective
+        yield return new WaitForSecondsRealtime(0.1f);
+
+        // Restore the original fixedDeltaTime
+        Time.fixedDeltaTime = originalFixedDeltaTime;
+
+        // Slow down time for a short duration using TimeManager
+        timeManager.StartSlowMotion(0.05f);
+
+        // Wait for the knockback duration
+        yield return new WaitForSeconds(knockbackDuration);
+
+        // Return time to normal using TimeManager
+        timeManager.StopSlowMotion();
+
+        isKnockback = false;
     }
 
     public bool getIsStandingOnLava()
