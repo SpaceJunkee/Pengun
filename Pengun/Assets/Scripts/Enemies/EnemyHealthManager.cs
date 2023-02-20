@@ -9,10 +9,9 @@ public class EnemyHealthManager : MonoBehaviour
     public float maxHealth;
     public float minHealth = 0;
     public float currentHealth;
-
     public GameObject chargerChunkParticle, chargerBloodParticle, hitChunckParticle, gromDroplet;
     public SpriteRenderer[] spriteRenderer;
-    public MeshRenderer meshRenderer;
+    MeshRenderer meshRenderer;
     public TimeManager timemanager;
     public Rigidbody2D rigidbody;
     public float canBeHurtAgainTimer = 0.25f;
@@ -39,6 +38,7 @@ public class EnemyHealthManager : MonoBehaviour
 
     private void Start()
     {
+        meshRenderer = GetComponentInChildren<MeshRenderer>();
         player = GameObject.Find("Player").GetComponent<Rigidbody2D>();
         lootSplash = this.GetComponent<LootSplash>();
         timemanager = GameObject.Find("TimeManager").GetComponent<TimeManager>();
@@ -137,16 +137,58 @@ public class EnemyHealthManager : MonoBehaviour
     {
         isDead = true;
         lootSplash.summonDrop();
-        
-        Destroy(this.gameObject, 0.075f);
 
-        Instantiate(chargerChunkParticle, this.gameObject.transform.position, chargerChunkParticle.transform.rotation);
-        Instantiate(chargerBloodParticle, this.gameObject.transform.position, chargerBloodParticle.transform.rotation);
+        // Disable the collider and art components or particles
+        DisableAllColliders(this.gameObject);
+        DisableParticleSystemsRecursively(transform);
+        if (meshRenderer != null) meshRenderer.enabled = false;
+
+        // Call any additional death methods here
+
+        // Delay the destruction of the enemy object
+        StartCoroutine(DestroyEnemyWithDelay(1f));
+    }
+
+    IEnumerator DestroyEnemyWithDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        // Destroy the enemy object
+        Destroy(gameObject);
     }
 
     public void SetKnockBackForce(float knockBack)
     {
         knockBackForce = knockBack;
+    }
+
+    //Disable any particle systems attached to object. 
+    void DisableParticleSystemsRecursively(Transform transform)
+    {
+        foreach (Transform childTransform in transform)
+        {
+            // Recursively disable particle systems in child objects
+            DisableParticleSystemsRecursively(childTransform);
+
+            // Disable any ParticleSystem components in this object
+            ParticleSystem particleSystem = childTransform.GetComponent<ParticleSystem>();
+            if (particleSystem != null)
+            {
+                particleSystem.Stop();
+                particleSystem.Clear();
+                particleSystem.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    void DisableAllColliders(GameObject gameObject)
+    {
+        Collider2D[] colliders = gameObject.GetComponents<Collider2D>();
+
+        foreach (Collider2D collider in colliders)
+        {
+            collider.enabled = false;
+        }
     }
 
 }

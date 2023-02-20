@@ -13,6 +13,7 @@ public class GromFly : MonoBehaviour
     public float nextWaypointDistance = 3f;
     public float range = 20f;
     bool isPlayingChaseSound = false;
+    bool hasDeathSoundPlayed = false;
 
     public Transform gromFlyGFX;
     public Animator animator;
@@ -87,8 +88,14 @@ public class GromFly : MonoBehaviour
             gromFlyAudioManager.StopAudioSource("Chase");
         }
 
-        if (enemyHealthManager.isDead)
+        if (this.enemyHealthManager.isDead)
         {
+            if (!hasDeathSoundPlayed)
+            {
+                gromFlyAudioManager.PlayAudioSource("Death");
+                hasDeathSoundPlayed = true;
+            }
+            
             gromFlyAudioManager.StopAudioSource("Chase");
         }
     }

@@ -9,6 +9,7 @@ public class GromFlyAudioManager : MonoBehaviour
     /*Audio sources array values
      0 = Alert
      1 = Chase
+     2 = Death
     */
 
     void Start()
@@ -30,6 +31,9 @@ public class GromFlyAudioManager : MonoBehaviour
             case "Chase":
                 gromFlyAudioSources[1].Play();
                 break;
+            case "Death":
+                gromFlyAudioSources[2].Play();
+                break;
         }
     }
 
@@ -41,6 +45,9 @@ public class GromFlyAudioManager : MonoBehaviour
                 gromFlyAudioSources[0].Stop();
                 break;
             case "Chase":
+                gromFlyAudioSources[1].Stop();
+                break;
+            case "Death":
                 gromFlyAudioSources[1].Stop();
                 break;
         }

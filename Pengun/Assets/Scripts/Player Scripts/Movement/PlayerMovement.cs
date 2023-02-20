@@ -102,7 +102,6 @@ public class PlayerMovement : MonoBehaviour
     //Music Abilities
     private bool canFastRun = false;
     private bool isFastRunning = false;
-    private bool isBerzerkModeActivated = false;
     bool wasInAir;
 
 
@@ -115,11 +114,6 @@ public class PlayerMovement : MonoBehaviour
      public float staminaRegenerationDelay = 2f;
      public float staminaRegenerationDelayCounter = 0f;
      public bool isStaminaDepleted = false;*/
-
-
-    //Music Ability variables
-    int damageMultiplier = 2;
-    int originalDamageMultiplier = 1;
 
     //Awake method is called before the start method when the objects are being initialized.
     private void Awake()
@@ -183,15 +177,6 @@ public class PlayerMovement : MonoBehaviour
 
 
         CheckIfFalling();
-        
-        if (isBerzerkModeActivated)
-        {
-            playerDamageController.setMeleeDamageOutput(damageMultiplier);
-        }
-        else
-        {
-            playerDamageController.setMeleeDamageOutput(originalDamageMultiplier);
-        }
 
     }
 

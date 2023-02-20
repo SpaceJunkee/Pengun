@@ -188,30 +188,34 @@ public class Melee : MonoBehaviour
         foreach (Collider2D enemy in hitEnemies)
         {
             Debug.Log(hitEnemies.Length);
-            if (enemy.GetComponent<DiscoverableRoom>() != null)
+            RaycastHit2D hit = Physics2D.Linecast(attack1Pos, enemy.transform.position, LayerMask.GetMask("Obstacle"));
+            if (!hit.collider)
             {
-                enemy.GetComponent<DiscoverableRoom>().BreakBarrierMelee();
-            }
-                if (enemy.GetComponent<ChargerHealthManager>() != null)
-            {
-                if (ChargerCanAttackZone.isInAttackZone)
+                if (enemy.GetComponent<DiscoverableRoom>() != null)
                 {
-                    enemy.GetComponent<ChargerHealthManager>().DecreaseHealth(PlayerDamageController.meleeDamageOutput);
+                    enemy.GetComponent<DiscoverableRoom>().BreakBarrierMelee();
+                }
+                if (enemy.GetComponent<ChargerHealthManager>() != null)
+                {
+                    if (ChargerCanAttackZone.isInAttackZone)
+                    {
+                        enemy.GetComponent<ChargerHealthManager>().DecreaseHealth(PlayerDamageController.meleeDamageOutput);
+                    }
+
+                }
+                else if (enemy.GetComponent<EnemyHealthManager>() != null)
+                {
+                    enemy.GetComponent<EnemyHealthManager>().DecreaseHealth(PlayerDamageController.meleeDamageOutput);
+                }
+                else if (enemy.CompareTag("Destructable") && !hasHitDestructable)
+                {
+                    enemy.GetComponent<BreackableObject>().TakeDamage(10);
+                    hasHitDestructable = true;
                 }
 
+                hasEnemyBeenHit = true;
             }
-            else if (enemy.GetComponent<EnemyHealthManager>() != null)
-            {
-                enemy.GetComponent<EnemyHealthManager>().DecreaseHealth(PlayerDamageController.meleeDamageOutput);
-            }
-            else if (enemy.CompareTag("Destructable") && !hasHitDestructable)
-            {
-                enemy.GetComponent<BreackableObject>().TakeDamage(10);
-                hasHitDestructable = true;
-            }
-
-            hasEnemyBeenHit = true;
-        }
+        }            
 
         ManageDownwardStriking(hasEnemyBeenHit);
         ManageUpwardStriking(hasEnemyBeenHit);

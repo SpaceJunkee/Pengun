@@ -25116,7 +25116,6 @@ MonoBehaviour:
   gromDroplet: {fileID: 967314875827216090, guid: a64417040e082964892ec3a645e8dbf2,
     type: 3}
   spriteRenderer: []
-  meshRenderer: {fileID: 0}
   timemanager: {fileID: 0}
   rigidbody: {fileID: 361683920}
   canBeHurtAgainTimer: 0.25
@@ -25682,7 +25681,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 5e5bf659151e135409342a67aa550162, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 59bb0b5764e486c4da86b7c73fa9680a, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -41214,7 +41213,6 @@ MonoBehaviour:
   gromDroplet: {fileID: 967314875827216090, guid: a64417040e082964892ec3a645e8dbf2,
     type: 3}
   spriteRenderer: []
-  meshRenderer: {fileID: 0}
   timemanager: {fileID: 0}
   rigidbody: {fileID: 858577771}
   canBeHurtAgainTimer: 0.25
@@ -46112,6 +46110,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slugrom
       objectReference: {fileID: 0}
+    - target: {fileID: 81355375102890434, guid: 065f8886a950cfe4383f67f31cc044bb,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 81355375102890457, guid: 065f8886a950cfe4383f67f31cc044bb,
         type: 3}
       propertyPath: startPosition
@@ -47822,7 +47825,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 77605b058696ef44f82c6641a62e079a, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 419ce88a8a4a0544eb3b2a3e7a2d6095, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -49559,7 +49562,7 @@ MonoBehaviour:
   machineGunPushBackForce: 1
   machineGunForceAmount: 20
   machineGunGromEnergyCost: 1
-  shotgunFireRate: 0.5
+  shotgunFireRate: 1.5
   shotgunProjectileSpeed: 30
   shotgunRotationAngle: 90
   shotgunPushBackForce: 1
@@ -64685,7 +64688,6 @@ MonoBehaviour:
   gromDroplet: {fileID: 967314875827216090, guid: a64417040e082964892ec3a645e8dbf2,
     type: 3}
   spriteRenderer: []
-  meshRenderer: {fileID: 0}
   timemanager: {fileID: 0}
   rigidbody: {fileID: 1824140698}
   canBeHurtAgainTimer: 0.25
@@ -65128,6 +65130,12 @@ Transform:
   m_Father: {fileID: 321550808}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!70 &1866560634 stripped
+CapsuleCollider2D:
+  m_CorrespondingSourceObject: {fileID: 5267162646810700081, guid: a5f83b74e579cb442958c6909cbe655b,
+    type: 3}
+  m_PrefabInstance: {fileID: 2118750896}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1869131220
 GameObject:
   m_ObjectHideFlags: 0
@@ -72786,8 +72794,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5267162646810700094, guid: a5f83b74e579cb442958c6909cbe655b,
         type: 3}
+      propertyPath: cap
+      value: 
+      objectReference: {fileID: 1866560634}
+    - target: {fileID: 5267162646810700094, guid: a5f83b74e579cb442958c6909cbe655b,
+        type: 3}
       propertyPath: maxHealth
-      value: 10
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5267162646810700080, guid: a5f83b74e579cb442958c6909cbe655b, type: 3}
