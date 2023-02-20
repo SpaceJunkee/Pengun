@@ -62,6 +62,7 @@ public class Shooting : MonoBehaviour
     public bool isShootingDown =  false;
     public bool canShoot = true;
     public static bool isDisableShoot = false;
+    public static bool isDisableShootMelee = false;
 
 
     private void Start()
@@ -77,6 +78,7 @@ public class Shooting : MonoBehaviour
 
     void Update()
     {
+
         if (isPistolSelected && !isMachineGunSelected && !isShotgunSelected)
         {
             PistolShooting();
@@ -131,7 +133,7 @@ public class Shooting : MonoBehaviour
                 inputType = machineGunInput;
             }
 
-            if (inputY > deadzone && Time.time > nextFire && inputType && canShoot && !isDisableShoot)
+            if (inputY > deadzone && Time.time > nextFire && inputType && canShoot && !isDisableShoot && !isDisableShootMelee)
             {
                 //ANIMATE UP SHOOTING AND CHANGE BASED ON WEAPON
                 nextFire = Time.time + fireRate;
@@ -148,7 +150,7 @@ public class Shooting : MonoBehaviour
                 HandleShootingAudio();
                 HandleUpShootingAnimations();
             }
-            else if (inputDirection.y < downDeadzone && Time.time > nextFire && inputType && (playerMovement.isJumping || playerMovement.inAirTime < 0) && canShoot && !isDisableShoot)
+            else if (inputDirection.y < downDeadzone && Time.time > nextFire && inputType && (playerMovement.isJumping || playerMovement.inAirTime < 0) && canShoot && !isDisableShoot && !isDisableShootMelee)
             {
                 //ANIMATE DOWN SHOOTING AND CHANGE BASED ON WEAPON
                 nextFire = Time.time + fireRate;
@@ -167,7 +169,7 @@ public class Shooting : MonoBehaviour
                 HandleShootingAudio();
                 HandleDownShootingAnimations();
             }
-            else if (inputType && Time.time > nextFire && canShoot && !isDisableShoot)
+            else if (inputType && Time.time > nextFire && canShoot && !isDisableShoot && !isDisableShootMelee)
             {
                 //ANIMATE STRAIGHT SHOOTING AND CHANGE BASED ON WEAPON
                 nextFire = Time.time + fireRate;

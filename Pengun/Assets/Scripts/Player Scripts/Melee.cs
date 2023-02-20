@@ -51,9 +51,11 @@ public class Melee : MonoBehaviour
     PlayerMovement playerMovement;
     Rigidbody2D playerRB;
     PistolAltFire pShoot;
+    Shooting shooting;
 
     private void Start()
     {
+        shooting = GetComponent<Shooting>();
         playerAudioManager = this.GetComponent<PlayerAudioManager>();
         hurtKnock = this.GetComponent<HurtKnockBack>();
         playerMovement = this.GetComponent<PlayerMovement>();
@@ -181,6 +183,7 @@ public class Melee : MonoBehaviour
         hitEnemies = Physics2D.OverlapCircleAll(attack1Pos, attackRange1, enemyLayers);
         canAttack = false;
         isMelee = true;
+        Shooting.isDisableShootMelee = true;
 
         bool hasEnemyBeenHit = false;
         bool hasHitDestructable = false;
@@ -303,6 +306,7 @@ public class Melee : MonoBehaviour
     {
         yield return new WaitForSeconds(meleeCooldown);
         isMelee = false;
+        Shooting.isDisableShootMelee = false;
 
         if (doesPlayerWantToShoot)
         {

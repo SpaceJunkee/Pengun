@@ -187,7 +187,10 @@ public class EnemyHealthManager : MonoBehaviour
 
         foreach (Collider2D collider in colliders)
         {
-            collider.enabled = false;
+            if(collider != null)
+            {
+                collider.enabled = false;
+            }           
         }
     }
 
