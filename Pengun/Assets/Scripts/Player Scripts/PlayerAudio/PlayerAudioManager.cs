@@ -12,6 +12,8 @@ public class PlayerAudioManager : MonoBehaviour
      2 = SprintJump
      3 = Landed
      4 = Melee
+     5 = MeleeDown
+     6 = MeleeUp
     */
 
     void Start()
@@ -37,6 +39,12 @@ public class PlayerAudioManager : MonoBehaviour
                 break;
             case "Melee":
                 playerAudioSources[4].Play();
+                break;
+            case "MeleeDown":
+                playerAudioSources[5].Play();
+                break;
+            case "MeleeUp":
+                playerAudioSources[6].Play();
                 break;
         }
     }

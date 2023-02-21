@@ -740,6 +740,9 @@ public class PlayerMovement : MonoBehaviour
         rigidbody.constraints = originalConstraints;
     }
 
+    private bool isSlowingDown = false;
+    private float slowdownDuration = 0.5f;
+    public float turningSlowdownFactor = 0.3f;
 
     //Turns character
     private void TurnCharacterDirection()
@@ -747,11 +750,23 @@ public class PlayerMovement : MonoBehaviour
         playerFaceRight = !playerFaceRight; //Opposite direction
         transform.Rotate(0f, 180f, 0f);
         audioListenerContainer.transform.Rotate(0f, 180f, 0f);
+        isSlowingDown = true;
         this.transform.Find("AbilityWheel").transform.Rotate(0f, 180f, 0f);
         if (isGrounded)
         {
             CreateDustParticles();
         }
+
+        StartCoroutine("SlowCharacterWhenMoving");
+    }
+
+    IEnumerator SlowCharacterWhenMoving()
+    {
+        float originalSpeed = movementSpeed;
+        movementSpeed *= turningSlowdownFactor;
+        yield return new WaitForSeconds(slowdownDuration);
+        movementSpeed = originalSpeed;
+        isSlowingDown = false;
     }
 
 

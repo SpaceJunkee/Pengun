@@ -10,6 +10,8 @@ public class GromFlyAudioManager : MonoBehaviour
      0 = Alert
      1 = Chase
      2 = Death
+     3 = Hit
+     4 = HitMelee
     */
 
     void Start()
@@ -34,6 +36,12 @@ public class GromFlyAudioManager : MonoBehaviour
             case "Death":
                 gromFlyAudioSources[2].Play();
                 break;
+            case "Hit":
+                gromFlyAudioSources[3].Play();
+                break;
+            case "HitMelee":
+                gromFlyAudioSources[4].Play();
+                break;
         }
     }
 
@@ -48,7 +56,13 @@ public class GromFlyAudioManager : MonoBehaviour
                 gromFlyAudioSources[1].Stop();
                 break;
             case "Death":
-                gromFlyAudioSources[1].Stop();
+                gromFlyAudioSources[2].Stop();
+                break;
+            case "Hit":
+                gromFlyAudioSources[3].Stop();
+                break;
+            case "HitMelee":
+                gromFlyAudioSources[4].Stop();
                 break;
         }
     }

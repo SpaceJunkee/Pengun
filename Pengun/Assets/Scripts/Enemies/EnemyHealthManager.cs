@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class EnemyHealthManager : MonoBehaviour
 {
+    //EnemyAudioReferences Add to PlayEnemyHurtAudio() method for different enemies
+    GromFlyAudioManager gromFlyAudioManager;
 
     /*MAKE SURE TO ADD ALT FIRE DAMAGES FOR THIS TOO - CHECK PLAYERDAMAGECONTROLLER SCRIPT*/
     public float maxHealth;
     public float minHealth = 0;
     public float currentHealth;
     public GameObject chargerChunkParticle, chargerBloodParticle, hitChunckParticle, gromDroplet;
+    public GameObject enemyHurtAudioObject;
     public SpriteRenderer[] spriteRenderer;
     MeshRenderer meshRenderer;
     public TimeManager timemanager;
@@ -38,6 +41,7 @@ public class EnemyHealthManager : MonoBehaviour
 
     private void Start()
     {
+        gromFlyAudioManager = this.GetComponent<GromFlyAudioManager>();
         meshRenderer = GetComponentInChildren<MeshRenderer>();
         player = GameObject.Find("Player").GetComponent<Rigidbody2D>();
         lootSplash = this.GetComponent<LootSplash>();
@@ -51,7 +55,7 @@ public class EnemyHealthManager : MonoBehaviour
         isDashing = PlayerMovement.isDashing;
     }
 
-    public void DecreaseHealth(float damageAmount)
+    public void DecreaseHealth(float damageAmount, bool isMeleeHit)
     {
         if (canBeHurt)
         {
@@ -60,6 +64,16 @@ public class EnemyHealthManager : MonoBehaviour
             //Summon hit chunck
             Instantiate(hitChunckParticle, this.gameObject.transform.position, hitChunckParticle.transform.rotation);
             Instantiate(gromDroplet, this.gameObject.transform.position, gromDroplet.transform.rotation);
+
+            if (isMeleeHit)
+            {
+                PlayEnemyHurtAudio(this.gameObject.name, true);
+            }
+            else
+            {
+                PlayEnemyHurtAudio(this.gameObject.name, false);
+            }
+            
 
             if (!isMovePointEnemy)
             {
@@ -111,15 +125,15 @@ public class EnemyHealthManager : MonoBehaviour
         {
             case "PistolBullet":
                 // Apply pistol variables
-                DecreaseHealth(PlayerDamageController.pistolBulletDamage);
+                DecreaseHealth(PlayerDamageController.pistolBulletDamage, false);
                 break;
             case "MachineGunBullet":
                 // Apply MG variables
-                DecreaseHealth(PlayerDamageController.machineGunBulletDamage);
+                DecreaseHealth(PlayerDamageController.machineGunBulletDamage, false);
                 break;
             case "ShotgunBullet":
                 // Apply Shotgun variables
-                DecreaseHealth(PlayerDamageController.shotgunBulletDamage);
+                DecreaseHealth(PlayerDamageController.shotgunBulletDamage, false);
                 break;
 
         }
@@ -192,6 +206,29 @@ public class EnemyHealthManager : MonoBehaviour
                 collider.enabled = false;
             }           
         }
+    }
+
+    void PlayEnemyHurtAudio(string enemyName, bool playMeleeHitSound)
+    {
+        if (playMeleeHitSound)
+        {
+            switch (enemyName)
+            {
+                case "GromFly":
+                    gromFlyAudioManager.PlayAudioSource("HitMelee");
+                    break;
+            }
+        }
+        else
+        {
+            switch (enemyName)
+            {
+                case "GromFly":
+                    gromFlyAudioManager.PlayAudioSource("Hit");
+                    break;
+            }
+        }
+
     }
 
 }

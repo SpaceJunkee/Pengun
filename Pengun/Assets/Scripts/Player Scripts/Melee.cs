@@ -15,6 +15,7 @@ public class Melee : MonoBehaviour
 
     public float attackRange1 = 0.5f;
     public LayerMask enemyLayers;
+    public LayerMask obstacleLayers;
 
     public float meleeCooldown;
     private float nextMeleeTime = 0;
@@ -34,6 +35,7 @@ public class Melee : MonoBehaviour
     bool enemyHasBeenHit = false;
 
     public Collider2D[] hitEnemies;
+    public Collider2D[] hitObstacles;
 
     public float pushBackForce;
     bool isFacingRight;
@@ -125,18 +127,21 @@ public class Melee : MonoBehaviour
 
     void PerformMeleeAnimations(bool isLookUp, bool isLookDown)
     {
-        playerAudioManager.PlayAudioSource("Melee");
+        
         if (isLookUp)
         {
             animator.SetTrigger("MeleeUp");
+            playerAudioManager.PlayAudioSource("MeleeUp");
         }
         else if (isLookDown)
         {
             animator.SetTrigger("MeleeDown");
+            playerAudioManager.PlayAudioSource("MeleeDown");
         }
         else
         {
             animator.SetTrigger("Melee");
+            playerAudioManager.PlayAudioSource("Melee");
         }
     }
 
@@ -181,6 +186,7 @@ public class Melee : MonoBehaviour
     void Attack(Vector3 attack1Pos, bool isLookingDown)
     {
         hitEnemies = Physics2D.OverlapCircleAll(attack1Pos, attackRange1, enemyLayers);
+        hitObstacles = Physics2D.OverlapCircleAll(attack1Pos, attackRange1, obstacleLayers);
         canAttack = false;
         isMelee = true;
         Shooting.isDisableShootMelee = true;
@@ -208,7 +214,7 @@ public class Melee : MonoBehaviour
                 }
                 else if (enemy.GetComponent<EnemyHealthManager>() != null)
                 {
-                    enemy.GetComponent<EnemyHealthManager>().DecreaseHealth(PlayerDamageController.meleeDamageOutput);
+                    enemy.GetComponent<EnemyHealthManager>().DecreaseHealth(PlayerDamageController.meleeDamageOutput, true);
                 }
                 else if (enemy.CompareTag("Destructable") && !hasHitDestructable)
                 {
