@@ -27,6 +27,8 @@ TagManager:
   - PistolBullet
   - MachineGunBullet
   - ShotgunBullet
+  - Bullet
+  - DontDestroyOnDeath
   layers:
   - Default
   - TransparentFX

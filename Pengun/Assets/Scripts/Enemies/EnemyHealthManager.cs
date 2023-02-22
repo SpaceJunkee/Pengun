@@ -181,17 +181,21 @@ public class EnemyHealthManager : MonoBehaviour
     {
         foreach (Transform childTransform in transform)
         {
-            // Recursively disable particle systems in child objects
-            DisableParticleSystemsRecursively(childTransform);
-
-            // Disable any ParticleSystem components in this object
-            ParticleSystem particleSystem = childTransform.GetComponent<ParticleSystem>();
-            if (particleSystem != null)
+            if (!childTransform.CompareTag("DontDestroyOnDeath"))
             {
-                particleSystem.Stop();
-                particleSystem.Clear();
-                particleSystem.gameObject.SetActive(false);
+                // Recursively disable particle systems in child objects
+                DisableParticleSystemsRecursively(childTransform);
+
+                // Disable any ParticleSystem components in this object
+                ParticleSystem particleSystem = childTransform.GetComponent<ParticleSystem>();
+                if (particleSystem != null)
+                {
+                    particleSystem.Stop();
+                    particleSystem.Clear();
+                    particleSystem.gameObject.SetActive(false);
+                }
             }
+            
         }
     }
 
@@ -201,7 +205,7 @@ public class EnemyHealthManager : MonoBehaviour
 
         foreach (Collider2D collider in colliders)
         {
-            if(collider != null)
+            if(collider != null && !collider.CompareTag("DontDestroyOnDeath"))
             {
                 collider.enabled = false;
             }           

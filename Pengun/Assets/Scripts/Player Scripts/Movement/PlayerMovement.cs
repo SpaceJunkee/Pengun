@@ -50,6 +50,7 @@ public class PlayerMovement : MonoBehaviour
 
     //Jumping
     public float jumpForce = 26;
+    public float originalJumpForce = 26;
     public int maxJumpCount;
     public float fallMultiplier = 2.5f;
     public float smallJumpMultiplier = 2f;
@@ -600,7 +601,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 isFastRunning = false;
                 targetMovementSpeed = 13f;
-                jumpForce = 26f;
+                jumpForce = originalJumpForce;
                 animator.SetFloat("SpeedMultiplier", 1f);
                 animator.SetBool("Running", true);
                 animator.SetBool("isSprinting", false);
