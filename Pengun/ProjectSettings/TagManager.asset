@@ -29,6 +29,7 @@ TagManager:
   - ShotgunBullet
   - Bullet
   - DontDestroyOnDeath
+  - LightBlocker
   layers:
   - Default
   - TransparentFX
@@ -80,4 +81,7 @@ TagManager:
     locked: 0
   - name: GroundFront1
     uniqueID: 1286241015
+    locked: 0
+  - name: LightBlocker
+    uniqueID: 3740022099
     locked: 0

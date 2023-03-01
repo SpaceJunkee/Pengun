@@ -50,11 +50,13 @@ public class PlayerMovement : MonoBehaviour
 
     //Jumping
     public float jumpForce = 26;
+    public float smallJumpForce = 20;
     public float originalJumpForce = 26;
     public int maxJumpCount;
     public float fallMultiplier = 2.5f;
     public float smallJumpMultiplier = 2f;
     private int jumpCount;
+    public bool isBouncing = false;
 
     //Remember jump press so you can jump again before hitting the ground.
     float pressedJumpRemember = 0;
@@ -147,7 +149,13 @@ public class PlayerMovement : MonoBehaviour
             movementSpeed = 13f;
         }
 
-        if(rigidbody.velocity.y < -7|| isGrounded)
+        //Reset is bouncing to false if grounded
+        if (isGrounded)
+        {
+            isBouncing = false;
+        }
+
+        if(rigidbody.velocity.y < -7 || isGrounded)
         {
             isJumping = false;
         }
@@ -541,7 +549,7 @@ public class PlayerMovement : MonoBehaviour
         {
             jumpCount--;
         }
-        else if(isJumping && isWallSliding || isTouchingWall)
+        else if (isJumping && isWallSliding || isTouchingWall)
         {
             jumpCount = maxJumpCount;
         }
@@ -549,11 +557,11 @@ public class PlayerMovement : MonoBehaviour
         /*This will create a bigger gravity spike when falling from the peak of a jump meaning you fall faster than you normally would
         It also allows for a quick button press to small jump and a big jump when button is held for longer.*/
 
-        if (rigidbody.velocity.y < 0 && isGrounded)
+        if (rigidbody.velocity.y < 0 && isGrounded && !isBouncing)
         {
             rigidbody.velocity += Vector2.up * Physics2D.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
         }
-        else if (rigidbody.velocity.y > 0 && !Input.GetButton("Jump"))
+        else if (rigidbody.velocity.y > 0 && !Input.GetButton("Jump") && !isBouncing)
         {
             rigidbody.velocity += Vector2.up * Physics2D.gravity.y * (smallJumpMultiplier - 1) * Time.deltaTime;
         }
@@ -574,6 +582,12 @@ public class PlayerMovement : MonoBehaviour
     private void FastRun()
     {
         isSprinting = true;
+
+        if (isBouncing)
+        {
+            targetMovementSpeed = 13f;
+        }
+
         if (isGrounded && canFastRun && (movementDirection > 0 || movementDirection < 0))
         {
             isFastRunning = true;
@@ -758,17 +772,24 @@ public class PlayerMovement : MonoBehaviour
             CreateDustParticles();
         }
 
-        StartCoroutine("SlowCharacterWhenMoving");
-    }
+        //Slow down the character when turning for a split second so the character does not walk a full step everytime they turn
+        SlowCharacterWhenMoving();
 
-    IEnumerator SlowCharacterWhenMoving()
+    }
+    void SlowCharacterWhenMoving()
     {
-        float originalSpeed = movementSpeed;
         movementSpeed *= turningSlowdownFactor;
-        yield return new WaitForSeconds(slowdownDuration);
-        movementSpeed = originalSpeed;
+        movementSpeed *= -turningSlowdownFactor;
         isSlowingDown = false;
     }
+
+    /*IEnumerator SlowCharacterWhenMoving()
+    {
+        movementSpeed *= turningSlowdownFactor;
+        yield return new WaitForSeconds(slowdownDuration);
+        movementSpeed *= -turningSlowdownFactor;
+        isSlowingDown = false;
+    }*/
 
 
     //Getters

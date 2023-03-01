@@ -6,13 +6,13 @@ public class PlayerDamageController : MonoBehaviour
 {
     /*MAKE SURE TO ADD ALT FIRE DAMAGES FOR THIS TOO - CHECK ENEMYHEALTHMANAGER SCRIPT*/
 
-    public static float meleeDamageOutput = 6f;
+    public static float meleeDamageOutput = 4f;
     public static float dashDamageOutput = 2f;
 
     //Bullet damage
-    public static float pistolBulletDamage = 1f;
-    public static float machineGunBulletDamage = 0.5f;
-    public static float shotgunBulletDamage = 5f;
+    public static float pistolBulletDamage = 5f;
+    public static float machineGunBulletDamage = 2.5f;
+    public static float shotgunBulletDamage = 10f;
 
 
     public void setMeleeDamageOutput(float damageMultiplier)
