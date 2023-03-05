@@ -11,6 +11,7 @@ public class MovingTurret : MonoBehaviour
     EdgeCollider2D edgeCollider;
     public float bulletSpeed = 10f;
     public float lightRange = 5f;
+    public float lightRange2 = 4f;
     public float conveyorSpeed = 2f;
     public Transform conveyorStart;
     public Transform conveyorEnd;
@@ -40,12 +41,23 @@ public class MovingTurret : MonoBehaviour
         edgeCollider = GetComponentInChildren<EdgeCollider2D>();
     }
 
+    public float moveOverLapX = 0f;
+    public float moveOverLapY = 0f;
+    public float moveOverLapX2 = 0f;
+    public float moveOverLapY2 = 0f;
+
+
     void OnDrawGizmos()
     {
         // Draw a wire sphere around the light to represent its range
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, lightRange);
+        Vector2 offset = new Vector2(moveOverLapX, moveOverLapY); // set your desired offset here
+        Vector2 offset2 = new Vector2(moveOverLapX2, moveOverLapY2); // set your desired offset here
+        Gizmos.DrawWireSphere((Vector2)transform.position + offset, lightRange);
+        Gizmos.DrawWireSphere((Vector2)transform.position + offset2, lightRange2);
+
     }
+
 
     void FixedUpdate()
     {
@@ -71,18 +83,70 @@ public class MovingTurret : MonoBehaviour
 
         // Check if the player is inside the light
         isPlayerInsideLight = false;
+        Vector2 offset = new Vector2(moveOverLapX, moveOverLapY);
+        Vector2 offset2 = new Vector2(moveOverLapX2, moveOverLapY2);
+
         if (lightTransform.GetComponent<Light2D>().enabled)
         {
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(lightTransform.position, lightRange);
+            Collider2D[] colliders = Physics2D.OverlapCircleAll((Vector2)lightTransform.position + offset, lightRange);
+            Collider2D[] colliders2 = Physics2D.OverlapCircleAll((Vector2)lightTransform.position + offset2, lightRange2);
             foreach (Collider2D collider in colliders)
             {
                 if (collider.CompareTag("Player"))
                 {
                     // Check if there are any obstacles between the turret and the player
-                    Vector3 directionToPlayer = (collider.transform.position - lightTransform.position).normalized;
-                    RaycastHit2D hit = Physics2D.Linecast(lightTransform.position, lightTransform.position + directionToPlayer * lightRange);
-                    if (hit.collider == null || hit.collider.CompareTag("Player"))
+                    Vector2 directionToPlayer = (collider.transform.position - lightTransform.position);
+                    RaycastHit2D hit = Physics2D.Linecast((Vector2)transform.position, (Vector2)transform.position + (Vector2)directionToPlayer * lightRange);
+                    Debug.DrawLine((Vector2)transform.position, (Vector2)transform.position + (Vector2)directionToPlayer * lightRange, Color.red);
+                    if (hit.collider == null || !hit.collider.CompareTag("Player"))
                     {
+                        return;
+                    }
+                    else if (hit.collider.CompareTag("Player"))
+                    {
+
+                        isPlayerInsideLight = true;
+
+                        // Alert the player and stop the turret if not already alerting
+                        if (!isAlerting)
+                        {
+                            isAlerting = true;
+                            lightTransform.GetComponent<Light2D>().color = alertLightColor;
+                        }
+
+                        // Fire at the player if enough time has passed since the last shot and the alert period has ended
+                        if (!canFire && Time.time > nextFireTime && isAlerting && isPlayerInsideLight)
+                        {
+                            nextFireTime = Time.time / fireRate;
+                            StartCoroutine(FireWithDelay(fireDelay));
+                        }
+
+                        if (canFire)
+                        {
+                            FireBullet(collider.transform.position);
+                        }
+
+
+                        break;
+                    }
+                }
+            }
+
+            foreach (Collider2D collider in colliders2)
+            {
+                if (collider.CompareTag("Player"))
+                {
+                    // Check if there are any obstacles between the turret and the player
+                    Vector2 directionToPlayer = (collider.transform.position - lightTransform.position);
+                    RaycastHit2D hit = Physics2D.Linecast((Vector2)transform.position, (Vector2)transform.position + (Vector2)directionToPlayer * lightRange2);
+                    Debug.DrawLine((Vector2)transform.position, (Vector2)transform.position + (Vector2)directionToPlayer * lightRange2, Color.red);
+                    if (hit.collider == null || !hit.collider.CompareTag("Player"))
+                    {
+                        return;
+                    }
+                    else if (hit.collider.CompareTag("Player"))
+                    {
+
                         isPlayerInsideLight = true;
 
                         // Alert the player and stop the turret if not already alerting
