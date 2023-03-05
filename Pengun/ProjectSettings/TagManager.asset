@@ -30,6 +30,8 @@ TagManager:
   - Bullet
   - DontDestroyOnDeath
   - LightBlocker
+  - KeyUnlock
+  - JumpPad
   layers:
   - Default
   - TransparentFX

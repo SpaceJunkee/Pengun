@@ -6,8 +6,11 @@ using UnityEngine.Rendering.Universal;
 [System.Serializable]
 public struct PlayerDetectorCollider
 {
+    [SerializeField]
     public Collider2D[] collider;
+    [SerializeField]
     public Vector2 offset;
+    [SerializeField]
     public float lightRange;
 }
 

@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 362605935188860124}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.00000004656613, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -55,7 +55,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 362605935221711716}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.999999, y: 0, z: 0}
+  m_LocalPosition: {x: 3.9, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -89,7 +89,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 362605935757006785}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 221.98, y: 179.51735, z: 0.81910217}
+  m_LocalPosition: {x: 222.48001, y: 182.5, z: 0.81910217}
   m_LocalScale: {x: 10, y: 10, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -98,7 +98,7 @@ Transform:
   - {fileID: 362605935221711717}
   - {fileID: 362605935932772923}
   m_Father: {fileID: 0}
-  m_RootOrder: 96
+  m_RootOrder: 98
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &362605935757006791
 SpriteRenderer:
@@ -167,8 +167,6 @@ MonoBehaviour:
   lightTransform: {fileID: 362605935813491476}
   bulletPrefab: {fileID: 0}
   bulletSpeed: 10
-  lightRange: 4.5
-  lightRange2: 1.6
   conveyorSpeed: 7
   conveyorStart: {fileID: 362605935188860125}
   conveyorEnd: {fileID: 362605935221711717}
@@ -179,10 +177,14 @@ MonoBehaviour:
   laserColor: {r: 0.9987322, g: 1, b: 0, a: 1}
   alertDuration: 1
   fireDelay: 0.5
-  moveOverLapX: 0
-  moveOverLapY: -9.31
-  moveOverLapX2: 0
-  moveOverLapY2: -3.14
+  playerDetectorColliders:
+  - collider: []
+    offset: {x: 0, y: -7.86}
+    lightRange: 4
+  - collider:
+    - {fileID: 0}
+    offset: {x: 0, y: -2.5}
+    lightRange: 1.35
   laserPrefab: {fileID: 362605935757006789}
   laserWidth: 0.2
   laserStartWidth: 1.2
