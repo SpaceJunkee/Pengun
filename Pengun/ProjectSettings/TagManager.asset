@@ -32,6 +32,7 @@ TagManager:
   - LightBlocker
   - KeyUnlock
   - JumpPad
+  - RemoverTrigger
   layers:
   - Default
   - TransparentFX

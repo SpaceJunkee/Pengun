@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class KeyUnlock : MonoBehaviour
 {
@@ -32,6 +33,12 @@ public class KeyUnlock : MonoBehaviour
             if (gameObject.CompareTag("JumpPad"))
             {
                 gameObject.GetComponent<CircleCollider2D>().enabled = true;
+                gameObject.GetComponentInChildren<Light2D>().enabled = true;
+            }
+
+            if (gameObject.CompareTag("RemoverTrigger"))
+            {
+                gameObject.GetComponent<BoxCollider2D>().enabled = true;
             }
         }
     }

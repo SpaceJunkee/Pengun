@@ -66,11 +66,12 @@ public class MovingTurret : MonoBehaviour
     void FixedUpdate()
     {
 
-        if (!isAlerting && !isPlayerInsideLight)
+        if ((!isAlerting && !isPlayerInsideLight))
         {
             DisableLaserBeam();
             canFire = false;
         }
+
         // Move the turret along the conveyor system
         if (!isPlayerInsideLight && Time.time > alertEndTime)
         {
