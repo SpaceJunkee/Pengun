@@ -31,16 +31,19 @@ public class JumpPad : MonoBehaviour
                 playerRigidbody.AddForce(transform.up * bounceHeight, ForceMode2D.Impulse);
                 playerMovement.isBouncing = true;
 
-                if (playerMovement.getIsFastRunning())
-                {
-                    animator.SetTrigger("Jump");
-                    animator.SetBool("isSprinting", false);
+                if (collision.gameObject.CompareTag("Player")){
+                    if (playerMovement.getIsFastRunning())
+                    {
+                        animator.SetTrigger("Jump");
+                        animator.SetBool("isSprinting", false);
+                    }
+                    else
+                    {
+                        animator.SetTrigger("Jump");
+                        animator.SetBool("isSprinting", false);
+                    }
                 }
-                else
-                {
-                    animator.SetTrigger("Jump");
-                    animator.SetBool("isSprinting", false);
-                }
+                
             }
         }
     }

@@ -18,13 +18,13 @@ public class Melee : MonoBehaviour
     public LayerMask obstacleLayers;
 
     public float meleeCooldown;
+    public float backwardForceTimer; 
     private float nextMeleeTime = 0;
     int meleeCount = 1;
     int meleeReset = 1;
     int maxMeleeCount = 3;
-    public float upHitForce = 10;
+    public float upHitForce = 33f;
     public float downHitForce = 10;
-    public float forwardBackHitForce = 10;
 
     public float originalAttackTime;
 
@@ -46,9 +46,9 @@ public class Melee : MonoBehaviour
     bool isLookingDown;
 
     public bool isApplyingUpforce = false;
+    public bool isApplyingDownforce = false;
 
     public float currentYVelocity;
-
 
     PlayerMovement playerMovement;
     Rigidbody2D playerRB;
@@ -183,20 +183,39 @@ public class Melee : MonoBehaviour
 
     }
 
+
     void Attack(Vector3 attack1Pos, bool isLookingDown)
     {
-        hitEnemies = Physics2D.OverlapCircleAll(attack1Pos, attackRange1, enemyLayers);
-        hitObstacles = Physics2D.OverlapCircleAll(attack1Pos, attackRange1, obstacleLayers);
+        Vector2 size = new Vector2(attackRange1, attackRange1);
+
+        // Define the position of the overlap area based on the attack1Pos parameter
+        Vector2 position = attack1Pos;
+
+
+        // If the attack is looking down, shift the overlap area down by the size of the area
+        if (isLookingDown)
+        {
+            position += new Vector2(0, -attackRange1);
+        }
+        hitEnemies = Physics2D.OverlapAreaAll(position - size / 2, position + size / 2, enemyLayers);
+        hitObstacles = Physics2D.OverlapAreaAll(position - size / 2, position + size / 2, obstacleLayers);
         canAttack = false;
         isMelee = true;
         Shooting.isDisableShootMelee = true;
+
+        Debug.DrawLine(position + new Vector2(-size.x / 2, -size.y / 2), position + new Vector2(-size.x / 2, size.y / 2), Color.red);
+        Debug.DrawLine(position + new Vector2(-size.x / 2, size.y / 2), position + new Vector2(size.x / 2, size.y / 2), Color.red);
+        Debug.DrawLine(position + new Vector2(size.x / 2, size.y / 2), position + new Vector2(size.x / 2, -size.y / 2), Color.red);
+        Debug.DrawLine(position + new Vector2(size.x / 2, -size.y / 2), position + new Vector2(-size.x / 2, -size.y / 2), Color.red);
+
+        // Define the size of the overlap area
+
 
         bool hasEnemyBeenHit = false;
         bool hasHitDestructable = false;
 
         foreach (Collider2D enemy in hitEnemies)
         {
-            Debug.Log(hitEnemies.Length);
             RaycastHit2D hit = Physics2D.Linecast(attack1Pos, enemy.transform.position, LayerMask.GetMask("Obstacle"));
             if (!hit.collider)
             {
@@ -224,10 +243,37 @@ public class Melee : MonoBehaviour
 
                 hasEnemyBeenHit = true;
             }
-        }            
 
-        ManageDownwardStriking(hasEnemyBeenHit);
-        ManageUpwardStriking(hasEnemyBeenHit);
+            ManageDownwardStriking(hasEnemyBeenHit);
+            ManageUpwardStriking(hasEnemyBeenHit);
+
+
+
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (attackPoint1 == null || attackPointUp == null || attackPointDown == null)
+            return;
+
+        // Define the size of the overlap area
+        Vector2 size = new Vector2(attackRange1, attackRange1);
+
+        // Define the position of the overlap area based on the attack1Pos parameter
+        Vector2 position1 = attackPoint1.position;
+        Vector2 position2 = attackPointUp.position;
+        Vector2 position3 = attackPointDown.position;
+
+        // Draw a wire cube around the overlap area
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(position1, size);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(position2, size);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireCube(position3, size);
     }
 
     void ManageDownwardStriking(bool hasEnemyBeenHit)
@@ -274,16 +320,19 @@ public class Melee : MonoBehaviour
     //For hitting enemies above the player
     void ApplyDownWardForce()
     {
+        isApplyingUpforce = false;
+        isApplyingDownforce = true;
         Vector2 meleeForce = new Vector2(0, -downHitForce);
         playerRB.velocity = new Vector2(playerRB.velocity.x, 0); // Zero out vertical velocity
         playerRB.AddForce(meleeForce, ForceMode2D.Impulse);
-        StartCoroutine("ResetApplyUpForce");
+        StartCoroutine("ResetApplyDownForce");
     }
 
 
     //For hitting enemies below the player
     void ApplyUpwardForce()
     {
+        isApplyingDownforce = false;
         isApplyingUpforce = true;
         Vector2 meleeForce = new Vector2(0, upHitForce);
         playerRB.velocity = new Vector2(playerRB.velocity.x, 0); // Zero out vertical velocity
@@ -297,16 +346,12 @@ public class Melee : MonoBehaviour
         isApplyingUpforce = false;
     }
 
-
-    private void OnDrawGizmosSelected()
+    IEnumerator ResetApplyDownForce()
     {
-        if (attackPoint1 == null)
-            return;
-
-        Gizmos.DrawWireSphere(attackPoint1.position, attackRange1);
-        Gizmos.DrawWireSphere(attackPointUp.position, attackRange1);
-        Gizmos.DrawWireSphere(attackPointDown.position, attackRange1);
+        yield return new WaitForSeconds(meleeCooldown);
+        isApplyingDownforce = false;
     }
+
 
     IEnumerator CanAttackAgain()
     {

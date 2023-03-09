@@ -588,7 +588,7 @@ public class PlayerMovement : MonoBehaviour
             targetMovementSpeed = 13f;
         }
 
-        if (isGrounded && canFastRun && (movementDirection > 0 || movementDirection < 0))
+        if (isGrounded && canFastRun && (movementDirection > 0 || movementDirection < 0) && !isBouncing)
         {
             isFastRunning = true;
             targetMovementSpeed = 18f;
@@ -607,7 +607,7 @@ public class PlayerMovement : MonoBehaviour
         else
         {
 
-            if (!isGrounded && isJumping && isFastRunning == true)
+            if (!isGrounded && isJumping && isFastRunning && !isBouncing)
             {
                 targetMovementSpeed = fastRunJumpSpeed;
             }

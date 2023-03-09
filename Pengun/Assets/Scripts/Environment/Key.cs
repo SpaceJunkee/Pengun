@@ -13,9 +13,15 @@ public class Key : MonoBehaviour
     public float hoverAmplitude = 0.1f;   // amplitude of the vertical bobbing
     public float hoverFrequency = 1f;  // frequency of the vertical bobbing
     public float notFollowingBobMultipler = 3f;
-
+    public UnstableGround unstableGround;
+    public bool isLinkedToTrap = false;
     private void Start()
     {
+        if (!isLinkedToTrap)
+        {
+            unstableGround = null;
+        }
+
         followTransform = GameObject.FindGameObjectWithTag("Player").transform;
         playerKeyHolder = GameObject.FindGameObjectWithTag("Player").GetComponent<KeyHolder>();
     }
@@ -42,6 +48,11 @@ public class Key : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            if(unstableGround != null)
+            {
+                unstableGround.setHasCollectedKey(true);
+            }
+
             playerKeyHolder.setIsHoldingKey(true);
             playerKeyHolder.setKeyGameObject(this.gameObject);
             // enable following the player when the key is picked up

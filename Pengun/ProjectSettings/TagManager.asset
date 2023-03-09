@@ -33,6 +33,7 @@ TagManager:
   - KeyUnlock
   - JumpPad
   - RemoverTrigger
+  - MeleeHopper
   layers:
   - Default
   - TransparentFX
