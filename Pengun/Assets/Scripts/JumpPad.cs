@@ -19,7 +19,7 @@ public class JumpPad : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player") || collision.gameObject.layer == 14)
+        if (collision.gameObject.CompareTag("Player") || collision.gameObject.layer == 14 || collision.gameObject.layer == 26)//Includes layers crates, nutsBolts
         {
             Vector2 contactPoint = collision.GetContact(0).point;
             float playerHeight = contactPoint.y - jumpPadCollider.bounds.min.y;

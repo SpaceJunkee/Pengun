@@ -34,6 +34,9 @@ TagManager:
   - JumpPad
   - RemoverTrigger
   - MeleeHopper
+  - Nut
+  - Bolt
+  - Screw
   layers:
   - Default
   - TransparentFX
@@ -61,8 +64,8 @@ TagManager:
   - UnkillableEnemy
   - Melee
   - DiscoverBreakable
-  - 
-  - 
+  - NutsAndBolts
+  - GromBubbles
   - 
   - 
   - 

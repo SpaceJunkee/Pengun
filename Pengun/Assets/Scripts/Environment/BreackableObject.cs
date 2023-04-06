@@ -18,9 +18,25 @@ public class BreackableObject : MonoBehaviour
     public bool canApplyDownWardForceOnHit;
     public bool canApplyUpWardForceOnHit;
 
+    public AudioClip[] breakableClips; 
+    AudioSource audioSource;
+    Collider2D collider;
+    SpriteRenderer spriteRenderer;
+
     private void Start()
     {
+
+        audioSource = GetComponent<AudioSource>();
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        collider = GetComponent<Collider2D>();
         lootSplash = GetComponent<LootSplash>();
+
+        if (this.gameObject.layer == 14)//Crate
+        {           
+            audioSource.clip = breakableClips[Random.Range(0, breakableClips.Length)];
+        }
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -78,10 +94,9 @@ public class BreackableObject : MonoBehaviour
                 BreakObject();
             }
 
-            if (lootSplash.containsLoot)
-            {
-                lootSplash.summonDrop();
-            }
+            audioSource.clip = breakableClips[Random.Range(0, breakableClips.Length)];
+            audioSource.Play();
+            lootSplash.SummonGromAndLoot();
         }
         
     }
@@ -97,12 +112,11 @@ public class BreackableObject : MonoBehaviour
     {
         Instantiate(breakingChunkParticle, gameObject.transform.position, breakingChunkParticle.transform.rotation);
 
-        if (lootSplash.containsLoot)
-        {
-            lootSplash.summonDrop();
-        }
-
-        Destroy(gameObject);
+        lootSplash.SummonGromAndLoot();
+        audioSource.Play();
+        collider.enabled = false;
+        spriteRenderer.enabled = false;
+        Destroy(gameObject, 1f);
     }
 
 }

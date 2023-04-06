@@ -5,21 +5,33 @@ using UnityEngine;
 public class GromDroplet : MonoBehaviour
 {
     GromEnergyBarController gromEnergyController;
-    GromBucks gromBucks;
+    AudioSource audioSource;
+    SpriteRenderer spriteRenderer;
+    public AudioClip[] audioClips;
+    ParticleSystem gromBackPackParticles;
+    GameObject player;
+    bool hasbeenCollected = false;
 
     private void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
+        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        audioSource = GetComponent<AudioSource>();
         gromEnergyController = GameObject.Find("GromEnergyBarController").GetComponent<GromEnergyBarController>();
-        gromBucks = GameObject.Find("GromBucksController").GetComponent<GromBucks>();
+        audioSource.clip = audioClips[Random.Range(0, audioClips.Length)];
+        gromBackPackParticles = player.transform.Find("GromBackPackParticles").GetComponent<ParticleSystem>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player") && !hasbeenCollected)
         {
+            hasbeenCollected = true;
             gromEnergyController.IncreaseGromEnergy(Random.Range(3, 6));
-            gromBucks.AddToGromBucks(Random.Range(1, 10));
-            Destroy(this.gameObject);
+            audioSource.Play();
+            spriteRenderer.enabled = false;
+            gromBackPackParticles.Play();
+            Destroy(this.gameObject, 0.3f);
         }
     }
 }

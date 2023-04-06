@@ -150,7 +150,7 @@ public class EnemyHealthManager : MonoBehaviour
     public void KillEnemy()
     {
         isDead = true;
-        lootSplash.summonDrop();
+        lootSplash.SummonGromAndLoot();
 
         // Disable the collider and art components or particles
         DisableAllColliders(this.gameObject);

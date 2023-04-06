@@ -752,7 +752,7 @@ MonoBehaviour:
     type: 3}
   hitChunckParticle: {fileID: 8210425011469775598, guid: 2180c8544ed13eb48a3ab635ea7cd969,
     type: 3}
-  gromDroplet: {fileID: 1342137598096017218, guid: c136a891cd5e7574684b51a6b6038351,
+  gromDroplet: {fileID: 967314875827216090, guid: a64417040e082964892ec3a645e8dbf2,
     type: 3}
   enemyHurtAudioObject: {fileID: 0}
   spriteRenderer: []
@@ -859,10 +859,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   droplet: {fileID: 967314875827216090, guid: a64417040e082964892ec3a645e8dbf2, type: 3}
+  nutsAndBolts: []
+  nutDropCount: 0
+  boltDropCount: 0
+  screwDropCount: 0
   minDropCount: 1
   maxDropCount: 6
   spread: 3
-  containsLoot: 1
+  containsGrom: 1
+  containsLoot: 0
+  minForce: 25
+  maxForce: 35
+  upwardStartPos: 6
 --- !u!114 &-1910957250394802514
 MonoBehaviour:
   m_ObjectHideFlags: 0

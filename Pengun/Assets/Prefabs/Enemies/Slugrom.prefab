@@ -346,20 +346,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 2
   minHealth: 0
+  currentHealth: 0
   chargerChunkParticle: {fileID: 971292390820401973, guid: b17e1d53000441e4dbe033806e1e420e,
     type: 3}
   chargerBloodParticle: {fileID: 971292390820401973, guid: b17e1d53000441e4dbe033806e1e420e,
     type: 3}
   hitChunckParticle: {fileID: 8210425011469775598, guid: 2180c8544ed13eb48a3ab635ea7cd969,
     type: 3}
-  gromDroplet: {fileID: 1342137598096017218, guid: c136a891cd5e7574684b51a6b6038351,
+  gromDroplet: {fileID: 967314875827216090, guid: a64417040e082964892ec3a645e8dbf2,
     type: 3}
+  enemyHurtAudioObject: {fileID: 0}
   spriteRenderer: []
-  meshRenderer: {fileID: 0}
   timemanager: {fileID: 0}
   rigidbody: {fileID: 81355375102890459}
-  deathSound: {fileID: 0}
-  currentHealth: 0
+  canBeHurtAgainTimer: 0.25
   isDead: 0
   knockBackForce: 0
   upknockBackForce: 15
@@ -379,11 +379,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef38f90d10a61f54f9a2845b99b8bbd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  droplet: {fileID: 1342137598096017218, guid: c136a891cd5e7574684b51a6b6038351, type: 3}
+  droplet: {fileID: 967314875827216090, guid: a64417040e082964892ec3a645e8dbf2, type: 3}
+  nutsAndBolts: []
+  nutDropCount: 0
+  boltDropCount: 0
+  screwDropCount: 0
   minDropCount: 4
   maxDropCount: 4
   spread: 2.5
-  containsLoot: 1
+  containsGrom: 1
+  containsLoot: 0
+  minForce: 25
+  maxForce: 35
+  upwardStartPos: 6
 --- !u!114 &81355375102890461
 MonoBehaviour:
   m_ObjectHideFlags: 0
